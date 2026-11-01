@@ -1,0 +1,5 @@
+/* Luxury Saree Atelier Custom Layout Styles */
+.selection-gold::selection {
+  background: var(--gold-primary);
+  color: #07070a;
+}

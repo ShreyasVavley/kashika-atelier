@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+:root {
+  --bg-obsidian: #060709;
+  --bg-surface: #0c0d12;
+  --bg-card: rgba(16, 17, 24, 0.75);
+  --bg-card-hover: rgba(24, 25, 36, 0.9);
+  
+  --gold-primary: #d4af37;
+  --gold-champagne: #f3e5ab;
+  --gold-deep: #9e7d1e;
+  --gold-glow: rgba(212, 175, 55, 0.35);
+  
+  --silk-ivory: #fcfaf6;
+  --silk-cream: #ede8df;
+  --silk-muted: #9c978e;
+  --silk-dim: #5c5852;
+  
+  --border-gold: rgba(212, 175, 55, 0.22);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  --font-royal: 'Cinzel', serif;
+  --font-regal: 'Cinzel Decorative', cursive;
+  --font-editorial: 'Playfair Display', serif;
+  --font-modern: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-obsidian);
+  color: var(--silk-ivory);
+  font-family: var(--font-modern);
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  background-image: 
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(212, 175, 55, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(136, 20, 38, 0.1) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--silk-ivory);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom Royal Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #07070a;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 999px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.6);
+}
+
+/* Typography Utility Classes */
+.font-royal { font-family: var(--font-royal); }
+.font-regal { font-family: var(--font-regal); }
+.font-editorial { font-family: var(--font-editorial); }
+.font-modern { font-family: var(--font-modern); }
+
+/* Royal Metallic Gold Text Gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #fdfbf7 0%, #f3e5ab 35%, #d4af37 70%, #9e7d1e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-glow {
+  color: #f3e5ab;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+}
+
+/* Royal Glass Cards */
+.royal-glass {
+  background: rgba(14, 15, 22, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+}
+
+.royal-glass-subtle {
+  background: rgba(16, 17, 24, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+}
+
+/* Royal Button Styles */
+.btn-royal-gold {
+  background: linear-gradient(135deg, #e5c158 0%, #d4af37 50%, #b38b1f 100%);
+  color: #07070a;
+  font-family: var(--font-modern);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 25px rgba(212, 175, 55, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-royal-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(212, 175, 55, 0.55);
+  background: linear-gradient(135deg, #fff2be 0%, #e5c158 50%, #c49924 100%);
+}
+
+.btn-royal-outline {
+  background: rgba(212, 175, 55, 0.06);
+  color: #f3e5ab;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  font-family: var(--font-modern);
+  font-weight: 600;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.btn-royal-outline:hover {
+  background: rgba(212, 175, 55, 0.16);
+  border-color: var(--gold-primary);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
+}
+
+/* Zari Shimmer Animation */
+@keyframes zariGlint {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 10px #f3e5ab); }
+  100% { opacity: 0.3; transform: scale(0.95); }
+}
+
+.zari-shimmer-sparkle {
+  animation: zariGlint 2.8s ease-in-out infinite;
+}
+
+/* Subtle Gold Pulse */
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
+}
+
+.pulse-gold {
+  animation: goldPulse 2.4s infinite;
+}
