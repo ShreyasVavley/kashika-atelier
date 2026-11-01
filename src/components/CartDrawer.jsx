@@ -1,177 +1,158 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ShoppingBag, Trash2, ArrowRight, Video, ShieldCheck, MessageSquare } from "lucide-react";
-import { royalAudio } from "../utils/soundEngine";
+import React from 'react';
+import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, MessageCircle } from 'lucide-react';
+import { formatPrice } from '../utils/currency';
 
 export default function CartDrawer({
   isOpen,
   onClose,
-  cartItems,
+  cart,
   onRemoveItem,
+  onClearCart,
   currency,
-  setCurrency
+  onNavigate
 }) {
-  const totalPrice = cartItems.reduce((acc, item) => acc + item.masterDesign.basePriceINR, 0);
+  if (!isOpen) return null;
 
-  const formatPrice = (priceINR) => {
-    if (currency === "USD") return `$${Math.round(priceINR / 83)}`;
-    if (currency === "GBP") return `£${Math.round(priceINR / 105)}`;
-    if (currency === "AED") return `AED ${Math.round(priceINR / 22.6)}`;
-    return `₹${priceINR.toLocaleString("en-IN")}`;
-  };
+  const totalINR = cart.reduce((acc, item) => acc + item.priceINR, 0);
 
   const handleWhatsAppCheckout = () => {
-    let msg = `*Namaste Kashika Atelier!* 🥻✨\n\nI would like to reserve the following heirloom handloom saree(s) from your online atelier:\n\n`;
+    if (cart.length === 0) return;
+    const itemsList = cart.map((it, idx) => `${idx + 1}. ${it.title} (${it.colorwayName}) - ${formatPrice(it.priceINR, currency)}`).join('%0A');
+    const msg = `Pranam Kashika Atelier.%0A%0AI wish to finalize my order from the Silk Bag:%0A${itemsList}%0A%0ATotal Investment: ${formatPrice(totalINR, currency)}%0A%0APlease connect me with the Concierge Desk for private white-glove dispatch.`;
 
-    cartItems.forEach((item, idx) => {
-      msg += `*${idx + 1}. ${item.masterDesign.name}*\n`;
-      msg += `• Colorway: ${item.colorway.name} (${item.colorway.sanskrit})\n`;
-      msg += `• Zari: ${item.colorway.zariName}\n`;
-      msg += `• Price: ${formatPrice(item.masterDesign.basePriceINR)}\n\n`;
-    });
-
-    msg += `*Total Order Value:* ${formatPrice(totalPrice)}\n`;
-    msg += `\nPlease confirm if this piece is in stock, and let me know if a 1-on-1 video call can be arranged to inspect the drape fall.`;
-
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/919886620362?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 cursor-pointer"
-          />
+    <div className="fixed inset-0 z-50 overflow-hidden animate-fadeIn">
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+      />
 
-          {/* Slide-out Drawer */}
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0a0a0f] border-l border-[var(--border-gold)] z-50 flex flex-col justify-between shadow-[ -20px_0_60px_rgba(0,0,0,0.95)] overflow-hidden"
-          >
-            {/* Drawer Header */}
-            <div className="p-6 border-b border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
-                  <ShoppingBag className="w-5 h-5 text-amber-300" />
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
+        <div className="w-screen max-w-md bg-[#FAF8F5] border-l border-[#B8860B]/30 shadow-2xl flex flex-col text-[#1C1917] font-sans">
+          {/* Drawer Header */}
+          <div className="p-6 border-b border-[#B8860B]/20 flex items-center justify-between bg-white">
+            <div className="flex items-center gap-2">
+              <span className="text-lg text-[#781224]">⚜</span>
+              <div>
+                <h2 className="text-lg font-editorial font-bold text-[#1C1917]">
+                  Your Silk Bag
+                </h2>
+                <span className="text-xs text-[#78716C]">
+                  {cart.length} {cart.length === 1 ? 'Masterpiece' : 'Masterpieces'} Selected
+                </span>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 text-stone-400 hover:text-stone-700 transition-colors"
+              aria-label="Close Bag"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Items List */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            {cart.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
+                <ShoppingBag className="w-12 h-12 text-[#B8860B]/40 stroke-1" />
+                <h3 className="text-lg font-editorial font-bold text-[#1C1917]">
+                  Your Silk Bag is Empty
+                </h3>
+                <p className="text-xs text-[#78716C] max-w-xs">
+                  Each Kashika saree is limited to a small loom edition of 2 to 4 pieces per season.
+                </p>
+                <button
+                  onClick={() => {
+                    onClose();
+                    onNavigate('collection');
+                  }}
+                  className="px-6 py-2.5 bg-[#781224] text-white text-xs uppercase tracking-widest font-semibold rounded hover:bg-[#580B17] transition-all"
+                >
+                  Explore Collection
+                </button>
+              </div>
+            ) : (
+              cart.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm flex items-center justify-between gap-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-12 h-12 rounded border border-black/10 shrink-0 flex items-center justify-center text-white text-xs"
+                      style={{ backgroundColor: item.colorHex || '#781224' }}
+                    >
+                      ⚜
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-editorial font-bold text-[#1C1917]">
+                        {item.title}
+                      </h4>
+                      <p className="text-xs text-[#781224] font-medium">
+                        {item.colorwayName}
+                      </p>
+                      <span className="text-xs font-editorial font-bold text-[#1C1917] block mt-1">
+                        {formatPrice(item.priceINR, currency)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => onRemoveItem(idx)}
+                    className="p-2 text-stone-400 hover:text-rose-700 transition-colors"
+                    title="Remove Saree"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
-                <div>
-                  <h3 className="font-royal font-bold text-lg text-white">Your Reserved Silk Bag</h3>
-                  <span className="text-xs text-white/50">{cartItems.length} Handloom Piece(s)</span>
+              ))
+            )}
+          </div>
+
+          {/* Drawer Footer & Checkout */}
+          {cart.length > 0 && (
+            <div className="p-6 bg-white border-t border-[#B8860B]/20 space-y-4">
+              <div className="space-y-1.5 text-xs text-[#78716C]">
+                <div className="flex justify-between">
+                  <span>Subtotal</span>
+                  <span className="font-semibold text-[#1C1917]">{formatPrice(totalINR, currency)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Insured Global Courier</span>
+                  <span className="font-semibold text-emerald-800">Complimentary</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Preservation Muslin Wrap</span>
+                  <span className="font-semibold text-[#781224]">Included</span>
+                </div>
+                <div className="pt-2 flex justify-between text-base font-editorial font-bold text-[#1C1917] border-t border-stone-200">
+                  <span>Total Investment</span>
+                  <span className="text-[#781224]">{formatPrice(totalINR, currency)}</span>
                 </div>
               </div>
 
               <button
-                type="button"
-                onClick={onClose}
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 text-white/70 hover:text-white flex items-center justify-center transition-colors"
+                onClick={handleWhatsAppCheckout}
+                className="w-full py-4 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all shadow-md flex items-center justify-center gap-2"
               >
-                <X className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4" />
+                <span>Finalize via WhatsApp Concierge</span>
               </button>
-            </div>
 
-            {/* Cart Items List */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
-              {cartItems.length === 0 ? (
-                <div className="my-auto text-center py-12">
-                  <div className="w-16 h-16 rounded-full border border-white/10 mx-auto mb-4 flex items-center justify-center text-white/20">
-                    <ShoppingBag className="w-8 h-8" />
-                  </div>
-                  <h4 className="font-royal font-bold text-white text-base">Your Silk Bag is Empty</h4>
-                  <p className="text-xs text-white/50 font-editorial italic mt-1 max-w-xs mx-auto">
-                    Select a heritage colorway from our Master Design collection to reserve an heirloom weave.
-                  </p>
-                </div>
-              ) : (
-                cartItems.map((item, index) => (
-                  <motion.div
-                    key={`${item.colorway.id}-${index}`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-2xl bg-black/40 border border-white/10 flex gap-4 items-center justify-between"
-                  >
-                    {/* Color Swatch Circle */}
-                    <div
-                      className="w-14 h-14 rounded-full border-2 border-white/20 shadow-md shrink-0 relative overflow-hidden flex items-center justify-center"
-                      style={{ background: item.colorway.hex }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/25 to-transparent" />
-                    </div>
-
-                    {/* Saree Info */}
-                    <div className="flex-1 overflow-hidden">
-                      <h4 className="text-xs font-royal font-bold text-white truncate">
-                        {item.masterDesign.name}
-                      </h4>
-                      <p className="text-[11px] text-amber-300 font-editorial italic truncate">
-                        Color: {item.colorway.name}
-                      </p>
-                      <p className="text-[10px] text-white/50 truncate">
-                        Zari: {item.colorway.zariName}
-                      </p>
-                      <div className="text-xs font-mono font-bold text-white mt-1">
-                        {formatPrice(item.masterDesign.basePriceINR)}
-                      </div>
-                    </div>
-
-                    {/* Remove Action */}
-                    <button
-                      type="button"
-                      onClick={() => onRemoveItem(index)}
-                      className="text-white/40 hover:text-red-400 p-2 transition-colors"
-                      title="Remove Piece"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </motion.div>
-                ))
-              )}
-            </div>
-
-            {/* Drawer Footer & Checkout Actions */}
-            {cartItems.length > 0 && (
-              <div className="p-6 border-t border-white/10 bg-black/50 flex flex-col gap-4">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-xs font-royal uppercase tracking-wider text-white/60">
-                    Total Atelier Value:
-                  </span>
-                  <span className="text-2xl font-royal font-bold text-gold-gradient">
-                    {formatPrice(totalPrice)}
-                  </span>
-                </div>
-
-                <div className="text-[11px] text-emerald-400 flex items-center gap-1.5 font-medium">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Complimentary Insured Air Express & Fall Finishing</span>
-                </div>
-
-                {/* Primary Action: WhatsApp Concierge */}
-                <button
-                  type="button"
-                  onClick={handleWhatsAppCheckout}
-                  className="btn-royal-gold w-full py-3.5"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Confirm Reservation on WhatsApp</span>
-                </button>
-
-                <p className="text-[10px] text-white/40 text-center font-editorial italic">
-                  Direct connection with Master Weaver concierge in Bangalore / Varanasi.
-                </p>
+              <div className="text-center text-[10px] text-[#78716C] flex items-center justify-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#781224]" />
+                <span>100% Tested Silver Bullion Zari & SilkMark Verified</span>
               </div>
-            )}
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

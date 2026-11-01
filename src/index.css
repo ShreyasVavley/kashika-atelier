@@ -1,28 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --bg-obsidian: #060709;
-  --bg-surface: #0c0d12;
-  --bg-card: rgba(16, 17, 24, 0.75);
-  --bg-card-hover: rgba(24, 25, 36, 0.9);
+  /* Warm Royal Indian Haute Couture Palette */
+  --bg-ivory: #FAF8F5;
+  --bg-cream: #F4EFEA;
+  --bg-parchment: #EDE6DC;
+  --bg-card: #FFFFFF;
+  --bg-velvet: #781224;
+  --bg-night: #141D2B;
   
-  --gold-primary: #d4af37;
-  --gold-champagne: #f3e5ab;
-  --gold-deep: #9e7d1e;
-  --gold-glow: rgba(212, 175, 55, 0.35);
+  --gold-primary: #B8860B;
+  --gold-antique: #C5A059;
+  --gold-deep: #8A661C;
+  --gold-light: #FBF4DE;
+  --gold-glow: rgba(184, 134, 11, 0.25);
   
-  --silk-ivory: #fcfaf6;
-  --silk-cream: #ede8df;
-  --silk-muted: #9c978e;
-  --silk-dim: #5c5852;
+  --text-primary: #1C1917;
+  --text-secondary: #44403C;
+  --text-muted: #78716C;
+  --text-light: #A8A29E;
   
-  --border-gold: rgba(212, 175, 55, 0.22);
-  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(184, 134, 11, 0.28);
+  --border-subtle: rgba(28, 25, 23, 0.08);
 
+  --font-crest: 'Cinzel Decorative', serif;
   --font-royal: 'Cinzel', serif;
-  --font-regal: 'Cinzel Decorative', cursive;
-  --font-editorial: 'Playfair Display', serif;
-  --font-modern: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-editorial: 'Cormorant Garamond', serif;
+  --font-italiana: 'Italiana', serif;
+  --font-sans: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
 }
 
 * {
@@ -35,18 +40,18 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-obsidian);
-  color: var(--silk-ivory);
-  font-family: var(--font-modern);
+  background-color: var(--bg-ivory);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
 }
 
 body {
-  background-color: var(--bg-obsidian);
+  background-color: var(--bg-ivory);
   background-image: 
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(212, 175, 55, 0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(136, 20, 38, 0.1) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(120, 18, 36, 0.05) 0%, transparent 50%);
   background-attachment: fixed;
-  color: var(--silk-ivory);
+  color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.6;
   overflow-x: hidden;
@@ -54,124 +59,72 @@ body {
 
 /* Custom Royal Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07070a;
+  background: var(--bg-cream);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
+  background: var(--gold-antique);
   border-radius: 999px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 175, 55, 0.6);
+  background: var(--gold-primary);
 }
 
 /* Typography Utility Classes */
+.font-crest { font-family: var(--font-crest); }
 .font-royal { font-family: var(--font-royal); }
-.font-regal { font-family: var(--font-regal); }
 .font-editorial { font-family: var(--font-editorial); }
-.font-modern { font-family: var(--font-modern); }
+.font-italiana { font-family: var(--font-italiana); }
+.font-sans { font-family: var(--font-sans); }
 
-/* Royal Metallic Gold Text Gradient */
+/* Royal Metallic Gold Text */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #fdfbf7 0%, #f3e5ab 35%, #d4af37 70%, #9e7d1e 100%);
+  background: linear-gradient(135deg, #785A18 0%, #B8860B 50%, #D4AF37 80%, #785A18 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gold-glow {
-  color: #f3e5ab;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+  color: #B8860B;
+  text-shadow: 0 0 16px rgba(184, 134, 11, 0.25);
 }
 
-/* Royal Glass Cards */
-.royal-glass {
-  background: rgba(14, 15, 22, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Atelier Cards */
+.atelier-card {
+  background: #FFFFFF;
   border: 1px solid var(--border-gold);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(44, 30, 20, 0.05);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.atelier-card:hover {
+  box-shadow: 0 20px 45px rgba(184, 134, 11, 0.12);
+  border-color: rgba(184, 134, 11, 0.5);
+  transform: translateY(-4px);
 }
 
-.royal-glass-subtle {
-  background: rgba(16, 17, 24, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+/* Fine Gold Hairline Rules */
+.gold-hairline {
+  border-color: var(--border-gold);
 }
 
-/* Royal Button Styles */
-.btn-royal-gold {
-  background: linear-gradient(135deg, #e5c158 0%, #d4af37 50%, #b38b1f 100%);
-  color: #07070a;
-  font-family: var(--font-modern);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 0.85rem 1.75rem;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 25px rgba(212, 175, 55, 0.35);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
+/* Smooth Image Zoom */
+.atelier-zoom-container {
+  overflow: hidden;
+  position: relative;
+}
+.atelier-zoom-container img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.atelier-zoom-container:hover img {
+  transform: scale(1.06);
 }
 
-.btn-royal-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 35px rgba(212, 175, 55, 0.55);
-  background: linear-gradient(135deg, #fff2be 0%, #e5c158 50%, #c49924 100%);
-}
-
-.btn-royal-outline {
-  background: rgba(212, 175, 55, 0.06);
-  color: #f3e5ab;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  font-family: var(--font-modern);
-  font-weight: 600;
-  padding: 0.85rem 1.6rem;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  transition: all 0.25s ease;
-  text-decoration: none;
-}
-
-.btn-royal-outline:hover {
-  background: rgba(212, 175, 55, 0.16);
-  border-color: var(--gold-primary);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
-}
-
-/* Zari Shimmer Animation */
-@keyframes zariGlint {
-  0% { opacity: 0.3; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 10px #f3e5ab); }
-  100% { opacity: 0.3; transform: scale(0.95); }
-}
-
-.zari-shimmer-sparkle {
-  animation: zariGlint 2.8s ease-in-out infinite;
-}
-
-/* Subtle Gold Pulse */
-@keyframes goldPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
-}
-
-.pulse-gold {
-  animation: goldPulse 2.4s infinite;
+/* Noise Texture for Raw Handloom Silk feel */
+.silk-texture-bg {
+  background-color: #FAF8F5;
+  background-image: radial-gradient(#d6cbbd 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
 }

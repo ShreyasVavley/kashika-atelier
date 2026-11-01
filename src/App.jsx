@@ -1,168 +1,186 @@
-import React, { useState } from "react";
-import Header from "./components/Header";
-import SareeCanvas from "./components/SareeCanvas";
-import ColorwaySelector from "./components/ColorwaySelector";
-import MasterDesignTabs from "./components/MasterDesignTabs";
-import TrousseauBox from "./components/TrousseauBox";
-import KarigarLedger from "./components/KarigarLedger";
-import DrapePhysics from "./components/DrapePhysics";
-import CartDrawer from "./components/CartDrawer";
-import Footer from "./components/Footer";
-import { MASTER_DESIGNS, LIGHTING_PRESETS } from "./data/sarees";
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import CartDrawer from './components/CartDrawer';
+import AtelierPage from './pages/AtelierPage';
+import CollectionPage from './pages/CollectionPage';
+import CraftPage from './pages/CraftPage';
+import TrousseauPage from './pages/TrousseauPage';
+import SalonPage from './pages/SalonPage';
+import { MASTER_DESIGNS } from './data/sarees';
 
 export default function App() {
-  const [masterDesigns] = useState(MASTER_DESIGNS);
-  const [currentDesign, setCurrentDesign] = useState(MASTER_DESIGNS[0]);
-  const [selectedColorway, setSelectedColorway] = useState(MASTER_DESIGNS[0].colorways[0]);
-  const [lightingPreset, setLightingPreset] = useState(LIGHTING_PRESETS[1]); // Default to Candlelight/Diya glow
-  const [currency, setCurrency] = useState("INR");
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [trousseauItems, setTrousseauItems] = useState([]);
-  const [loupeActive, setLoupeActive] = useState(false);
-
-  // Switch Master Design
-  const handleSelectDesign = (design) => {
-    setCurrentDesign(design);
-    setSelectedColorway(design.colorways[0]);
+  // Hash-based Page Routing Helper
+  const getPageFromHash = () => {
+    const hash = window.location.hash.toLowerCase().replace('#/', '').replace('#', '');
+    if (hash === 'collection') return 'collection';
+    if (hash === 'craft') return 'craft';
+    if (hash === 'trousseau') return 'trousseau';
+    if (hash === 'salon') return 'salon';
+    return 'atelier';
   };
 
-  // Add single saree to silk cart
-  const handleAddToCart = (masterDesign, colorway) => {
-    setCartItems((prev) => [...prev, { masterDesign, colorway }]);
+  const [currentPage, setCurrentPage] = useState(getPageFromHash);
+  const [selectedColorwayId, setSelectedColorwayId] = useState('sindoor-crimson');
+  const [currency, setCurrency] = useState(() => localStorage.getItem('kashika_currency') || 'INR');
+  const [cart, setCart] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('kashika_cart')) || [];
+    } catch {
+      return [];
+    }
+  });
+  const [trousseauSlots, setTrousseauSlots] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('kashika_trousseau')) || [null, null, null];
+    } catch {
+      return [null, null, null];
+    }
+  });
+  const [cartOpen, setCartOpen] = useState(false);
+
+  // Sync Hash changes with Browser Navigation (Back / Forward Buttons)
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentPage(getPageFromHash());
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Persist State
+  useEffect(() => {
+    localStorage.setItem('kashika_currency', currency);
+  }, [currency]);
+
+  useEffect(() => {
+    localStorage.setItem('kashika_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem('kashika_trousseau', JSON.stringify(trousseauSlots));
+  }, [trousseauSlots]);
+
+  const handleNavigate = (pageId) => {
+    setCurrentPage(pageId);
+    window.location.hash = pageId === 'atelier' ? '#/' : `#/${pageId}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleAddToCart = (saree, colorway) => {
+    const newItem = {
+      id: `${saree.id}-${colorway.id}-${Date.now()}`,
+      title: saree.name,
+      colorwayName: colorway.name,
+      colorwayId: colorway.id,
+      colorHex: colorway.hex,
+      priceINR: saree.basePriceINR
+    };
+    setCart((prev) => [...prev, newItem]);
     setCartOpen(true);
   };
 
-  // Remove single saree from silk cart
-  const handleRemoveCartItem = (index) => {
-    setCartItems((prev) => prev.filter((_, i) => i !== index));
+  const handleRemoveFromCart = (index) => {
+    setCart((prev) => prev.filter((_, idx) => idx !== index));
   };
 
-  // Add to 3-slot Bridal Trousseau Box
-  const handleAddToTrousseau = (masterDesign, colorway) => {
-    if (trousseauItems.length >= 3) {
-      alert("Your Royal Trousseau Box already has 3 sarees. Remove a piece from the box below to substitute this colorway.");
-      return;
-    }
-    setTrousseauItems((prev) => [...prev, { masterDesign, colorway }]);
-    // Smoothly scroll down to trousseau box
-    const el = document.getElementById("trousseau-section");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+  const handleClearCart = () => {
+    setCart([]);
   };
 
-  // Remove from Trousseau Box
-  const handleRemoveTrousseauItem = (slotIndex) => {
-    setTrousseauItems((prev) => prev.filter((_, i) => i !== slotIndex));
-  };
-
-  // Checkout complete Trousseau box
-  const handleCheckoutTrousseau = (items, finalPrice) => {
-    let msg = `*Namaste Kashika Atelier!* 🥻🎁\n\nI would like to reserve the *Curated Royal Bridal Trousseau Box* (3 Ceremonial Pieces):\n\n`;
-    items.forEach((item, idx) => {
-      msg += `*Event ${idx + 1}: ${item.masterDesign.name}*\n`;
-      msg += `• Colorway: ${item.colorway.name} (${item.colorway.sanskrit})\n`;
-      msg += `• Zari: ${item.colorway.zariName}\n\n`;
+  const handleUpdateTrousseauSlot = (index, colorway) => {
+    setTrousseauSlots((prev) => {
+      const next = [...prev];
+      next[index] = colorway;
+      return next;
     });
-    msg += `*Bundled Privilege Price:* ₹${finalPrice.toLocaleString("en-IN")}\n`;
-    msg += `• Includes: Handcrafted Brass & Velvet Keepsake Trunk\n\n`;
-    msg += `Please confirm loom dispatch timelines and arrange a 1-on-1 video call showing with the master weaver.`;
-
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/919886620362?text=${encoded}`, "_blank");
   };
 
-  // Direct WhatsApp Video Call Request
-  const handleOpenWhatsAppVideo = (masterDesign, colorway) => {
-    const msg = `*Namaste Kashika Atelier!* 🥻📹\n\nI am interested in *${masterDesign.name}* in the *${colorway.name} (${colorway.sanskrit})* colorway (₹${masterDesign.basePriceINR.toLocaleString("en-IN")}).\n\nI would like to schedule a 1-on-1 VIP Video Call on WhatsApp to inspect the pallu drape, zari sheen, and matching unstitched blouse piece.`;
-    const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/919886620362?text=${encoded}`, "_blank");
+  const handleClearTrousseauSlot = (index) => {
+    setTrousseauSlots((prev) => {
+      const next = [...prev];
+      next[index] = null;
+      return next;
+    });
+  };
+
+  const handleAddToTrousseauFromCollection = (colorway) => {
+    // Find first empty slot, or replace slot 0
+    const emptyIndex = trousseauSlots.findIndex((s) => s === null);
+    const targetIndex = emptyIndex !== -1 ? emptyIndex : 0;
+    handleUpdateTrousseauSlot(targetIndex, colorway);
+    handleNavigate('trousseau');
   };
 
   return (
-    <div className="min-h-screen bg-[#060709] text-white flex flex-col selection:bg-amber-400 selection:text-black">
-      {/* Royal Header */}
-      <Header
-        cartCount={cartItems.length}
-        onOpenCart={() => setCartOpen(true)}
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1C1917] flex flex-col font-sans selection:bg-[#B8860B]/20 selection:text-[#781224]">
+      {/* Global Royal Navigation */}
+      <Navbar
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
         currency={currency}
-        setCurrency={setCurrency}
+        onCurrencyChange={setCurrency}
+        cartCount={cart.length}
+        onOpenCart={() => setCartOpen(true)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 w-full flex flex-col">
-        {/* Master Collection Navigation Tabs */}
-        <MasterDesignTabs
-          masterDesigns={masterDesigns}
-          currentDesign={currentDesign}
-          onSelectDesign={handleSelectDesign}
-        />
-
-        {/* Hero Atelier Stage (Split View: Canvas + Selector) */}
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* Left 6-7 Cols: Interactive Saree Canvas with Zari Light Shifter */}
-            <div className="lg:col-span-7 w-full sticky top-24">
-              <SareeCanvas
-                selectedColorway={selectedColorway}
-                lightingPreset={lightingPreset}
-                setLightingPreset={setLightingPreset}
-                lightingPresets={LIGHTING_PRESETS}
-                loupeActive={loupeActive}
-                setLoupeActive={setLoupeActive}
-              />
-            </div>
-
-            {/* Right 5-6 Cols: Colorway Matrix & Provenance Selector */}
-            <div className="lg:col-span-5 w-full">
-              <ColorwaySelector
-                masterDesign={currentDesign}
-                selectedColorway={selectedColorway}
-                setSelectedColorway={setSelectedColorway}
-                currency={currency}
-                onAddToCart={handleAddToCart}
-                onAddToTrousseau={handleAddToTrousseau}
-                onOpenWhatsAppVideo={handleOpenWhatsAppVideo}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Tactile Drape & Pleat Physics Section */}
-        <DrapePhysics
-          selectedColorway={selectedColorway}
-          masterDesign={currentDesign}
-        />
-
-        {/* The Master Karigar Provenance Ledger */}
-        <KarigarLedger
-          masterDesign={currentDesign}
-          selectedColorway={selectedColorway}
-        />
-
-        {/* Interactive Bridal Trousseau Box Builder */}
-        <div id="trousseau-section">
-          <TrousseauBox
-            trousseauItems={trousseauItems}
-            onRemoveItem={handleRemoveTrousseauItem}
-            onCheckoutTrousseau={handleCheckoutTrousseau}
+      {/* Multipage Content */}
+      <main className="flex-1">
+        {currentPage === 'atelier' && (
+          <AtelierPage
+            onNavigate={handleNavigate}
+            onSelectColorway={(id) => {
+              setSelectedColorwayId(id);
+              handleNavigate('collection');
+            }}
             currency={currency}
-            masterDesign={currentDesign}
           />
-        </div>
+        )}
+
+        {currentPage === 'collection' && (
+          <CollectionPage
+            selectedColorwayId={selectedColorwayId}
+            onSelectColorway={setSelectedColorwayId}
+            onAddToCart={handleAddToCart}
+            onAddToTrousseau={handleAddToTrousseauFromCollection}
+            currency={currency}
+            onNavigate={handleNavigate}
+          />
+        )}
+
+        {currentPage === 'craft' && (
+          <CraftPage onNavigate={handleNavigate} />
+        )}
+
+        {currentPage === 'trousseau' && (
+          <TrousseauPage
+            trousseauSlots={trousseauSlots}
+            onUpdateSlot={handleUpdateTrousseauSlot}
+            onClearSlot={handleClearTrousseauSlot}
+            onAddToCart={handleAddToCart}
+            currency={currency}
+            onNavigate={handleNavigate}
+          />
+        )}
+
+        {currentPage === 'salon' && (
+          <SalonPage />
+        )}
       </main>
 
-      {/* Cart & Concierge Drawer */}
+      {/* Silk Bag Slide-over Drawer */}
       <CartDrawer
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
-        cartItems={cartItems}
-        onRemoveItem={handleRemoveCartItem}
+        cart={cart}
+        onRemoveItem={handleRemoveFromCart}
+        onClearCart={handleClearCart}
         currency={currency}
-        setCurrency={setCurrency}
+        onNavigate={handleNavigate}
       />
 
-      {/* Royal Footer */}
-      <Footer />
+      {/* Global Heritage Footer */}
+      <Footer onNavigate={handleNavigate} />
     </div>
   );
 }
