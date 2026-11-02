@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Calendar, Globe, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
+import { ShoppingBag, Calendar, Globe, Menu, X, ChevronDown, Sparkles, ArrowRight } from 'lucide-react';
 import { CURRENCIES } from '../utils/currency';
 
 export default function Navbar({
@@ -13,6 +13,16 @@ export default function Navbar({
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Scroll detection to adapt glass opacity & elevation
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 25);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { id: 'atelier', label: 'The Atelier' },
@@ -25,144 +35,105 @@ export default function Navbar({
   const handleNavClick = (id) => {
     onNavigate(id);
     setMobileMenuOpen(false);
+    setCurrencyDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/80 backdrop-blur-xl border-b border-[#D4AF37]/15 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
-        {/* Left Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center space-x-9">
-          <button
-            onClick={() => handleNavClick('atelier')}
-            className={`text-[11px] uppercase tracking-[0.25em] font-sans transition-all py-1 relative ${
-              currentPage === 'atelier'
-                ? 'text-[#D4AF37] font-semibold'
-                : 'text-stone-300 hover:text-white'
-            }`}
-          >
-            <span>The Atelier</span>
-            {currentPage === 'atelier' && (
-              <motion.span
-                layoutId="navIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]"
-              />
-            )}
-          </button>
-
-          <button
-            onClick={() => handleNavClick('collection')}
-            className={`text-[11px] uppercase tracking-[0.25em] font-sans transition-all py-1 flex items-center gap-2 relative ${
-              currentPage === 'collection'
-                ? 'text-[#D4AF37] font-semibold'
-                : 'text-stone-300 hover:text-white'
-            }`}
-          >
-            <span>The Collection</span>
-            <span className="text-[9px] bg-[#D4AF37]/15 text-[#D4AF37] px-1.5 py-0.5 rounded-full font-sans tracking-normal border border-[#D4AF37]/30">
-              5 Shades
-            </span>
-            {currentPage === 'collection' && (
-              <motion.span
-                layoutId="navIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]"
-              />
-            )}
-          </button>
-
-          <button
-            onClick={() => handleNavClick('craft')}
-            className={`text-[11px] uppercase tracking-[0.25em] font-sans transition-all py-1 relative ${
-              currentPage === 'craft'
-                ? 'text-[#D4AF37] font-semibold'
-                : 'text-stone-300 hover:text-white'
-            }`}
-          >
-            <span>The Craft</span>
-            {currentPage === 'craft' && (
-              <motion.span
-                layoutId="navIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]"
-              />
-            )}
-          </button>
-        </nav>
-
-        {/* Center Brand Identity */}
+    <header className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 transition-all duration-500">
+      {/* Floating Glassmorphic Capsule */}
+      <div
+        className={`max-w-7xl mx-auto rounded-2xl lg:rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between transition-all duration-500 ${
+          isScrolled ? 'glass-navbar-scrolled' : 'glass-navbar'
+        }`}
+      >
+        {/* Left: Brand Identity with Royal Monogram Emblem */}
         <motion.div
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="text-center cursor-pointer select-none group"
           onClick={() => handleNavClick('atelier')}
+          className="flex items-center gap-3 cursor-pointer select-none group"
         >
-          <span className="text-[9px] uppercase tracking-[0.35em] text-[#D4AF37]/80 font-sans block mb-0.5">
-            Varanasi • Est. 1948
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-editorial tracking-[0.2em] text-[#FBF9F5] group-hover:text-[#D4AF37] transition-colors leading-none font-normal">
-            KASHIKA
-          </h1>
+          {/* Circular Gold Crest Emblem */}
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-black/80 to-[#181818]/90 border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.22)] group-hover:border-[#D4AF37] transition-all">
+            <span className="text-xs sm:text-sm font-serif">⚜</span>
+          </div>
+
+          <div>
+            <h1 className="text-lg sm:text-xl font-editorial tracking-[0.22em] text-[#FBF9F5] group-hover:text-[#D4AF37] transition-colors leading-none font-normal uppercase">
+              KASHIKA
+            </h1>
+            <span className="text-[8px] uppercase tracking-[0.32em] text-[#D4AF37]/80 font-sans block mt-0.5">
+              Varanasi • 1948
+            </span>
+          </div>
         </motion.div>
 
-        {/* Right Desktop Nav Links & Icon-Only Triggers */}
-        <div className="hidden lg:flex items-center space-x-8">
-          <button
-            onClick={() => handleNavClick('trousseau')}
-            className={`text-[11px] uppercase tracking-[0.25em] font-sans transition-all py-1 relative ${
-              currentPage === 'trousseau'
-                ? 'text-[#D4AF37] font-semibold'
-                : 'text-stone-300 hover:text-white'
-            }`}
-          >
-            <span>Trousseau Trunk</span>
-            {currentPage === 'trousseau' && (
-              <motion.span
-                layoutId="navIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]"
-              />
-            )}
-          </button>
+        {/* Center: Unified Glass Pill Navigation Island (Desktop) */}
+        <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full glass-pill-nav">
+          {navLinks.map((link) => {
+            const isActive = currentPage === link.id;
+            return (
+              <button
+                key={link.id}
+                onClick={() => handleNavClick(link.id)}
+                className={`relative px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] font-sans transition-all flex items-center gap-2 ${
+                  isActive
+                    ? 'text-[#FBF9F5] font-semibold'
+                    : 'text-stone-300 hover:text-white'
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="glassNavActivePill"
+                    className="absolute inset-0 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/50 shadow-[0_0_15px_rgba(212,175,55,0.25)]"
+                    transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
+                {link.badge && (
+                  <span
+                    className={`relative z-10 text-[9px] px-1.5 py-0.2 rounded-full font-sans tracking-normal border ${
+                      isActive
+                        ? 'bg-[#D4AF37] text-black font-bold border-transparent'
+                        : 'bg-[#D4AF37]/15 text-[#D4AF37] border-[#D4AF37]/30'
+                    }`}
+                  >
+                    {link.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
-          <button
-            onClick={() => handleNavClick('salon')}
-            className={`text-[11px] uppercase tracking-[0.25em] font-sans transition-all py-1 relative ${
-              currentPage === 'salon'
-                ? 'text-[#D4AF37] font-semibold'
-                : 'text-stone-300 hover:text-white'
-            }`}
-          >
-            <span>Private Salon</span>
-            {currentPage === 'salon' && (
-              <motion.span
-                layoutId="navIndicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]"
-              />
-            )}
-          </button>
-
-          {/* Icon-Only Luxury Triggers Divider */}
-          <div className="h-4 w-px bg-white/15" />
-
-          {/* Currency Pill */}
+        {/* Right: Luxury Utility Suite */}
+        <div className="flex items-center gap-2.5 sm:gap-3.5">
+          {/* Currency Switcher Glass Pill */}
           <div className="relative">
             <button
               onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-sans uppercase tracking-wider text-stone-300 hover:text-white border border-[#D4AF37]/20 hover:border-[#D4AF37]/50 bg-white/[0.04] transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-sans uppercase tracking-widest text-stone-300 hover:text-white glass-pill-nav hover:border-[#D4AF37]/50 transition-all"
               aria-label="Select Currency"
             >
               <Globe className="w-3 h-3 text-[#D4AF37]" />
-              <span>{currency}</span>
+              <span className="font-semibold">{currency}</span>
               <ChevronDown className="w-2.5 h-2.5 text-stone-400" />
             </button>
 
+            {/* Currency Glass Dropdown */}
             <AnimatePresence>
               {currencyDropdownOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-32 bg-[#121212] text-[#FBF9F5] rounded border border-[#D4AF37]/30 shadow-2xl py-1 z-50 backdrop-blur-xl"
+                  className="absolute right-0 mt-2 w-36 glass-dropdown rounded-xl py-1.5 z-50 overflow-hidden"
                 >
+                  <div className="px-3 py-1 border-b border-white/10 text-[9px] uppercase tracking-wider text-[#D4AF37] font-sans font-bold">
+                    Select Currency
+                  </div>
                   {Object.values(CURRENCIES).map((c) => (
                     <button
                       key={c.code}
@@ -170,12 +141,12 @@ export default function Navbar({
                         onCurrencyChange(c.code);
                         setCurrencyDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs font-sans tracking-wider flex items-center justify-between hover:bg-white/10 transition-colors ${
-                        currency === c.code ? 'font-bold text-[#D4AF37]' : 'text-stone-300'
+                      className={`w-full text-left px-3.5 py-2 text-xs font-sans tracking-wider flex items-center justify-between hover:bg-white/10 transition-colors ${
+                        currency === c.code ? 'font-bold text-[#D4AF37] bg-white/[0.04]' : 'text-stone-300'
                       }`}
                     >
                       <span>{c.code}</span>
-                      <span className="text-stone-500 font-serif">{c.symbol}</span>
+                      <span className="text-stone-400 font-serif">{c.symbol}</span>
                     </button>
                   ))}
                 </motion.div>
@@ -183,100 +154,106 @@ export default function Navbar({
             </AnimatePresence>
           </div>
 
-          {/* Icon-Only Appointment Trigger */}
+          {/* Book Salon Quick CTA Button (Desktop & Tablet) */}
           <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             onClick={() => handleNavClick('salon')}
-            className="p-2.5 rounded-full border border-[#D4AF37]/20 hover:border-[#D4AF37]/60 hover:bg-white/[0.06] text-stone-300 hover:text-[#D4AF37] transition-all"
-            title="Book Private Draping Appointment"
-            aria-label="Book Private Appointment"
+            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.2em] font-sans font-bold text-black bg-[#D4AF37] hover:bg-[#C5A059] shadow-lg transition-all btn-shimmer"
           >
-            <Calendar className="w-4 h-4 text-[#D4AF37]" />
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Book Salon</span>
           </motion.button>
 
-          {/* Icon-Only Luxury Silk Bag Trigger */}
+          {/* Luxury Silk Bag Trigger Pill */}
           <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.94 }}
             onClick={onOpenCart}
-            className="relative p-2.5 rounded-full border border-[#D4AF37]/30 hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all text-stone-200 hover:text-white"
+            className="relative p-2.5 rounded-full glass-pill-nav hover:border-[#D4AF37]/60 text-stone-200 hover:text-white transition-all shadow-sm"
             aria-label="View Silk Bag"
           >
             <ShoppingBag className="w-4 h-4 text-[#D4AF37]" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] text-black text-[9px] font-bold rounded-full flex items-center justify-center font-sans">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] text-black text-[9px] font-bold rounded-full flex items-center justify-center font-sans shadow-md">
                 {cartCount}
               </span>
             )}
           </motion.button>
-        </div>
 
-        {/* Mobile Right Controls */}
-        <div className="flex items-center gap-3 lg:hidden">
-          {/* Mobile Cart Trigger */}
-          <button
-            onClick={onOpenCart}
-            className="relative p-2 rounded-full border border-[#D4AF37]/30 text-stone-200"
-            aria-label="View Silk Bag"
-          >
-            <ShoppingBag className="w-4 h-4 text-[#D4AF37]" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] text-black text-[9px] font-bold rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </button>
-
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-stone-200 hover:text-[#D4AF37] transition-colors"
+            className="lg:hidden p-2 rounded-full glass-pill-nav text-stone-200 hover:text-[#D4AF37] transition-colors"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu with AnimatePresence */}
+      {/* Mobile Glassmorphic Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-[#0A0A0A]/95 border-b border-[#D4AF37]/20 backdrop-blur-2xl px-6 py-6 overflow-hidden"
+            initial={{ opacity: 0, y: -15, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden mt-3 max-w-7xl mx-auto glass-dropdown rounded-2xl p-6 overflow-hidden border border-[#D4AF37]/35 shadow-2xl"
           >
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
+            <div className="flex flex-col space-y-3">
+              <div className="pb-3 border-b border-white/10 flex items-center justify-between">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-bold">
+                  ⚜ Navigation Index
+                </span>
+                <span className="text-xs text-stone-400 font-sans">
+                  Varanasi • Est. 1948
+                </span>
+              </div>
+
+              {navLinks.map((link, idx) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
-                  className={`text-left text-xs uppercase tracking-[0.25em] py-2.5 border-b border-white/10 flex items-center justify-between ${
+                  className={`text-left text-sm font-editorial tracking-[0.15em] uppercase py-2.5 px-3 rounded-lg flex items-center justify-between transition-all ${
                     currentPage === link.id
-                      ? 'text-[#D4AF37] font-semibold pl-2'
-                      : 'text-stone-300 hover:text-white'
+                      ? 'bg-[#D4AF37]/15 text-[#D4AF37] font-bold border border-[#D4AF37]/30'
+                      : 'text-stone-300 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
-                  <span>{link.label}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-stone-500 font-sans">0{idx + 1}.</span>
+                    <span>{link.label}</span>
+                  </div>
                   {link.badge && (
-                    <span className="text-[9px] bg-[#D4AF37]/15 text-[#D4AF37] px-2 py-0.5 rounded-full font-sans tracking-normal border border-[#D4AF37]/30">
+                    <span className="text-[9px] bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 rounded-full font-sans tracking-normal border border-[#D4AF37]/30">
                       {link.badge}
                     </span>
                   )}
                 </button>
               ))}
 
-              <div className="pt-4 flex items-center justify-between text-xs text-stone-400 font-sans">
-                <span>Boutique Viewing</span>
+              <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <button
                   onClick={() => handleNavClick('salon')}
-                  className="text-[#D4AF37] font-semibold underline tracking-wider"
+                  className="w-full py-3 bg-[#D4AF37] text-black text-xs uppercase tracking-[0.2em] font-sans font-bold rounded-lg transition-all shadow-lg flex items-center justify-center gap-2 btn-shimmer"
                 >
-                  Book Appointment &rarr;
+                  <Calendar className="w-4 h-4" />
+                  <span>Reserve Private Salon Suite</span>
                 </button>
+
+                <div className="flex items-center justify-between text-xs text-stone-400 font-sans px-1">
+                  <span>WhatsApp Concierge:</span>
+                  <a
+                    href="https://wa.me/917676721111"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[#D4AF37] hover:underline"
+                  >
+                    +91 76767 21111
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
