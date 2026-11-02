@@ -1,243 +1,218 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, X, Video, ShieldCheck, Sparkles, ZoomIn, Check, ChevronRight, MessageCircle } from 'lucide-react';
-import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
+import {
+  ArrowRight,
+  X,
+  Video,
+  ShieldCheck,
+  Sparkles,
+  ZoomIn,
+  Check,
+  ChevronRight,
+  MessageCircle,
+  Heart,
+  ShoppingBag,
+  Eye,
+  SlidersHorizontal,
+  Phone,
+  Mail,
+  MapPin,
+} from 'lucide-react';
+import { MASTER_DESIGNS, BRAND_ASSETS, CATALOG_PRODUCTS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
 export default function AtelierPage({ onNavigate, onSelectColorway, currency }) {
   const masterSaree = MASTER_DESIGNS[0];
-  const [activeVariantIndex, setActiveVariantIndex] = useState(0);
   const [expandedLookbookIndex, setExpandedLookbookIndex] = useState(0);
-  const [inspectDrawerOpen, setInspectDrawerOpen] = useState(false);
-  const [isCrossfading, setIsCrossfading] = useState(false);
 
-  // Macro Lens Inspection States
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [isHovered, setIsHovered] = useState(false);
-  const imageContainerRef = useRef(null);
+  // Catalog Filter State (Fresh Weaves, Timeless Grace)
+  const [selectedCategory, setSelectedCategory] = useState('All Sarees');
+  const [wishlist, setWishlist] = useState([]);
 
-  const activeColorway = masterSaree.colorways[activeVariantIndex];
+  // Quick View / Detail Modal State (Matching sec_30.jpg from video)
+  const [inspectModalProduct, setInspectModalProduct] = useState(null);
+  const [modalActiveThumb, setModalActiveThumb] = useState(0);
 
-  // Swatch Crossfade Switcher
-  const handleSwatchSelect = (index) => {
-    if (index === activeVariantIndex) return;
-    setIsCrossfading(true);
-    setTimeout(() => {
-      setActiveVariantIndex(index);
-      setIsCrossfading(false);
-    }, 180);
-  };
+  // Contact Form State (We'd Love to Hear From You - sec_09.jpg)
+  const [contactName, setContactName] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactSent, setContactSent] = useState(false);
 
-  // Cursor Tracking for Macro Inspection Lens
-  const handleMouseMove = (e) => {
-    if (!imageContainerRef.current) return;
-    const rect = imageContainerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  };
+  // Categories
+  const categories = ['All Sarees', 'Banarasi Katan', 'Royal Kadwa', 'Organza Silk', 'Bridal Trousseau'];
 
-  // Bridal Stylist WhatsApp Advisory
-  const handleConciergeWhatsApp = () => {
-    const msg = encodeURIComponent(
-      `Pranam Kashika Concierge. I would like to consult with a senior bridal stylist regarding the "${activeColorway.name}" colorway and bespoke trousseau curation.`
+  const filteredProducts = selectedCategory === 'All Sarees'
+    ? CATALOG_PRODUCTS
+    : CATALOG_PRODUCTS.filter((p) => p.category === selectedCategory);
+
+  const toggleWishlist = (id) => {
+    setWishlist((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
-    window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
 
-  const handleVirtualConsult = () => {
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setContactSent(true);
     const msg = encodeURIComponent(
-      `Pranam Kashika Concierge. I would like to request an immediate 1-on-1 Virtual HD Video Draping Consultation for the "${activeColorway.name}" colorway.`
+      `Pranam Kashika Concierge. Inquiring from website:%0A- Name: ${contactName}%0A- Phone: ${contactPhone}%0A- Message: ${contactMessage}`
     );
     window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
 
   return (
     <div className="bg-[#0A0A0A] text-[#FBF9F5] selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5] font-sans min-h-screen">
-      {/* 1. High-Fashion Editorial Hero (Full Viewport h-screen) */}
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Full-Bleed Cinematic Hero Visual with Ambient Slow Zoom */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src={BRAND_ASSETS.heroBanner}
-            alt="The Imperial Bridal Drape - House of Kashika"
-            className="w-full h-full object-cover object-center filter brightness-[0.66] contrast-[1.10] animate-slow-zoom"
-          />
-          {/* Subtle Dark Vignette & Atmospheric Radial Shading */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/35 to-black/60" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(10,10,10,0.55)_100%)]" />
-        </div>
+      {/* ============================================================== */}
+      {/* 1. HERO SECTION: Exactly matching monitor_hero.jpg from video */}
+      {/* ============================================================== */}
+      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#2D060F] via-[#1A0308] to-[#0D0104] pt-24 pb-16">
+        {/* Subtle Decorative Arch / Jali Motif on Left */}
+        <div className="absolute left-0 top-0 bottom-0 w-72 bg-[radial-gradient(ellipse_at_left,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
-        {/* Centered Minimal Statement with Choreographed Entrance */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 text-center pt-16">
-          {/* Eyebrow */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            className="text-[11px] sm:text-xs uppercase tracking-[0.35em] text-[#D4AF37] font-royal font-semibold mb-5 flex items-center justify-center gap-2"
-          >
-            <span>⚜</span>
-            <span>VARANASI &nbsp;•&nbsp; EST. 1948 &nbsp;•&nbsp; SAREES WOVEN WITH</span>
-            <span>⚜</span>
-          </motion.p>
-
-          {/* Flourished Main Headline with Staggered Entrance */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+          {/* Left Column: Left-Aligned Editorial Text matching video */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="relative inline-block mb-4"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 space-y-6 sm:space-y-8 text-left pt-6 sm:pt-0"
           >
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-editorial font-normal tracking-[0.12em] sm:tracking-[0.16em] uppercase text-[#FBF9F5] leading-[1.06] drop-shadow-2xl">
-              CULTURE & DYNASTIES
-            </h1>
-            {/* Elegant Calligraphic Flourish Underline */}
-            <motion.svg
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 0.9 }}
-              transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full h-4 sm:h-6 text-[#D4AF37] mt-1 mx-auto origin-center"
-              viewBox="0 0 400 20"
-              fill="none"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M 15 12 Q 100 2 200 12 Q 300 22 385 10"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
+            {/* Eyebrow */}
+            <p className="text-[11px] sm:text-xs uppercase tracking-[0.38em] text-[#D4AF37] font-royal font-semibold flex items-center gap-2">
+              <span className="text-sm">⚜</span>
+              <span>SAREES WOVEN WITH</span>
+            </p>
+
+            {/* Massive Display Title with EXACT sweeping flourish underline from video */}
+            <div className="relative inline-block">
+              <h1 className="text-5xl sm:text-7xl md:text-8xl font-editorial font-normal tracking-[0.08em] sm:tracking-[0.12em] uppercase text-[#FBF9F5] leading-none drop-shadow-2xl">
+                CULTURE
+              </h1>
+              {/* Custom calligraphic underline bowl flourish curve matching video */}
+              <svg
+                className="w-full h-8 sm:h-10 text-[#D4AF37] -mt-2 sm:-mt-3"
+                viewBox="0 0 340 32"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M 12 12 C 70 28, 170 32, 275 14 C 300 9, 320 8, 328 16"
+                  stroke="#D4AF37"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg md:text-xl font-editorial italic text-stone-200 tracking-wide font-normal max-w-lg">
+              Heirloom Drapes for Modern Stories
+            </p>
+
+            {/* CTA Pill Button (Light/Ivory Pill matching video screenshot) */}
+            <div className="pt-2">
+              <a
+                href="#fresh-weaves"
+                className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-full bg-[#FAF7F2] hover:bg-[#D4AF37] text-[#1A0308] hover:text-black font-sans text-xs uppercase tracking-[0.25em] font-bold transition-all duration-300 shadow-2xl hover:scale-105 btn-shimmer"
+              >
+                <span>DISCOVER NEW ARRIVALS</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* 3 Metric Features in clean horizontal row with thin dividers matching video */}
+            <div className="pt-6 sm:pt-8 border-t border-white/10 flex items-center gap-6 sm:gap-8 text-[10px] sm:text-[11px] font-sans tracking-[0.22em] uppercase text-stone-300">
+              <div className="flex items-center gap-2">
+                <span className="text-[#D4AF37]">✦</span>
+                <span>FINEST FABRICS</span>
+              </div>
+              <span className="text-white/20">|</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[#D4AF37]">✦</span>
+                <span>AUTHENTIC WEAVE</span>
+              </div>
+              <span className="text-white/20 hidden sm:inline">|</span>
+              <div className="hidden sm:flex items-center gap-2">
+                <span className="text-[#D4AF37]">✦</span>
+                <span>PAN INDIA SHIPPING</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: High-Fashion Model Drape matching video */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 relative flex justify-center"
+          >
+            <div className="relative w-full max-w-lg lg:max-w-none h-[520px] sm:h-[620px] rounded-2xl overflow-hidden border border-[#D4AF37]/35 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group">
+              <img
+                src={BRAND_ASSETS.heroBanner}
+                alt="Imperial Indian Bridal Drape - House of Kashika"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000 filter brightness-95"
               />
-            </motion.svg>
-          </motion.div>
+              {/* Subtle ambient lighting vignette */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none" />
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45 }}
-            className="text-sm sm:text-base md:text-lg font-editorial italic text-stone-300 max-w-xl mx-auto mb-10 tracking-wide font-normal"
-          >
-            Heirloom Drapes for Modern Stories
-          </motion.p>
+              {/* Floating Monogram Badge on Drape */}
+              <div className="absolute top-5 right-5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] uppercase tracking-widest font-sans font-semibold">
+                Banarasi Katan Pure Silk
+              </div>
 
-          {/* Minimal Transparent Glassmorphic / Gold-Wire CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              href="#expanding-lookbook"
-              className="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 rounded-full bg-black/45 hover:bg-[#D4AF37]/15 text-[#FBF9F5] hover:text-[#D4AF37] backdrop-blur-md border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[11px] uppercase tracking-[0.28em] font-sans font-medium transition-all duration-300 shadow-2xl btn-shimmer"
-            >
-              <span>EXPLORE THE 5 COLORWAYS</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#D4AF37]" />
-            </motion.a>
-          </motion.div>
-
-          {/* Floating Hero Stat Pill */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.75 }}
-            className="mt-12 inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[10px] uppercase tracking-[0.2em] text-stone-300 shadow-lg"
-          >
-            <span>Finest Mulberry Silk</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Hand-Locked Kadwa</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>98.2% Tested Silver Zari</span>
+              {/* Bottom Card Overlay */}
+              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] block font-sans">
+                    The Rajkumari Collection
+                  </span>
+                  <span className="text-sm font-editorial text-white">
+                    Pure Gold Kadwa Saree • 144 Loom Hours
+                  </span>
+                </div>
+                <button
+                  onClick={() => onNavigate('collection')}
+                  className="px-4 py-2 rounded-full bg-[#D4AF37] text-black text-[10px] uppercase tracking-wider font-sans font-bold hover:bg-[#C5A059] transition-all"
+                >
+                  View Details
+                </button>
+              </div>
+            </div>
           </motion.div>
         </div>
-
-        {/* Seamless bottom transition: Soft dark vignette fading into obsidian */}
-        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
       </section>
 
-      {/* 2. Horizontal Craft Ticker: Infinite Seamless Marquee Strip */}
-      <div className="bg-[#0A0A0A] border-y border-[0.5px] border-[#D4AF37]/20 py-3.5 overflow-hidden relative select-none">
-        <div className="animate-marquee-scroll flex items-center whitespace-nowrap text-[11px] sm:text-xs font-sans tracking-[0.25em] uppercase text-stone-300">
-          {/* Segment 1 */}
-          <div className="flex items-center gap-8 mx-6">
-            <span>144 Handloom Hours</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>98.2% Tested Silver Zari</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>2,400 Warp Threads / m</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Silk Mark India Authenticated</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Zero Reverse Float (Kadwa)</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Insured White-Glove Courier</span>
-            <span className="text-[#D4AF37]">◆</span>
-          </div>
-          {/* Segment 2 (Continuous Loop Match) */}
-          <div className="flex items-center gap-8 mx-6">
-            <span>144 Handloom Hours</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>98.2% Tested Silver Zari</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>2,400 Warp Threads / m</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Silk Mark India Authenticated</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Zero Reverse Float (Kadwa)</span>
-            <span className="text-[#D4AF37]">◆</span>
-            <span>Insured White-Glove Courier</span>
-            <span className="text-[#D4AF37]">◆</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. The 5-Column Expanding Kinetic Accordion Lookbook (Showstopper from Video Inspiration!) */}
-      <section id="expanding-lookbook" className="py-24 sm:py-32 bg-[#0A0A0A] border-b border-[0.5px] border-white/10 scroll-mt-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 mb-10 text-center space-y-2"
-        >
+      {/* ============================================================== */}
+      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: matching sec_6.jpg from video */}
+      {/* ============================================================== */}
+      <section className="py-24 sm:py-32 bg-[#0A0A0A] border-y border-[0.5px] border-white/10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 mb-10 text-center space-y-2">
           <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold block">
-            The 2026 Dynastic Lookbook
+            The Dynastic Lookbook
           </span>
           <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-            Five Sacred Weaves. One Imperial Naksha.
+            Five Sacred Weaves. One Imperial Heritage.
           </h2>
           <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
-            Hover any column to expand the drape and explore the bullion metallurgy.
+            Hover any column to expand the drape and explore the pure zari shades.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Full-Width 5-Column Kinetic Expanding Accordion Spread */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        >
-          <div className="flex flex-col md:flex-row h-[620px] sm:h-[680px] w-full rounded-lg overflow-hidden border-[0.5px] border-[#D4AF37]/30 bg-black shadow-2xl">
+        {/* 5 Vertical Expanding Columns */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row h-[600px] sm:h-[660px] w-full rounded-xl overflow-hidden border border-[#D4AF37]/30 bg-black shadow-2xl">
             {masterSaree.colorways.map((cw, idx) => {
               const isExpanded = expandedLookbookIndex === idx;
               return (
                 <div
                   key={cw.id}
                   onMouseEnter={() => setExpandedLookbookIndex(idx)}
-                  onClick={() => {
-                    setActiveVariantIndex(idx);
-                    document.getElementById('swatch-studio')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => setExpandedLookbookIndex(idx)}
                   className={`relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer overflow-hidden border-b md:border-b-0 md:border-r border-[0.5px] border-white/10 ${
                     isExpanded ? 'flex-[3.5] md:flex-[3.5]' : 'flex-1 md:flex-1'
                   }`}
                 >
-                  {/* Background Saree Drape Image */}
                   <img
                     src={cw.image}
                     alt={cw.name}
@@ -247,11 +222,9 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                         : 'filter brightness-[0.45] contrast-[1.0] scale-100'
                     }`}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/35 pointer-events-none" />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/35 pointer-events-none" />
-
-                  {/* Collapsed State: Vertical Typography Spine */}
+                  {/* Collapsed Spine Typography */}
                   {!isExpanded && (
                     <div className="absolute inset-0 flex flex-col items-center justify-between p-6 pointer-events-none">
                       <span className="text-[10px] font-sans font-bold text-[#D4AF37]">0{idx + 1}</span>
@@ -265,7 +238,7 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                     </div>
                   )}
 
-                  {/* Expanded State Content Overlay */}
+                  {/* Expanded Content Overlay */}
                   {isExpanded && (
                     <motion.div
                       initial={{ opacity: 0, y: 15 }}
@@ -273,7 +246,6 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                       transition={{ duration: 0.45 }}
                       className="absolute inset-0 p-8 sm:p-10 flex flex-col justify-between text-white pointer-events-none"
                     >
-                      {/* Top Bar */}
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] uppercase tracking-[0.3em] font-sans font-bold text-[#D4AF37] px-3 py-1 rounded-full bg-black/60 border border-[#D4AF37]/30">
                           Colorway 0{idx + 1} • {cw.zariTone}
@@ -284,7 +256,6 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                         />
                       </div>
 
-                      {/* Bottom Details Panel */}
                       <div className="space-y-4 max-w-md pointer-events-auto">
                         <div className="space-y-1">
                           <span className="text-[11px] uppercase tracking-[0.25em] text-[#D4AF37] block font-sans font-semibold">
@@ -298,32 +269,20 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                           </p>
                         </div>
 
-                        <p className="text-xs font-sans text-stone-300 line-clamp-2 leading-relaxed">
+                        <p className="text-xs font-sans text-stone-300 leading-relaxed">
                           Blouse: {cw.blousePiece} • 144 Hours on the pit loom with 98.2% pure bullion zari.
                         </p>
 
                         <div className="pt-2 flex items-center gap-3">
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveVariantIndex(idx);
-                              document.getElementById('swatch-studio')?.scrollIntoView({ behavior: 'smooth' });
-                            }}
-                            className="px-5 py-2.5 rounded-full bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[10px] uppercase tracking-[0.22em] font-sans font-bold transition-all shadow-xl flex items-center gap-1.5 btn-shimmer"
-                          >
-                            <span>Inspect Shade</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </button>
-
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
+                            onClick={() => {
                               onSelectColorway(cw.id);
                               onNavigate('collection');
                             }}
-                            className="px-4 py-2.5 rounded-full bg-black/60 hover:bg-white/10 text-stone-200 border border-white/20 text-[10px] uppercase tracking-[0.22em] font-sans font-medium transition-all"
+                            className="px-5 py-2.5 rounded-full bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[10px] uppercase tracking-[0.22em] font-sans font-bold transition-all shadow-xl flex items-center gap-1.5 btn-shimmer"
                           >
-                            Acquire Piece ({formatPrice(masterSaree.basePriceINR, currency)})
+                            <span>Explore Colorway</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -333,674 +292,461 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
               );
             })}
           </div>
-        </motion.div>
-      </section>
-
-      {/* 4. Royal Jharokha (Arched Mughal Palace Window) Gallery (From Video Inspiration!) */}
-      <section className="py-28 md:py-36 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto border-b border-[0.5px] border-white/10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column (40%): Editorial Narrative */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 space-y-6"
-          >
-            <div className="space-y-3">
-              <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold block">
-                Imperial Best Sellers
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] leading-[1.12] tracking-wide">
-                Architectural Jharokha Framing
-              </h2>
-              <div className="w-12 h-0.5 bg-[#D4AF37]" />
-            </div>
-
-            <p className="text-sm sm:text-base font-editorial italic text-stone-300 leading-relaxed">
-              Echoing the palace archways of Varanasi and Rajasthan, our master drapes are presented in signature Mughal Jharokha silhouettes.
-            </p>
-
-            <p className="text-xs font-sans text-stone-400 leading-relaxed">
-              Every drape captures the interplay of liquid gold zari against raw silk warp, verified by Silk Mark India with unbroken dynastic durability.
-            </p>
-
-            <div className="pt-2">
-              <button
-                onClick={() => onNavigate('collection')}
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#121212] hover:bg-[#D4AF37] text-stone-200 hover:text-black border border-[#D4AF37]/40 text-[11px] uppercase tracking-[0.25em] font-sans font-bold transition-all shadow-lg btn-shimmer"
-              >
-                <span>View Full Imperial Collection</span>
-                <span>&rarr;</span>
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Right Column (60%): Staggered Royal Arched Jharokha Windows */}
-          <div className="lg:col-span-7 grid grid-cols-3 gap-4 sm:gap-6 items-end">
-            {/* Arch 1 (Tallest): Sindoor Crimson */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.75, delay: 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group relative h-[420px] sm:h-[480px] rounded-t-[100px] sm:rounded-t-[130px] overflow-hidden border-[0.5px] border-[#D4AF37]/40 shadow-2xl bg-[#121212] transition-all duration-500"
-            >
-              <img
-                src={BRAND_ASSETS.heroBanner}
-                alt="Sindoor Crimson Drape"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
-              {/* Floating Swatch Disc in Corner */}
-              <div className="absolute top-4 right-3 w-6 h-6 rounded-full bg-[#881326] border-2 border-white/60 shadow-lg" />
-              <div className="absolute bottom-4 left-3 right-3 text-center">
-                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans block font-semibold">
-                  Sindoor
-                </span>
-                <span className="text-xs font-editorial font-normal text-white">Muhurtham</span>
-              </div>
-            </motion.div>
-
-            {/* Arch 2 (Medium, Offset): Mor-Pankhi Emerald */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.75, delay: 0.25 }}
-              whileHover={{ y: -8 }}
-              className="group relative h-[380px] sm:h-[430px] rounded-t-[90px] sm:rounded-t-[120px] overflow-hidden border-[0.5px] border-[#D4AF37]/40 shadow-2xl bg-[#121212] mb-4 transition-all duration-500"
-            >
-              <img
-                src={masterSaree.colorways[2].image}
-                alt="Mor-Pankhi Emerald Drape"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
-              <div className="absolute top-4 right-3 w-6 h-6 rounded-full bg-[#082d20] border-2 border-white/60 shadow-lg" />
-              <div className="absolute bottom-4 left-3 right-3 text-center">
-                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans block font-semibold">
-                  Mor-Pankhi
-                </span>
-                <span className="text-xs font-editorial font-normal text-white">Temple Grove</span>
-              </div>
-            </motion.div>
-
-            {/* Arch 3 (Compact, Offset): Pitambari Saffron */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.75, delay: 0.4 }}
-              whileHover={{ y: -8 }}
-              className="group relative h-[340px] sm:h-[390px] rounded-t-[80px] sm:rounded-t-[110px] overflow-hidden border-[0.5px] border-[#D4AF37]/40 shadow-2xl bg-[#121212] mb-8 transition-all duration-500"
-            >
-              <img
-                src={masterSaree.colorways[4].image}
-                alt="Pitambari Saffron Drape"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
-              <div className="absolute top-4 right-3 w-6 h-6 rounded-full bg-[#a86a08] border-2 border-white/60 shadow-lg" />
-              <div className="absolute bottom-4 left-3 right-3 text-center">
-                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] font-sans block font-semibold">
-                  Pitambari
-                </span>
-                <span className="text-xs font-editorial font-normal text-white">Haldi Gold</span>
-              </div>
-            </motion.div>
-          </div>
         </div>
       </section>
 
-      {/* 5. Interactive Masterpiece Swatch Studio: Lookbook Viewer */}
-      <section id="swatch-studio" className="py-32 md:py-40 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto scroll-mt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Stage (60%): High-Resolution Portrait Stage with Cursor-Follow Macro Lens Inspection */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-7"
-          >
-            <div
-              ref={imageContainerRef}
-              onMouseMove={handleMouseMove}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              className="relative h-[560px] sm:h-[680px] rounded-lg overflow-hidden border-[0.5px] border-[#D4AF37]/25 shadow-2xl bg-[#121212] cursor-crosshair group select-none"
-            >
-              {/* Main Drape Image with Cursor-Follow Zoom */}
-              <img
-                src={activeColorway.image}
-                alt={activeColorway.name}
-                style={{
-                  transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
-                  transform: isHovered ? 'scale(1.45)' : 'scale(1.0)',
-                }}
-                className={`w-full h-full object-cover transition-transform duration-200 ease-out ${
-                  isCrossfading ? 'opacity-30' : 'opacity-100'
-                }`}
-              />
+      {/* ============================================================== */}
+      {/* 3. ANCIENT CRAFT, MODERN SOUL: matching sec_05s.jpg from video */}
+      {/* ============================================================== */}
+      <section className="py-28 md:py-36 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left: Stacked Editorial Text + Arched Burgundy Medallion from video */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
+                Heritage Manifesto
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-[1.08] tracking-tight">
+                ANCIENT<br />
+                CRAFT,<br />
+                MODERN<br />
+                SOUL
+              </h2>
+            </div>
 
-              {/* Atmospheric Shading */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/25 pointer-events-none" />
+            <p className="text-xs sm:text-sm font-editorial italic text-stone-600 leading-relaxed max-w-xs">
+              Every Kashika weave bridges the 76-year royal lineage of Varanasi pit looms with contemporary bridal aesthetics.
+            </p>
 
-              {/* Cursor-Follow Inspection HUD Badge */}
-              <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-[10px] uppercase tracking-widest text-stone-300 font-sans flex items-center gap-2 pointer-events-none">
-                <ZoomIn className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>{isHovered ? 'Macro Lens Active' : 'Hover to Inspect Weave'}</span>
+            {/* Arched Burgundy Medallion from sec_05s.jpg */}
+            <div className="relative w-48 h-56 rounded-t-full bg-[#6A1424] text-white p-6 flex flex-col justify-between overflow-hidden shadow-xl border border-[#D4AF37]/40">
+              <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,white_0%,transparent_80%)]" />
+              <div className="text-center pt-2">
+                <span className="text-xl text-[#D4AF37]">⚜</span>
               </div>
-
-              {/* Zari Metallurgy Pill */}
-              <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#D4AF37]/30 text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-medium pointer-events-none">
-                {activeColorway.zariTone}
-              </div>
-
-              {/* Bottom Stage Overlay */}
-              <div className="absolute bottom-6 left-6 right-6 text-white pointer-events-none flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3">
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] block font-semibold mb-1">
-                    Authentic Kadwa Handloom
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-editorial font-normal tracking-wide">
-                    {activeColorway.name}
-                  </h3>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] uppercase tracking-widest text-stone-400 block font-sans">Acquisition</span>
-                  <span className="text-2xl font-editorial font-bold text-[#FBF9F5]">
-                    {formatPrice(masterSaree.basePriceINR, currency)}
-                  </span>
-                </div>
+              <div className="text-center space-y-1">
+                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] block font-sans font-bold">
+                  PIT LOOM ARCHIVE
+                </span>
+                <span className="text-xs font-editorial tracking-wider">
+                  Shivala Ghat, Varanasi
+                </span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right Column (40% - Sticky): Minimalist Narrative, Swatch Discs, Price & CTAs */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-8">
-            {/* Dynastic Title & Sanskrit Shade Identifier */}
-            <div className="space-y-3 pb-6 border-b border-white/10">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-semibold block">
-                Dynastic Colorway
+          {/* Right: 4 Horizontal Craft Cards matching video */}
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
+                01. Pure Mulberry Silk
               </span>
-              <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-                {activeColorway.name}
-              </h2>
-              <p className="text-sm font-editorial italic text-stone-400">
-                Sanskrit: <span className="text-[#D4AF37] font-normal">{activeColorway.sanskrit}</span> • {activeColorway.tagline}
+              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+                Sidlaghatta Katan Warp
+              </h3>
+              <p className="text-xs font-sans text-stone-600 leading-relaxed">
+                Hand-reeled Grade-A Karnataka mulberry silk providing unbroken tensile strength and butter-smooth drape.
               </p>
             </div>
 
-            {/* Five Circular, Silk-Textured Swatch Pills */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-[0.25em] text-stone-400 font-sans font-medium">
-                  Select dynastic shade
-                </span>
-                <span className="text-[11px] font-editorial italic text-[#D4AF37]">
-                  {activeColorway.name}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4 sm:gap-5 pt-1">
-                {masterSaree.colorways.map((cw, idx) => {
-                  const isSelected = idx === activeVariantIndex;
-                  return (
-                    <motion.button
-                      key={cw.id}
-                      whileHover={{ scale: 1.15 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => handleSwatchSelect(idx)}
-                      className="group flex flex-col items-center gap-2 focus:outline-none"
-                      title={`${cw.name} (${cw.sanskrit})`}
-                      aria-label={cw.name}
-                    >
-                      <span
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300 shadow-lg flex items-center justify-center relative ${
-                          isSelected
-                            ? 'ring-1 ring-[#D4AF37] ring-offset-3 ring-offset-[#0A0A0A] scale-110 shadow-[0_0_15px_rgba(212,175,55,0.4)]'
-                            : 'opacity-70 hover:opacity-100 border-[0.5px] border-white/20'
-                        }`}
-                        style={{ backgroundColor: cw.hex }}
-                      >
-                        {isSelected && (
-                          <span className="w-2.5 h-2.5 rounded-full bg-white shadow" />
-                        )}
-                      </span>
-                    </motion.button>
-                  );
-                })}
-              </div>
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
+                02. Pure Bullion Core
+              </span>
+              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+                98.2% Tested Silver Zari
+              </h3>
+              <p className="text-xs font-sans text-stone-600 leading-relaxed">
+                Genuine silver bullion electroplated in 24K pure liquid gold. Guaranteed dynastic longevity of 80 to 120 years.
+              </p>
             </div>
 
-            {/* Quick Spec Chips */}
-            <div className="grid grid-cols-3 gap-2.5 pt-2">
-              <div className="p-3 rounded bg-[#121212] border-[0.5px] border-white/10 text-center space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans">Craft Duration</span>
-                <span className="text-xs font-semibold text-[#FBF9F5] block">144h Loom</span>
-              </div>
-              <div className="p-3 rounded bg-[#121212] border-[0.5px] border-white/10 text-center space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans">Zari Bullion</span>
-                <span className="text-xs font-semibold text-[#D4AF37] block">98.2% Silver</span>
-              </div>
-              <div className="p-3 rounded bg-[#121212] border-[0.5px] border-white/10 text-center space-y-1">
-                <span className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans">Authenticity</span>
-                <span className="text-xs font-semibold text-emerald-400 block">Silk Mark</span>
-              </div>
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
+                03. Zero Loose Floats
+              </span>
+              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+                Hand-Locked Kadwa Weave
+              </h3>
+              <p className="text-xs font-sans text-stone-600 leading-relaxed">
+                Each motif is individually locked into the warp yarns with tiny wooden tilis so no threads scratch the skin.
+              </p>
             </div>
 
-            {/* Occasion & Blouse Piece Info */}
-            <div className="p-4 rounded bg-[#121212] border-[0.5px] border-[#D4AF37]/20 space-y-2 text-xs font-sans">
-              <div className="flex justify-between items-center text-stone-400">
-                <span className="uppercase tracking-wider text-[10px]">Occasion:</span>
-                <span className="text-[#FBF9F5] font-medium">{activeColorway.occasion}</span>
-              </div>
-              <div className="flex justify-between items-center text-stone-400 pt-1 border-t border-white/5">
-                <span className="uppercase tracking-wider text-[10px]">Blouse Fabric:</span>
-                <span className="text-[#D4AF37] font-medium">{activeColorway.blousePiece}</span>
-              </div>
-            </div>
-
-            {/* Price & Luxury Slide-Over Trigger Button */}
-            <div className="space-y-3 pt-2">
-              <button
-                onClick={() => setInspectDrawerOpen(true)}
-                className="w-full py-3.5 bg-transparent hover:bg-white/[0.04] text-[#D4AF37] border border-[0.5px] border-[#D4AF37]/40 hover:border-[#D4AF37] text-[11px] uppercase tracking-[0.25em] font-sans font-semibold rounded transition-all flex items-center justify-center gap-2 btn-shimmer"
-              >
-                <span>INSPECT NAKSHA & ZARI</span>
-                <span>&rarr;</span>
-              </button>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => {
-                    onSelectColorway(activeColorway.id);
-                    onNavigate('collection');
-                  }}
-                  className="flex-1 py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.22em] font-sans font-bold rounded transition-all shadow-xl btn-shimmer"
-                >
-                  Acquire Masterpiece
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectColorway(activeColorway.id);
-                    onNavigate('trousseau');
-                  }}
-                  className="flex-1 py-3.5 bg-[#121212] hover:bg-white/[0.08] text-stone-200 border border-[0.5px] border-white/20 text-[11px] uppercase tracking-[0.22em] font-sans font-medium rounded transition-all"
-                >
-                  Add to Trousseau
-                </button>
-              </div>
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
+                04. Authenticity Guarantee
+              </span>
+              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+                Silk Mark India Certified
+              </h3>
+              <p className="text-xs font-sans text-stone-600 leading-relaxed">
+                Every piece bears the government-sealed Silk Mark QR credential and master weaver provenance stamp.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. Storytelling Grid: Clean 2-Column Asymmetric Layout */}
-      <section className="py-32 md:py-40 px-6 sm:px-8 lg:px-12 bg-[#121212] border-y border-[0.5px] border-white/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left: Raw Loom Documentary Photograph */}
-          <motion.div
-            initial={{ opacity: 0, x: -35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 relative h-[480px] sm:h-[560px] rounded-lg overflow-hidden border-[0.5px] border-[#D4AF37]/30 shadow-2xl group"
-          >
-            <img
-              src={BRAND_ASSETS.craftLoom}
-              alt="Ustad Bashir Ahmed on traditional wooden pit loom in Varanasi"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
-            <div className="absolute bottom-6 left-6 right-6">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-bold block mb-1">
-                Pit Loom Archive • Shivala Ghat
-              </span>
-              <p className="text-base font-editorial italic text-stone-200">
-                Weathered hands guiding tested silver bullion threads across raw mulberry silk.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Right: Concise Poetic Craft Storytelling (2 Punchy Sentences) */}
-          <motion.div
-            initial={{ opacity: 0, x: 35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 space-y-8 font-sans"
-          >
-            <div className="space-y-3">
-              <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-semibold block">
-                The Karigar Lineage
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-editorial font-normal text-[#FBF9F5] leading-[1.12] tracking-wide">
-                144 Hours on the Pit Loom
-              </h2>
-              <div className="w-12 h-0.5 bg-[#D4AF37]" />
-            </div>
-
-            <p className="text-base sm:text-lg font-editorial italic text-stone-300 leading-relaxed font-normal">
-              Every celestial peacock motif is hand-locked into the warp with individual wooden spools, leaving zero loose cut floats on the reverse.
-            </p>
-            <p className="text-base sm:text-lg font-editorial italic text-stone-300 leading-relaxed font-normal">
-              A single master karigar dedicates eighteen unbroken days to weave one saree, preserving seventy-six years of dynastic Banarasi heritage.
-            </p>
-
-            {/* 4 Clean Metric Badges */}
-            <div className="grid grid-cols-2 gap-3.5 pt-4">
-              <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-1">
-                <span className="text-xs uppercase tracking-wider text-[#D4AF37] font-bold block">Kadwa Weave</span>
-                <span className="text-[11px] text-stone-400 block font-sans">Zero float scissor cut</span>
-              </div>
-              <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-1">
-                <span className="text-xs uppercase tracking-wider text-[#D4AF37] font-bold block">98.2% Silver</span>
-                <span className="text-[11px] text-stone-400 block font-sans">Electroplated in 24K gold</span>
-              </div>
-              <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-1">
-                <span className="text-xs uppercase tracking-wider text-[#D4AF37] font-bold block">Silk Mark India</span>
-                <span className="text-[11px] text-stone-400 block font-sans">Pure Grade-A Katan silk</span>
-              </div>
-              <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-1">
-                <span className="text-xs uppercase tracking-wider text-[#D4AF37] font-bold block">Dynastic Lifespan</span>
-                <span className="text-[11px] text-stone-400 block font-sans">80 to 120 year heirloom</span>
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <button
-                onClick={() => onNavigate('craft')}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] font-sans font-bold text-[#D4AF37] hover:text-white transition-colors"
-              >
-                <span>Explore the Karigar Craft Ledger</span>
-                <span>&rarr;</span>
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 7. VIP Bridal Concierge & Live Video Draping */}
-      <section className="py-32 md:py-40 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto">
-        <div className="space-y-12">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-xl mx-auto space-y-3"
-          >
-            <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold block">
-              VIP Bridal Concierge
+      {/* ============================================================== */}
+      {/* 4. FRESH WEAVES, TIMELESS GRACE: Catalog Grid matching sec_15 & sec_22 */}
+      {/* ============================================================== */}
+      <section id="fresh-weaves" className="py-28 md:py-36 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          {/* Header matching video */}
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+            <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
+              Curated Collection • 2026
             </span>
-            <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-              Personalized White-Glove Curation
+            <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] tracking-tight">
+              Fresh Weaves, Timeless Grace
             </h2>
-            <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
-              Direct assistance from our senior bridal drapers for brides across India, London, New York, and Dubai.
+            <p className="text-xs sm:text-sm font-editorial italic text-stone-600">
+              Collection crafted with pure silk, intricate motifs & festive radiance.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Side-by-Side Modern Concierge Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-            {/* White-Glove Stylist Advisory Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.85, delay: 0.1 }}
-              className="bg-[#121212] p-8 sm:p-10 rounded-lg border-[0.5px] border-[#D4AF37]/30 shadow-2xl flex flex-col justify-between space-y-6"
-            >
-              <div className="space-y-5">
-                {/* Header Image */}
-                <div className="relative h-44 -mx-8 sm:-mx-10 -mt-8 sm:-mt-10 rounded-t-lg overflow-hidden border-b border-white/10 group">
-                  <img
-                    src={BRAND_ASSETS.salonInterior}
-                    alt="Private Bridal Concierge Desk"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
-                  <span className="absolute bottom-3 left-6 text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-sans font-bold">
-                    Direct Stylist Desk
-                  </span>
-                </div>
+          {/* Filter Pills matching video */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-14">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 sm:px-5 py-2 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-[#6A1424] text-white shadow-md'
+                    : 'bg-white text-stone-700 hover:text-black border border-stone-200 hover:border-stone-400'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-                    Personal Bridal Stylist Advisory
-                  </h3>
-                  <p className="text-xs text-stone-400 leading-relaxed font-sans">
-                    Connect directly on WhatsApp with our senior bridal stylists. We guide blouse embroidery patterns, jewelry pairing, and royal muhurtham trousseau curation.
-                  </p>
-                </div>
+          {/* Saree Catalog Grid matching video screenshots */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8">
+            {filteredProducts.map((product) => {
+              const isWishlisted = wishlist.includes(product.id);
+              return (
+                <motion.div
+                  key={product.id}
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.3 }}
+                  className="group bg-white rounded-xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+                >
+                  {/* Photo Container */}
+                  <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
 
-                <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-2 text-xs font-sans">
-                  <span className="text-[#D4AF37] font-semibold block uppercase tracking-wider text-[10px]">
-                    Complimentary White-Glove Inclusions:
-                  </span>
-                  <p className="text-stone-400 leading-relaxed">
-                    Custom unstitched brocade blouse piece, 24K gold-plated brass monogram plate, and insured express worldwide courier.
-                  </p>
+                    {/* Corner Swatch Indicator Disc */}
+                    <div
+                      className="absolute top-3 left-3 w-5 h-5 rounded-full border-2 border-white shadow-md"
+                      style={{ backgroundColor: product.hex }}
+                      title={product.sanskrit}
+                    />
+
+                    {/* Wishlist Heart Button */}
+                    <button
+                      onClick={() => toggleWishlist(product.id)}
+                      className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-colors shadow"
+                      aria-label="Wishlist Saree"
+                    >
+                      <Heart
+                        className={`w-4 h-4 ${
+                          isWishlisted ? 'fill-[#881326] text-[#881326]' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Badge */}
+                    <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] uppercase tracking-wider font-sans font-medium">
+                      {product.badge}
+                    </span>
+
+                    {/* Quick View Hover Pill */}
+                    <button
+                      onClick={() => {
+                        setInspectModalProduct(product);
+                        setModalActiveThumb(0);
+                      }}
+                      className="absolute inset-x-4 bottom-4 py-2.5 rounded-full bg-white/95 text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Inspect Weave</span>
+                    </button>
+                  </div>
+
+                  {/* Product Details */}
+                  <div className="p-4 sm:p-5 space-y-2">
+                    <span className="text-[10px] uppercase tracking-widest text-[#881326] font-sans font-bold block">
+                      {product.category}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-editorial font-bold text-stone-900 leading-tight">
+                      {product.name}
+                    </h3>
+                    <p className="text-[11px] font-sans text-stone-500 line-clamp-1">
+                      {product.fabric} • {product.weave}
+                    </p>
+
+                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                      <span className="text-base sm:text-lg font-editorial font-bold text-stone-900">
+                        {formatPrice(product.priceINR, currency)}
+                      </span>
+                      <button
+                        onClick={() => {
+                          setInspectModalProduct(product);
+                          setModalActiveThumb(0);
+                        }}
+                        className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:underline"
+                      >
+                        Inspect &rarr;
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 5. WE'D LOVE TO HEAR FROM YOU: matching sec_09s.jpg from video */}
+      {/* ============================================================== */}
+      <section className="py-28 md:py-36 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column matching sec_09.jpg */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-2">
+              <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
+                Direct Atelier Desk
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-tight">
+                We'd Love to Hear From You
+              </h2>
+            </div>
+
+            <p className="text-sm font-editorial italic text-stone-600 leading-relaxed">
+              Whether you wish to inspect a saree over high-definition video, curate a custom bridal trousseau, or verify zari assay certificates, our master drapers are always at your service.
+            </p>
+
+            <div className="space-y-4 pt-2 text-xs font-sans text-stone-700">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="block text-stone-900">Heritage Weaving Guild</strong>
+                  <span>Shivala Ghat, Varanasi 221001 • Lavelle Road, Bengaluru</span>
                 </div>
               </div>
 
-              <div>
+              <div className="flex items-start gap-3">
+                <Phone className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
+                <div>
+                  <strong className="block text-stone-900">WhatsApp Bridal Concierge</strong>
+                  <a
+                    href="https://wa.me/917676721111"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[#881326] hover:underline font-bold"
+                  >
+                    +91 76767 21111 (Senior Draper)
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Inquiry Form */}
+          <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-stone-200 shadow-xl">
+            {contactSent ? (
+              <div className="text-center py-10 space-y-4">
+                <span className="text-3xl text-emerald-600">✓</span>
+                <h3 className="text-2xl font-editorial font-normal text-stone-900">
+                  Message Transmitted
+                </h3>
+                <p className="text-xs font-sans text-stone-600">
+                  Our Senior Draper will connect with you directly via WhatsApp.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className="space-y-4 text-xs font-sans">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
+                      Your Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={contactName}
+                      onChange={(e) => setContactName(e.target.value)}
+                      placeholder="Lady / Mr. Name"
+                      className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
+                      WhatsApp / Phone *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={contactPhone}
+                      onChange={(e) => setContactPhone(e.target.value)}
+                      placeholder="+91 / +1 / +44 ..."
+                      className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
+                    Your Saree / Bridal Inquiry
+                  </label>
+                  <textarea
+                    rows={3}
+                    required
+                    value={contactMessage}
+                    onChange={(e) => setContactMessage(e.target.value)}
+                    placeholder="Tell us which saree shade, weave, or wedding date you have in mind..."
+                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                  />
+                </div>
+
                 <button
-                  onClick={handleConciergeWhatsApp}
-                  className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
+                  type="submit"
+                  className="w-full py-4 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat with Senior Stylist on WhatsApp &rarr;</span>
+                  <span>Send Inquiry to Senior Draper &rarr;</span>
                 </button>
-              </div>
-            </motion.div>
-
-            {/* HD Video Concierge Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.85, delay: 0.25 }}
-              className="bg-[#121212] p-8 sm:p-10 rounded-lg border-[0.5px] border-[#D4AF37]/30 shadow-2xl flex flex-col justify-between space-y-6"
-            >
-              <div className="space-y-5">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider font-sans">
-                    <Video className="w-4 h-4" />
-                    <span>Worldwide Video Concierge</span>
-                  </div>
-                  <span className="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Senior Drapers Live
-                  </span>
-                </div>
-
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-                    1-on-1 Virtual Private Viewing
-                  </h3>
-                  <p className="text-xs text-stone-400 leading-relaxed font-sans">
-                    Connect directly over calibrated high-definition WhatsApp video from London, New York, Dubai, or Singapore. We inspect each zari fold live under 5000K daylight bulbs.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-2 text-xs font-sans">
-                  <span className="text-[#D4AF37] font-semibold block uppercase tracking-wider text-[10px]">
-                    VIP International Patrons:
-                  </span>
-                  <p className="text-stone-400 leading-relaxed">
-                    Custom time zones matched for North America, Western Europe, GCC, and Southeast Asia.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <button
-                  onClick={handleVirtualConsult}
-                  className="w-full py-4 bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2.5 btn-shimmer"
-                >
-                  <Video className="w-4 h-4" />
-                  <span>Request Instant Video Draping &rarr;</span>
-                </button>
-              </div>
-            </motion.div>
+              </form>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Slide-Over Drawer: Inspect Naksha & Zari Metallurgy with AnimatePresence */}
+      {/* ============================================================== */}
+      {/* QUICK VIEW / DETAIL MODAL: matching sec_30.jpg from video */}
+      {/* ============================================================== */}
       <AnimatePresence>
-        {inspectDrawerOpen && (
-          <div className="fixed inset-0 z-50 overflow-hidden">
-            {/* Dark Backdrop with Fade */}
+        {inspectModalProduct && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
-              onClick={() => setInspectDrawerOpen(false)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
+              onClick={() => setInspectModalProduct(null)}
+              className="absolute inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
             />
 
-            <div className="absolute inset-y-0 right-0 max-w-full flex pl-10 pointer-events-none">
-              <motion.div
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="w-screen max-w-md bg-[#121212] border-l border-[0.5px] border-[#D4AF37]/30 shadow-2xl flex flex-col text-[#FBF9F5] font-sans pointer-events-auto"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ duration: 0.3 }}
+              className="relative z-10 bg-white text-stone-900 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-stone-300 max-h-[92vh] flex flex-col md:flex-row"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setInspectModalProduct(null)}
+                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 text-white hover:bg-black transition-colors"
+                aria-label="Close Modal"
               >
-                {/* Drawer Header */}
-                <div className="p-6 border-b border-white/10 flex items-center justify-between bg-[#0A0A0A]">
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Left Column: Big Image + 4-Thumbnail Strip matching sec_30.jpg */}
+              <div className="md:w-1/2 p-6 bg-stone-50 flex flex-col justify-between">
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-stone-200 shadow-inner">
+                  <img
+                    src={inspectModalProduct.thumbnails[modalActiveThumb] || inspectModalProduct.image}
+                    alt={inspectModalProduct.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-black/70 text-white text-[9px] font-sans font-bold uppercase tracking-wider">
+                    {inspectModalProduct.badge}
+                  </span>
+                </div>
+
+                {/* 4-Thumbnail Strip */}
+                <div className="grid grid-cols-4 gap-2 pt-4">
+                  {inspectModalProduct.thumbnails.map((thumb, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setModalActiveThumb(idx)}
+                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                        modalActiveThumb === idx
+                          ? 'border-[#881326] scale-105 shadow'
+                          : 'border-transparent opacity-60 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={thumb} alt="Thumbnail" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Saree Details & Add to Bag */}
+              <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between space-y-6 overflow-y-auto">
+                <div className="space-y-4">
                   <div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-bold block">
-                      ⚜ Provenance Archive
+                    <span className="text-[10px] uppercase tracking-[0.3em] text-[#881326] font-sans font-bold block">
+                      {inspectModalProduct.category}
                     </span>
-                    <h3 className="text-lg font-editorial font-normal text-[#FBF9F5]">
-                      Naksha & Zari Assay
+                    <h3 className="text-2xl font-editorial font-bold text-stone-900">
+                      {inspectModalProduct.name}
                     </h3>
+                    <p className="text-xs font-editorial italic text-stone-500">
+                      Sanskrit: {inspectModalProduct.sanskrit}
+                    </p>
                   </div>
-                  <button
-                    onClick={() => setInspectDrawerOpen(false)}
-                    className="p-2 text-stone-400 hover:text-white transition-colors"
-                    aria-label="Close Drawer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
 
-                {/* Drawer Scrollable Body */}
-                <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                  {/* Active Saree Card */}
-                  <div className="p-4 bg-[#0A0A0A] rounded border-[0.5px] border-white/10 space-y-3">
-                    <div className="flex gap-4">
-                      <img
-                        src={activeColorway.image}
-                        alt={activeColorway.name}
-                        className="w-20 h-24 object-cover rounded border border-white/15 shrink-0"
-                      />
-                      <div className="space-y-1">
-                        <span className="text-[10px] uppercase tracking-wider text-[#D4AF37] font-bold">
-                          {activeColorway.sanskrit}
-                        </span>
-                        <h4 className="text-base font-editorial font-normal text-[#FBF9F5]">
-                          {activeColorway.name}
-                        </h4>
-                        <p className="text-xs text-stone-400 font-sans">
-                          {activeColorway.tagline}
-                        </p>
-                        <span className="text-sm font-editorial font-bold text-stone-200 block pt-1">
-                          {formatPrice(masterSaree.basePriceINR, currency)}
-                        </span>
-                      </div>
+                  <div className="text-2xl font-editorial font-bold text-[#881326]">
+                    {formatPrice(inspectModalProduct.priceINR, currency)}
+                  </div>
+
+                  <div className="space-y-2 text-xs font-sans border-y border-stone-200 py-4 divide-y divide-stone-100">
+                    <div className="flex justify-between py-1">
+                      <span className="text-stone-500">Fabric Composition</span>
+                      <span className="font-semibold text-stone-800">{inspectModalProduct.fabric}</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-stone-500">Zari Alloy</span>
+                      <span className="font-semibold text-stone-800">{inspectModalProduct.zari}</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-stone-500">Weave Duration</span>
+                      <span className="font-semibold text-stone-800">{inspectModalProduct.weave}</span>
                     </div>
                   </div>
 
-                  {/* Naksha & Motif Specifications */}
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-bold">
-                      Master Weaver Technical Ledger
-                    </h4>
-                    <div className="divide-y divide-white/5 border-y border-white/5 text-xs font-sans">
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Naksha Architecture</span>
-                        <span className="text-[#FBF9F5] font-medium">{masterSaree.specs.naksha}</span>
-                      </div>
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Weft Technique</span>
-                        <span className="text-[#FBF9F5] font-medium">{masterSaree.specs.technique}</span>
-                      </div>
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Total Loom Hours</span>
-                        <span className="text-[#FBF9F5] font-medium">{masterSaree.specs.loomHours}</span>
-                      </div>
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Warp Density</span>
-                        <span className="text-[#FBF9F5] font-medium">{masterSaree.specs.warpThreads}</span>
-                      </div>
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Zari Composition</span>
-                        <span className="text-[#D4AF37] font-medium">{masterSaree.specs.zariComposition}</span>
-                      </div>
-                      <div className="py-2.5 flex justify-between">
-                        <span className="text-stone-400">Saree Weight</span>
-                        <span className="text-[#FBF9F5] font-medium">{masterSaree.specs.sareeWeight}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Blouse Piece Details */}
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-bold">
-                      Unstitched Blouse Piece
-                    </h4>
-                    <div className="p-4 bg-[#0A0A0A] rounded border-[0.5px] border-white/10 space-y-1.5 text-xs font-sans">
-                      <p className="text-stone-300">
-                        <strong>Fabric:</strong> {activeColorway.blousePiece}
-                      </p>
-                      <p className="text-stone-400">
-                        <strong>Sleeve Borders:</strong> Dual-sided running floral jaal border matching the saree pallu with gold bullion edging.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Bullion Assay Certificate */}
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-bold">
-                      Bullion Assay Certification
-                    </h4>
-                    <div className="p-4 bg-[#0A0A0A] rounded border-[0.5px] border-white/10 space-y-2 text-xs">
-                      <p className="text-stone-300 leading-relaxed font-sans">
-                        <strong>98.2% Tested Silver Zari:</strong> Electro-gilded in pure 24K liquid gold bullion. Guaranteed dynastic longevity exceeding 80–120 years without blackening.
-                      </p>
-                      <div className="flex items-center gap-2 pt-2 text-emerald-400 font-bold font-sans">
-                        <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                        <span>Silk Mark India Authenticated & QR Sealed</span>
-                      </div>
-                    </div>
+                  <div className="flex items-center gap-2 text-emerald-700 text-xs font-sans font-semibold">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Silk Mark India Authenticated & Verified</span>
                   </div>
                 </div>
 
-                {/* Drawer Footer */}
-                <div className="p-6 bg-[#0A0A0A] border-t border-white/10 space-y-3">
+                <div className="space-y-2 pt-4">
                   <button
                     onClick={() => {
-                      setInspectDrawerOpen(false);
-                      onSelectColorway(activeColorway.id);
+                      setInspectModalProduct(null);
+                      onSelectColorway('sindoor-crimson');
                       onNavigate('collection');
                     }}
-                    className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl btn-shimmer"
+                    className="w-full py-3.5 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
                   >
-                    Acquire Masterpiece ({formatPrice(masterSaree.basePriceINR, currency)})
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>View in Full Atelier Studio</span>
                   </button>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         )}
       </AnimatePresence>
