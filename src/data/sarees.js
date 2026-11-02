@@ -1,220 +1,123 @@
+export const BRAND_ASSETS = {
+  heroBanner: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=85',
+  bridalEditorial: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=1200&q=80',
+  craftLoom: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=1200&q=80',
+  varanasiSanctuary: 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80',
+  trousseauTrunk: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1200&q=80',
+  salonInterior: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
+  templeHeritage: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80',
+  jewelryGold: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=80',
+};
+
 export const MASTER_DESIGNS = [
   {
-    id: "rajkumari-mayil",
-    name: "The Rajkumari Mayil Jangla",
-    sanskritName: "राजकुमारी मयूर जांगल",
-    subtitle: "Imperial Handloom Kanjeevaram with Pure 24K Gold Zari",
-    provenance: "Varanasi & Kanchipuram Heritage Guild",
-    karigar: "Narayan Devnath (4th Generation Master Weaver)",
-    loomDuration: "18 Days • 144 Handloom Hours",
-    warpDensity: "2,400 Mulberry Silk Warp Threads / meter",
-    zariPurity: "98.2% Tested Silver Zari, Electroplated in 24K Liquid Gold",
+    id: 'rajkumari-mayil',
+    name: 'The Rajkumari Mayil Jangla',
+    sanskritName: 'राजकुमारी मयूर जांगल',
+    subtitle: 'Imperial Kadwa Handloom Katan Silk • 24K Tested Zari',
+    provenance: 'Varanasi Royal Guild • Est. 1948',
+    karigar: 'Ustad Bashir Ahmed (National Award Master Weaver)',
+    loomDuration: '144 Handloom Hours • 18 Days',
+    warpDensity: '2,400 Silk Threads / meter',
+    zariPurity: '98.2% Tested Silver Zari, Electro-Gilded in 24K Gold',
     silkMarkVerified: true,
     basePriceINR: 42000,
     basePriceUSD: 510,
-    motifStory: "A majestic ceremonial masterpiece featuring dancing peacocks (Mayil) and celestial swans (Hansa) interlocked in blooming floral arabesques. The pallu cascades with pure antique zari corbels, framing an unstitched contrast brocade blouse piece.",
+    motifStory: 'Celestial peacocks and sacred swans interlocked in blooming vine arabesques with antique zari corbels.',
     specs: [
-      { label: "Fabric", value: "100% Pure Mulberry Silk (Katan)" },
-      { label: "Zari Type", value: "Pure Tested Zari (Gold / Silver)" },
-      { label: "Weaving Technique", value: "Kadwa & Korvai Handloom" },
-      { label: "Saree Length", value: "5.5 Meters + 0.8m Blouse Piece" },
-      { label: "Care", value: "Dry Clean Only in Muslin Wrap" }
+      { label: 'Weave', value: 'Authentic Kadwa Handloom' },
+      { label: 'Silk Purity', value: '100% Katan Mulberry Silk' },
+      { label: 'Zari Bullion', value: '98.2% Pure Silver dipped in 24K Gold' },
+      { label: 'Dimensions', value: '5.5 Meters + 0.8m Blouse' },
+      { label: 'Certification', value: 'Silk Mark India Verified' },
     ],
-    // The 5 Authentic Colorways of this 1 Master Design
+    // 1 Master Design × 5 Dynamic Heritage Colorways
     colorways: [
       {
-        id: "sindoor-crimson",
-        name: "Sindoor Crimson",
-        sanskrit: "Rakta Kumkuma",
-        hex: "#881326",
-        secondaryHex: "#600b18",
-        zariColor: "#e5c158",
-        zariName: "24K Antique Gold Zari",
-        zariTone: "gold",
-        occasion: "Muhurtham & Sacred Wedding Vows",
-        blousePiece: "Contrast Emerald Green with Intricate Zari Cuff Borders",
+        id: 'sindoor-crimson',
+        name: 'Sindoor Crimson',
+        sanskrit: 'Rakta Kumkuma',
+        tagline: 'The Auspicious Muhurtham Vows',
+        hex: '#881326',
+        secondaryHex: '#600b18',
+        zariColor: '#e5c158',
+        zariName: '24K Antique Gold Zari',
+        zariTone: '24K Liquid Gold',
+        occasion: 'Sacred Muhurtham & Vedic Wedding Vows',
+        blousePiece: 'Contrast Emerald Green with Zari Cuff Borders',
         stockCount: 2,
-        accentGlow: "rgba(136, 19, 38, 0.45)",
-        lightingTones: {
-          sunlight: "#a1182d",
-          candlelight: "#6e0d1d",
-          chandelier: "#ba1f38"
-        }
+        image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80',
+        drapeImage: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=1200&q=80',
+        zariDetail: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80',
       },
       {
-        id: "neelambari-indigo",
-        name: "Neelambari Indigo",
-        sanskrit: "Nila Ratna",
-        hex: "#0d1d36",
-        secondaryHex: "#060f1c",
-        zariColor: "#e0e7ff",
-        zariName: "Ganga-Jamuna Sterling Silver & Pale Gold",
-        zariTone: "silver",
-        occasion: "Evening Sangeet & Royal Reception",
-        blousePiece: "Self-Tone Deep Indigo Raw Silk with Heavy Zari Jaal",
+        id: 'neelambari-indigo',
+        name: 'Neelambari Indigo',
+        sanskrit: 'Nila Ratna',
+        tagline: 'Midnight Durbar Gala',
+        hex: '#0d1d36',
+        secondaryHex: '#060f1c',
+        zariColor: '#e0e7ff',
+        zariName: 'Ganga-Jamuna Sterling Silver Zari',
+        zariTone: 'Sterling Silver & Gold',
+        occasion: 'Imperial Evening Reception & Royal Banquet',
+        blousePiece: 'Self-Tone Deep Indigo Silk with Heavy Jaal',
         stockCount: 3,
-        accentGlow: "rgba(13, 29, 54, 0.45)",
-        lightingTones: {
-          sunlight: "#122a4f",
-          candlelight: "#0a172c",
-          chandelier: "#183769"
-        }
+        image: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?auto=format&fit=crop&w=1200&q=80',
+        drapeImage: 'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?auto=format&fit=crop&w=1200&q=80',
+        zariDetail: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=80',
       },
       {
-        id: "morpankhi-emerald",
-        name: "Mor-Pankhi Emerald",
-        sanskrit: "Marakata Varna",
-        hex: "#082d20",
-        secondaryHex: "#03140e",
-        zariColor: "#ffd700",
-        zariName: "Antique 24K Matte Gold Zari",
-        zariTone: "gold",
-        occasion: "Temple Pooja & Mangala Snanam",
-        blousePiece: "Rich Ruby Red Brocade with Traditional Temple Borders",
+        id: 'morpankhi-emerald',
+        name: 'Mor-Pankhi Emerald',
+        sanskrit: 'Marakata Varna',
+        tagline: 'The Sacred Temple Grove',
+        hex: '#082d20',
+        secondaryHex: '#03140e',
+        zariColor: '#ffd700',
+        zariName: 'Antique 24K Matte Gold Zari',
+        zariTone: 'Antique Matte Gold',
+        occasion: 'Temple Pooja & Mangala Snanam',
+        blousePiece: 'Ruby Red Brocade with Traditional Temple Borders',
         stockCount: 1,
-        accentGlow: "rgba(8, 45, 32, 0.45)",
-        lightingTones: {
-          sunlight: "#0d4532",
-          candlelight: "#062218",
-          chandelier: "#11573f"
-        }
+        image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=80',
+        drapeImage: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=80',
+        zariDetail: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80',
       },
       {
-        id: "rani-gulabi",
-        name: "Rani Gulabi Lotus",
-        sanskrit: "Padma Raga",
-        hex: "#8f144e",
-        secondaryHex: "#52092b",
-        zariColor: "#fbcfe8",
-        zariName: "Champagne Rose Gold Zari",
-        zariTone: "rose-gold",
-        occasion: "Cocktail Gala & Bridal Mehendi",
-        blousePiece: "Self Tissue Silk with Scalloped Zari Embroidery",
+        id: 'rani-gulabi',
+        name: 'Rani Gulabi Lotus',
+        sanskrit: 'Padma Raga',
+        tagline: 'Imperial Mughal Blossom',
+        hex: '#8f144e',
+        secondaryHex: '#52092b',
+        zariColor: '#fbcfe8',
+        zariName: 'Champagne Rose Gold Zari',
+        zariTone: 'Rose Gold & Silver',
+        occasion: 'Cocktail Gala & Bridal Sangeet',
+        blousePiece: 'Tissue Silk with Scalloped Zari Embroidery',
         stockCount: 4,
-        accentGlow: "rgba(143, 20, 78, 0.45)",
-        lightingTones: {
-          sunlight: "#a8195d",
-          candlelight: "#690c37",
-          chandelier: "#c7206f"
-        }
+        image: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=1200&q=80',
+        drapeImage: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=1200&q=80',
+        zariDetail: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=80',
       },
       {
-        id: "pitambari-saffron",
-        name: "Pitambari Saffron",
-        sanskrit: "Suvarna Kanti",
-        hex: "#a86a08",
-        secondaryHex: "#613c02",
-        zariColor: "#fef08a",
-        zariName: "Antique Copper Bronze Zari",
-        zariTone: "copper",
-        occasion: "Haldi Ceremony & Morning Rituals",
-        blousePiece: "Contrast Carmine Red with Floral Zari Bootis",
+        id: 'pitambari-saffron',
+        name: 'Pitambari Saffron',
+        sanskrit: 'Suvarna Kanti',
+        tagline: 'Radiant Surya Splendor',
+        hex: '#a86a08',
+        secondaryHex: '#613c02',
+        zariColor: '#fef08a',
+        zariName: 'Pure Gold Bullion Zari',
+        zariTone: 'Warm 24K Surya Gold',
+        occasion: 'Sacred Haldi & Golden Sunrise Rituals',
+        blousePiece: 'Vermilion Red Tissue Brocade',
         stockCount: 2,
-        accentGlow: "rgba(168, 106, 8, 0.45)",
-        lightingTones: {
-          sunlight: "#c47c0b",
-          candlelight: "#7a4c04",
-          chandelier: "#e08f0d"
-        }
-      }
-    ]
-  },
-  {
-    id: "shikargah-tapestry",
-    name: "The Shikargah Royal Tapestry",
-    sanskritName: "शिकारगाह राजसी जांगल",
-    subtitle: "Extinct Persian Hunting Court Brocade in Mulberry Katan",
-    provenance: "Varanasi Ancient Pitloom",
-    karigar: "Ustad Wasim Ansari",
-    loomDuration: "32 Days • 256 Handloom Hours",
-    warpDensity: "2,800 Silk Warp Threads",
-    zariPurity: "99.1% Tested Silver Zari with 24K Gold Polish",
-    silkMarkVerified: true,
-    basePriceINR: 58000,
-    basePriceUSD: 700,
-    motifStory: "A collector's heirloom resurrecting the 17th-century Mughal hunting gardens with elephants, deer, and royal falconers woven in Kadwa relief.",
-    colorways: [
-      {
-        id: "shikargah-noir",
-        name: "Obsidian Noir",
-        sanskrit: "Krishna Ratna",
-        hex: "#101014",
-        secondaryHex: "#050508",
-        zariColor: "#e5c158",
-        zariName: "24K Antique Gold Zari",
-        zariTone: "gold",
-        occasion: "Royal Reception & Black-Tie Galas",
-        blousePiece: "Matching Jet Black Brocade with Gold Sleeves",
-        stockCount: 1,
-        accentGlow: "rgba(212, 175, 55, 0.35)",
-        lightingTones: { sunlight: "#1c1c24", candlelight: "#0c0c10", chandelier: "#282834" }
+        image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80',
+        drapeImage: 'https://images.unsplash.com/photo-1546804784-896d0dca3805?auto=format&fit=crop&w=1200&q=80',
+        zariDetail: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80',
       },
-      {
-        id: "shikargah-jamun",
-        name: "Jamun Amethyst",
-        sanskrit: "Jambu Varna",
-        hex: "#3d1339",
-        secondaryHex: "#22081f",
-        zariColor: "#f3e5ab",
-        zariName: "Champagne Silver Zari",
-        zariTone: "silver",
-        occasion: "Cocktail Evening & Sangeet",
-        blousePiece: "Soft Lilac Tissue with Zari Border",
-        stockCount: 2,
-        accentGlow: "rgba(61, 19, 57, 0.45)",
-        lightingTones: { sunlight: "#4f1a4a", candlelight: "#2b0a27", chandelier: "#63225c" }
-      }
-    ]
-  }
-];
-
-export const LIGHTING_PRESETS = [
-  {
-    id: "sunlight",
-    name: "Morning Courtyard Sun",
-    icon: "☀️",
-    desc: "Natural diffuse sunlight showcasing the organic matte slub of 100% Mulberry silk.",
-    sheenIntensity: 0.45,
-    specularSize: 18,
-    ambientColor: "rgba(255, 245, 220, 0.15)"
+    ],
   },
-  {
-    id: "candlelight",
-    name: "Temple Diya / Candlelight",
-    icon: "🕯️",
-    desc: "Warm flickering amber light bringing out deep warmth in 24K antique gold and copper zari.",
-    sheenIntensity: 0.75,
-    specularSize: 28,
-    ambientColor: "rgba(255, 170, 50, 0.22)"
-  },
-  {
-    id: "chandelier",
-    name: "Royal Reception Chandelier",
-    icon: "✨",
-    desc: "High-contrast crystalline banquet lights casting luminous metallic reflections along the weave.",
-    sheenIntensity: 1.0,
-    specularSize: 40,
-    ambientColor: "rgba(240, 248, 255, 0.3)"
-  }
-];
-
-export const TROUSSEAU_SLOTS = [
-  {
-    id: "slot-haldi",
-    event: "01 // Haldi & Morning Rituals",
-    suggestedColorway: "pitambari-saffron",
-    label: "Ceremonial Morning Gold"
-  },
-  {
-    id: "slot-muhurtham",
-    event: "02 // Muhurtham & Sacred Vows",
-    suggestedColorway: "sindoor-crimson",
-    label: "Imperial Royal Crimson"
-  },
-  {
-    id: "slot-reception",
-    event: "03 // Evening Reception & Sangeet",
-    suggestedColorway: "neelambari-indigo",
-    label: "Midnight Oceanic Indigo"
-  }
 ];

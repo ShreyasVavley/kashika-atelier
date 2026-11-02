@@ -1,6 +1,6 @@
 import React from 'react';
-import { Sparkles, ArrowRight, ShieldCheck, Clock, Award, Compass, HeartHandshake } from 'lucide-react';
-import { MASTER_DESIGNS } from '../data/sarees';
+import { ArrowRight, Sparkles, ShieldCheck, Clock, Award, Compass, HeartHandshake } from 'lucide-react';
+import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
 export default function AtelierPage({ onNavigate, onSelectColorway, currency }) {
@@ -8,272 +8,361 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
 
   return (
     <div className="bg-[#FAF8F5] text-[#1C1917] selection:bg-[#B8860B]/20 selection:text-[#781224]">
-      {/* 1. Grand Editorial Hero */}
-      <section className="relative min-h-[85vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 border-b border-[#B8860B]/20 overflow-hidden">
-        {/* Subtle royal background atmosphere */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(184,134,11,0.12)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#781224]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#B8860B]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. Grand Full-Bleed Editorial Hero */}
+      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+        {/* High-Fashion Photographic Background */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={BRAND_ASSETS.heroBanner}
+            alt="Royal Banarasi Silk Bride - House of Kashika"
+            className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.08] scale-105 transition-transform duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917] via-black/40 to-black/60" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.6)_100%)]" />
+        </div>
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF8F5] border border-[#B8860B]/30 text-[#8A661C] text-xs uppercase tracking-[0.25em] font-sans mb-8 shadow-sm">
-            <span>⚜</span>
+        {/* Hero Floating Content */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white py-24">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-[#B8860B]/50 text-[#FBF4DE] text-[11px] uppercase tracking-[0.3em] font-sans mb-8 shadow-2xl">
+            <span className="text-[#D4AF37]">⚜</span>
             <span>The 2026 Imperial Rajkumari Collection</span>
-            <span>⚜</span>
+            <span className="text-[#D4AF37]">⚜</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-editorial font-normal tracking-tight text-[#1C1917] leading-[1.08] mb-6">
-            Heirloom Silks <br className="hidden sm:inline" />
-            <span className="italic font-normal text-[#781224]">Woven for Dynasties.</span>
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-editorial font-normal tracking-tight leading-[1.04] mb-6 drop-shadow-2xl">
+            Woven for <br />
+            <span className="italic font-normal text-[#D4AF37] font-editorial">Dynasties.</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl font-editorial italic text-[#44403C] max-w-2xl mx-auto mb-10 leading-relaxed">
-            An ode to five centuries of unbroken Banarasi handloom artistry. We weave one singular masterpiece Kadwa design across five sacred heritage colorways — spending over 144 hours on a wooden pit loom with 98.2% pure silver zari.
+          <p className="text-base sm:text-xl font-editorial italic text-stone-200 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-lg">
+            One supreme Kadwa handloom design. Five sacred royal colorways dyed in 100% pure mulberry silk and woven with 98.2% tested silver bullion zari.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <button
               onClick={() => onNavigate('collection')}
-              className="w-full sm:w-auto px-8 py-4 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded-sm hover:bg-[#580B17] transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-2 border border-[#781224]"
+              className="w-full sm:w-auto px-9 py-4 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded hover:bg-[#92182e] transition-all shadow-2xl flex items-center justify-center gap-2 border border-[#B8860B]/40 hover:scale-105"
             >
-              <span>Explore The Collection (5 Colors)</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <span>Explore The 5 Colorways</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
 
             <button
               onClick={() => onNavigate('trousseau')}
-              className="w-full sm:w-auto px-8 py-4 bg-transparent text-[#781224] border border-[#B8860B]/60 text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded-sm hover:bg-[#F4EFEA] transition-all shadow-sm flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-9 py-4 bg-white/10 backdrop-blur-md text-[#FAF8F5] border border-white/30 text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded hover:bg-white/20 transition-all shadow-xl hover:scale-105"
             >
               <span>Curate Bridal Trousseau Trunk</span>
             </button>
           </div>
 
-          {/* Quick Provenance Badges */}
-          <div className="mt-16 pt-10 border-t border-[#B8860B]/20 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <p className="text-2xl font-editorial font-bold text-[#781224]">144 Hours</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#78716C] font-sans mt-1">Loom Duration</p>
+          {/* Key Stat Pills */}
+          <div className="mt-16 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto text-center">
+            <div className="p-3 bg-black/30 backdrop-blur-sm rounded border border-white/10">
+              <span className="text-2xl font-editorial font-bold text-[#D4AF37]">144 Hours</span>
+              <span className="text-[10px] uppercase tracking-widest text-stone-300 block font-sans mt-0.5">Loom Duration</span>
             </div>
-            <div>
-              <p className="text-2xl font-editorial font-bold text-[#781224]">98.2%</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#78716C] font-sans mt-1">Pure Silver Zari</p>
+            <div className="p-3 bg-black/30 backdrop-blur-sm rounded border border-white/10">
+              <span className="text-2xl font-editorial font-bold text-[#D4AF37]">98.2%</span>
+              <span className="text-[10px] uppercase tracking-widest text-stone-300 block font-sans mt-0.5">Pure Silver Zari</span>
             </div>
-            <div>
-              <p className="text-2xl font-editorial font-bold text-[#781224]">2,400</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#78716C] font-sans mt-1">Warp Silk Threads</p>
+            <div className="p-3 bg-black/30 backdrop-blur-sm rounded border border-white/10">
+              <span className="text-2xl font-editorial font-bold text-[#D4AF37]">2,400</span>
+              <span className="text-[10px] uppercase tracking-widest text-stone-300 block font-sans mt-0.5">Warp Silk Threads</span>
             </div>
-            <div>
-              <p className="text-2xl font-editorial font-bold text-[#781224]">100%</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#78716C] font-sans mt-1">Silk Mark India</p>
+            <div className="p-3 bg-black/30 backdrop-blur-sm rounded border border-white/10">
+              <span className="text-2xl font-editorial font-bold text-[#D4AF37]">100%</span>
+              <span className="text-[10px] uppercase tracking-widest text-stone-300 block font-sans mt-0.5">Silk Mark India</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. The Philosophy of the Single Masterpiece */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-[#B8860B]/20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-5 space-y-6">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-[#8A661C] font-sans font-semibold flex items-center gap-2">
-              <span>⚜</span> The Atelier Philosophy
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-editorial leading-tight text-[#1C1917]">
-              Why Only One Master Design?
-            </h2>
-            <div className="w-16 h-0.5 bg-[#B8860B]" />
-            <p className="text-[#44403C] font-editorial text-lg leading-relaxed">
-              In the royal courts of Awadh and Varanasi, master karigars never manufactured endless disposable collections. A court weaver spent months drafting and punching <strong className="text-[#1C1917] font-semibold">one supreme naksha graph</strong> — perfecting every curve of the celestial peacock and lotus blossom.
-            </p>
-            <p className="text-[#44403C] font-editorial text-lg leading-relaxed">
-              At Kashika, we honor this dynastic discipline. We weave <strong className="text-[#781224]">The Rajkumari Mayil Jangla</strong> — a single timeless pattern — hand-dipped into the five sacred natural dye vats of India. One masterpiece, five royal souls.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => onNavigate('craft')}
-                className="text-xs uppercase tracking-[0.2em] font-sans font-semibold text-[#781224] hover:text-[#580B17] flex items-center gap-2 group underline"
-              >
-                <span>Read The Karigar Provenance Ledger</span>
-                <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
-              </button>
+      {/* 2. Visual Magazine Lookbook Grid */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-2">
+            <span>⚜</span> The Haute Couture Lookbook <span>⚜</span>
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] tracking-tight mb-3">
+            Pure Heritage. Zero Compromise.
+          </h2>
+          <p className="text-base font-editorial italic text-[#44403C]">
+            In an era of high-speed synthetic powerlooms, we preserve the unhurried majesty of genuine Indian pit loom weaving.
+          </p>
+        </div>
+
+        {/* 4-Image Editorial Collage */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Main Large Bridal Shot */}
+          <div
+            onClick={() => onNavigate('collection')}
+            className="md:col-span-7 group relative h-[520px] rounded overflow-hidden shadow-lg border border-[#B8860B]/20 cursor-pointer"
+          >
+            <img
+              src={BRAND_ASSETS.bridalEditorial}
+              alt="Bridal Banarasi Silk Saree"
+              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8 text-white">
+              <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block mb-1">
+                The Auspicious Muhurtham
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-editorial font-bold mb-2">
+                The Sindoor Crimson Drape
+              </h3>
+              <p className="text-xs font-sans text-stone-300 mb-4 max-w-md">
+                Woven with 24K liquid gold dipped silver zari. Worn by brides celebrating their sacred vows.
+              </p>
+              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold group-hover:translate-x-2 transition-transform">
+                <span>Inspect Masterpiece</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </div>
           </div>
 
-          <div className="lg:col-span-7 bg-[#FAF8F5] p-6 sm:p-10 rounded-sm border border-[#B8860B]/30 shadow-sm relative">
-            <div className="absolute top-4 right-4 text-xs font-sans uppercase tracking-widest text-[#8A661C] bg-[#B8860B]/10 px-3 py-1 rounded-full border border-[#B8860B]/20">
-              The Master Naksha
+          {/* Right Column: 2 Stacked Photo Cards */}
+          <div className="md:col-span-5 flex flex-col gap-6">
+            {/* Craft Card */}
+            <div
+              onClick={() => onNavigate('craft')}
+              className="group relative h-[245px] rounded overflow-hidden shadow-lg border border-[#B8860B]/20 cursor-pointer"
+            >
+              <img
+                src={BRAND_ASSETS.craftLoom}
+                alt="Handloom Weaving Varanasi Pit Loom"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white">
+                <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
+                  Artisan Guild • Varanasi
+                </span>
+                <h4 className="text-xl font-editorial font-bold mb-1">
+                  144 Hours on the Pit Loom
+                </h4>
+                <span className="text-[11px] text-[#D4AF37] font-sans flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Read The Karigar Story</span> &rarr;
+                </span>
+              </div>
             </div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[#8A661C] font-sans mb-2">Master Design No. 01</p>
-            <h3 className="text-2xl sm:text-3xl font-editorial font-bold text-[#1C1917] mb-1">
-              The Rajkumari Mayil Jangla
-            </h3>
-            <p className="text-sm font-editorial italic text-[#78716C] mb-6">
-              राजकुमारी मयूर जांगल • Handcrafted on Wooden Pit Loom
+
+            {/* Trousseau Trunk Card */}
+            <div
+              onClick={() => onNavigate('trousseau')}
+              className="group relative h-[245px] rounded overflow-hidden shadow-lg border border-[#B8860B]/20 cursor-pointer"
+            >
+              <img
+                src={BRAND_ASSETS.trousseauTrunk}
+                alt="Heirloom Bridal Trousseau Trunk"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white">
+                <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
+                  The Imperial Privilege
+                </span>
+                <h4 className="text-xl font-editorial font-bold mb-1">
+                  The 3-Piece Velvet Trunk
+                </h4>
+                <span className="text-[11px] text-[#D4AF37] font-sans flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  <span>Curate Trunk (15% Privilege)</span> &rarr;
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. The 5 Royal Colorways: Large Full-Bleed Lookbook Cards */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F4EFEA] border-y border-[#B8860B]/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center gap-2 mb-2">
+                <span>⚜</span> The Royal Palette
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917]">
+                1 Master Design • 5 Dynastic Shades
+              </h2>
+            </div>
+            <button
+              onClick={() => onNavigate('collection')}
+              className="px-6 py-3 bg-[#781224] text-white text-xs uppercase tracking-widest font-sans font-semibold rounded hover:bg-[#580B17] transition-all flex items-center gap-2"
+            >
+              <span>View Interactive Studio</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* 5 Photographic Lookbook Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {masterSaree.colorways.map((cw, idx) => (
+              <div
+                key={cw.id}
+                onClick={() => {
+                  onSelectColorway(cw.id);
+                  onNavigate('collection');
+                }}
+                className="group cursor-pointer bg-white rounded overflow-hidden shadow-md border border-[#B8860B]/20 hover:border-[#781224] transition-all duration-300 flex flex-col hover:-translate-y-2"
+              >
+                {/* Real High-Fashion Photographic Drape Image */}
+                <div className="relative h-80 overflow-hidden bg-stone-900">
+                  <img
+                    src={cw.image}
+                    alt={cw.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+                  {/* Corner Swatch & Tag */}
+                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-white text-[10px] font-sans uppercase tracking-widest flex items-center gap-1.5 border border-white/20">
+                    <span
+                      className="w-2.5 h-2.5 rounded-full border border-white/40"
+                      style={{ backgroundColor: cw.hex }}
+                    />
+                    <span>{cw.sanskrit}</span>
+                  </div>
+
+                  <div className="absolute bottom-3 left-3 right-3 text-white">
+                    <span className="text-[10px] uppercase tracking-wider text-[#D4AF37] block font-sans font-semibold">
+                      {cw.zariTone}
+                    </span>
+                    <h3 className="text-xl font-editorial font-bold leading-tight">
+                      {cw.name}
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Card Body */}
+                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                  <p className="text-xs text-[#78716C] font-sans line-clamp-2">
+                    {cw.occasion}
+                  </p>
+
+                  <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs font-sans">
+                    <span className="font-editorial font-bold text-base text-[#1C1917]">
+                      {formatPrice(masterSaree.basePriceINR, currency)}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#781224] group-hover:underline flex items-center gap-1">
+                      <span>Inspect</span> &rarr;
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. The Masterpiece Spotlight (Visual Split) */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-6 relative rounded overflow-hidden shadow-2xl border border-[#B8860B]/30 h-[560px]">
+            <img
+              src={BRAND_ASSETS.templeHeritage}
+              alt="Sacred Banarasi Weaving Heritage"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8 text-white">
+              <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold block mb-1">
+                Sacred Handloom Architecture
+              </span>
+              <h3 className="text-3xl font-editorial font-bold mb-2">
+                The Lost Art of Kadwa Weft
+              </h3>
+              <p className="text-xs font-sans text-stone-200">
+                Unlike mass-produced powerlooms that mechanically cut threads, our weavers hand-lock each silver zari buti with individual wooden tilis.
+              </p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6 space-y-8">
+            <div className="space-y-3">
+              <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center gap-2">
+                <span>⚜</span> The Single Masterpiece Naksha
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-editorial leading-tight text-[#1C1917]">
+                Why Settle for Disposable Trends?
+              </h2>
+              <div className="w-20 h-0.5 bg-[#B8860B]" />
+            </div>
+
+            <p className="text-[#44403C] font-editorial text-lg leading-relaxed">
+              True Indian royalty never wore factory-printed synthetic fads. We invest 144 hours into perfecting one singular master naksha — <strong className="text-[#781224]">The Rajkumari Mayil Jangla</strong> — dip-dyed into five natural vat colors.
             </p>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-sans mb-8">
-              <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20">
-                <span className="text-xs uppercase tracking-widest text-[#78716C] block mb-1">Base Weave</span>
-                <span className="font-semibold text-[#1C1917]">Pure Katan Mulberry Silk</span>
+
+            {/* Visual Feature List */}
+            <div className="grid grid-cols-2 gap-4 text-xs font-sans">
+              <div className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm">
+                <span className="text-base text-[#781224] block mb-1">🦚</span>
+                <span className="font-bold text-[#1C1917] block">Mayil Motif</span>
+                <span className="text-stone-500">Celestial dancing peacocks</span>
               </div>
-              <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20">
-                <span className="text-xs uppercase tracking-widest text-[#78716C] block mb-1">Zari Specification</span>
-                <span className="font-semibold text-[#1C1917]">98.2% Silver dipped in 24K Gold</span>
+              <div className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm">
+                <span className="text-base text-[#781224] block mb-1">🪙</span>
+                <span className="font-bold text-[#1C1917] block">98.2% Silver Core</span>
+                <span className="text-stone-500">Tested pure bullion wire</span>
               </div>
-              <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20">
-                <span className="text-xs uppercase tracking-widest text-[#78716C] block mb-1">Technique</span>
-                <span className="font-semibold text-[#1C1917]">True Kadwa Weft Embroidery</span>
+              <div className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm">
+                <span className="text-base text-[#781224] block mb-1">📜</span>
+                <span className="font-bold text-[#1C1917] block">Silk Mark Verified</span>
+                <span className="text-stone-500">100% Katan mulberry silk</span>
               </div>
-              <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20">
-                <span className="text-xs uppercase tracking-widest text-[#78716C] block mb-1">Seasonal Edition</span>
-                <span className="font-semibold text-[#781224]">Only 12 Looms Active</span>
+              <div className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm">
+                <span className="text-base text-[#781224] block mb-1">📦</span>
+                <span className="font-bold text-[#1C1917] block">Insured Courier</span>
+                <span className="text-stone-500">Free delivery to 45+ countries</span>
               </div>
             </div>
 
             <button
               onClick={() => onNavigate('collection')}
-              className="w-full py-3.5 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-[#781224] text-white text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all shadow-md flex items-center gap-2"
             >
-              <span>Explore All 5 Colorways & Drape Physics</span>
+              <span>Explore The Masterpiece Studio</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* 3. The 5 Heritage Colorways Showcase */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-[#B8860B]/20">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-3">
-            <span>⚜</span> The Royal Palette
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] mb-4">
-            Five Sacred Colorways
-          </h2>
-          <p className="text-base sm:text-lg font-editorial italic text-[#44403C]">
-            One singular design, brought to life through centuries-old natural vat dyeing traditions. Click any shade to inspect its zari luster and drape notes.
-          </p>
+      {/* 5. Imperial Salon & Virtual Consultation Banner */}
+      <section className="relative py-28 px-4 sm:px-6 lg:px-8 overflow-hidden text-white">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={BRAND_ASSETS.salonInterior}
+            alt="Private Draping Salon Bengaluru"
+            className="w-full h-full object-cover filter brightness-[0.45] contrast-[1.1]"
+          />
+          <div className="absolute inset-0 bg-[#781224]/30 mix-blend-multiply" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {masterSaree.colorways.map((cw, idx) => (
-            <div
-              key={cw.id}
-              onClick={() => {
-                onSelectColorway(cw.id);
-                onNavigate('collection');
-              }}
-              className="group cursor-pointer atelier-card p-5 text-center flex flex-col justify-between hover:border-[#781224] transition-all"
-            >
-              <div>
-                {/* Fabric Swatch Container */}
-                <div
-                  className="w-full h-44 rounded-sm mb-4 relative overflow-hidden shadow-inner border border-black/10 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500"
-                  style={{
-                    backgroundColor: cw.hex,
-                    backgroundImage: `radial-gradient(circle at 50% 30%, ${cw.zariColor}33, transparent 70%)`
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                  <div className="text-center p-3 relative z-10">
-                    <span className="text-2xl block mb-1">⚜</span>
-                    <span className="text-xs font-editorial text-white/95 tracking-widest uppercase">
-                      {cw.sanskrit}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-2 left-2 right-2 text-center text-[10px] text-white/80 font-sans tracking-widest uppercase bg-black/40 py-1 rounded">
-                    {cw.zariTone} Zari
-                  </div>
-                </div>
-
-                <span className="text-[10px] uppercase tracking-widest text-[#8A661C] font-sans block mb-1">
-                  Colorway 0{idx + 1}
-                </span>
-                <h3 className="text-lg font-editorial font-bold text-[#1C1917] mb-1 group-hover:text-[#781224] transition-colors">
-                  {cw.name}
-                </h3>
-                <p className="text-xs text-[#78716C] font-sans mb-3 line-clamp-2">
-                  {cw.occasion}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-[#B8860B]/20">
-                <span className="text-sm font-editorial font-semibold text-[#1C1917] block mb-2">
-                  {formatPrice(masterSaree.basePriceINR, currency)}
-                </span>
-                <span className="text-[11px] uppercase tracking-[0.18em] font-sans font-semibold text-[#781224] group-hover:underline flex items-center justify-center gap-1">
-                  <span>Inspect Saree</span>
-                  <span>&rarr;</span>
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. Bridal Trousseau Trunk Banner */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F4EFEA] border-b border-[#B8860B]/20">
-        <div className="max-w-5xl mx-auto text-center space-y-6">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2">
-            <span>⚜</span> Bespoke Bridal Trunk
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+          <span className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-bold flex items-center justify-center gap-2">
+            <span>⚜</span> The Private Salon Experience <span>⚜</span>
           </span>
-          <h2 className="text-3xl sm:text-5xl font-editorial text-[#1C1917]">
-            The Imperial Three-Piece Trousseau
+          <h2 className="text-3xl sm:text-5xl font-editorial font-normal">
+            Private Viewings in Bengaluru & Varanasi
           </h2>
-          <p className="text-base sm:text-lg font-editorial italic text-[#44403C] max-w-2xl mx-auto leading-relaxed">
-            Curate your wedding festivities across three master colorways — Muhurtham, Reception, and Sangeet. Includes a complimentary hand-carved Sheesham wood velvet trunk, 24K gold-plated monogram nameplate, and a 15% royal courtesy privilege.
+          <p className="text-base sm:text-lg font-editorial italic text-stone-200 max-w-2xl mx-auto">
+            Reserve an intimate salon suite with a dedicated master draper over Kashmiri Saffron Kahwa, or schedule an instant HD Video Draping Consultation worldwide.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => onNavigate('trousseau')}
-              className="px-8 py-4 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all shadow-md"
+              onClick={() => onNavigate('salon')}
+              className="px-9 py-4 bg-[#FAF8F5] text-[#781224] text-xs uppercase tracking-[0.25em] font-sans font-bold rounded hover:bg-white transition-all shadow-2xl"
             >
-              Open Trousseau Trunk Curator
+              Reserve Salon Appointment
             </button>
             <button
-              onClick={() => onNavigate('salon')}
-              className="px-8 py-4 bg-transparent text-[#781224] border border-[#781224] text-xs uppercase tracking-[0.25em] font-sans font-semibold rounded hover:bg-[#FAF8F5] transition-all"
+              onClick={() => onNavigate('trousseau')}
+              className="px-9 py-4 bg-transparent text-white border border-[#D4AF37] text-xs uppercase tracking-[0.25em] font-sans font-bold rounded hover:bg-white/10 transition-all"
             >
-              Book Private Salon Viewing
+              Curate Bridal Trunk
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Royal Patronage / Testimonials */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-2">
-            <span>⚜</span> Patron Testimonials
-          </span>
-          <h2 className="text-2xl sm:text-4xl font-editorial text-[#1C1917]">
-            Words From Dynastic Brides
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-8 bg-white border border-[#B8860B]/20 rounded shadow-sm text-center">
-            <p className="text-sm font-editorial italic text-[#44403C] mb-6 leading-relaxed">
-              "The weight of the pure silver zari in the Sindoor Crimson is unlike any commercial saree in India. It drapes with an unmistakable royal gravity that silenced the room during my Muhurtham."
-            </p>
-            <p className="text-xs uppercase tracking-widest font-sans font-bold text-[#1C1917]">Aditi R. Singhania</p>
-            <p className="text-[10px] tracking-wider text-[#78716C] font-sans">Bengaluru • Muhurtham Bride</p>
-          </div>
-
-          <div className="p-8 bg-white border border-[#B8860B]/20 rounded shadow-sm text-center">
-            <p className="text-sm font-editorial italic text-[#44403C] mb-6 leading-relaxed">
-              "We ordered the Three-Piece Trousseau to London. The hand-carved Sheesham trunk arrived with our brass monogram engraved flawlessly. An absolute masterwork of Indian heritage."
-            </p>
-            <p className="text-xs uppercase tracking-widest font-sans font-bold text-[#1C1917]">Kavita & Devraj V.</p>
-            <p className="text-[10px] tracking-wider text-[#78716C] font-sans">Mayfair, London • Trousseau Patrons</p>
-          </div>
-
-          <div className="p-8 bg-white border border-[#B8860B]/20 rounded shadow-sm text-center">
-            <p className="text-sm font-editorial italic text-[#44403C] mb-6 leading-relaxed">
-              "The Neelambari Indigo caught the chandeliers during our reception banquet with the most subtle, elegant silver glimmer. You can tell this was made by an ustad, not a machine."
-            </p>
-            <p className="text-xs uppercase tracking-widest font-sans font-bold text-[#1C1917]">Meera Nambiar</p>
-            <p className="text-[10px] tracking-wider text-[#78716C] font-sans">Mumbai • Reception Gala</p>
           </div>
         </div>
       </section>
