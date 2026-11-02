@@ -21,13 +21,19 @@ import {
 import { MASTER_DESIGNS, BRAND_ASSETS, CATALOG_PRODUCTS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
-export default function AtelierPage({ onNavigate, onSelectColorway, currency }) {
+export default function AtelierPage({
+  onNavigate,
+  onSelectColorway,
+  onAddToCart,
+  currency,
+  wishlist = [],
+  onToggleWishlist,
+}) {
   const masterSaree = MASTER_DESIGNS[0];
   const [expandedLookbookIndex, setExpandedLookbookIndex] = useState(0);
 
   // Catalog Filter State (Fresh Weaves, Timeless Grace)
   const [selectedCategory, setSelectedCategory] = useState('All Sarees');
-  const [wishlist, setWishlist] = useState([]);
 
   // Quick View / Detail Modal State (Matching sec_30.jpg from video)
   const [inspectModalProduct, setInspectModalProduct] = useState(null);
@@ -47,9 +53,9 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
     : CATALOG_PRODUCTS.filter((p) => p.category === selectedCategory);
 
   const toggleWishlist = (id) => {
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    if (onToggleWishlist) {
+      onToggleWishlist(id);
+    }
   };
 
   const handleContactSubmit = (e) => {
@@ -735,17 +741,40 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-4">
+                <div className="space-y-2.5 pt-3">
+                  <button
+                    onClick={() => {
+                      if (onAddToCart) {
+                        onAddToCart(
+                          {
+                            id: inspectModalProduct.id,
+                            name: inspectModalProduct.name,
+                            basePriceINR: inspectModalProduct.priceINR,
+                          },
+                          {
+                            id: inspectModalProduct.id,
+                            name: inspectModalProduct.name,
+                            hex: inspectModalProduct.hex,
+                          }
+                        );
+                      }
+                      setInspectModalProduct(null);
+                    }}
+                    className="w-full py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-xl transition-all flex items-center justify-center gap-2 btn-shimmer"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>Add to Silk Bag</span>
+                  </button>
+
                   <button
                     onClick={() => {
                       setInspectModalProduct(null);
                       onSelectColorway('sindoor-crimson');
                       onNavigate('collection');
                     }}
-                    className="w-full py-3.5 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
+                    className="w-full py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-900 text-[10px] uppercase tracking-[0.2em] font-sans font-semibold transition-all flex items-center justify-center gap-1.5"
                   >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>View in Full Atelier Studio</span>
+                    <span>Inspect in 3D Light Studio &rarr;</span>
                   </button>
                 </div>
               </div>

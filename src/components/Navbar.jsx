@@ -7,6 +7,7 @@ import {
   Gift,
   Crown,
   ShoppingBag,
+  Heart,
   Globe,
   ChevronDown,
   Menu,
@@ -31,6 +32,8 @@ export default function Navbar({
   onCurrencyChange,
   cartCount,
   onOpenCart,
+  wishlistCount = 0,
+  onOpenWishlist,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
@@ -199,6 +202,26 @@ export default function Navbar({
             </AnimatePresence>
           </div>
 
+          {/* Royal Wishlist Trigger */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onOpenWishlist}
+            className="relative p-2.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-[#881326]/60 text-stone-200 hover:text-white transition-all shadow-sm"
+            aria-label="View Saved Wishlist"
+          >
+            <Heart
+              className={`w-4 h-4 transition-colors ${
+                wishlistCount > 0 ? 'text-[#881326] fill-[#881326]' : 'text-stone-300'
+              }`}
+            />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#881326] text-white text-[9px] font-bold rounded-full flex items-center justify-center font-sans shadow-md">
+                {wishlistCount}
+              </span>
+            )}
+          </motion.button>
+
           {/* Luxury Silk Bag Cart Trigger */}
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -285,6 +308,30 @@ export default function Navbar({
                   </button>
                 );
               })}
+
+              {/* Mobile Quick Action Buttons for Wishlist & Silk Bag */}
+              <div className="grid grid-cols-2 gap-2 pt-2">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onOpenWishlist) onOpenWishlist();
+                  }}
+                  className="py-2.5 px-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-sans text-stone-200 flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
+                >
+                  <Heart className="w-3.5 h-3.5 text-[#881326] fill-[#881326]" />
+                  <span>Wishlist ({wishlistCount})</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onOpenCart) onOpenCart();
+                  }}
+                  className="py-2.5 px-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-sans text-stone-200 flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>Silk Bag ({cartCount})</span>
+                </button>
+              </div>
 
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <a
