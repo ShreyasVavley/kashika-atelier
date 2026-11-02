@@ -1,111 +1,119 @@
-import React from 'react';
-import { ShieldCheck, HeartHandshake, Compass, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Check } from 'lucide-react';
 
 export default function Footer({ onNavigate }) {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setTimeout(() => {
+      setEmail('');
+      setSubscribed(false);
+    }, 3000);
+  };
+
   return (
-    <footer className="bg-[#1C1917] text-[#FAF8F5] border-t-2 border-[#B8860B] pt-16 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
-        {/* Brand Crest & Manifesto */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center gap-2 text-[#B8860B]">
-            <span className="text-xl">⚜</span>
-            <span className="text-xs uppercase tracking-[0.3em] font-bold">House of Kashika</span>
+    <footer className="bg-[#141210] text-[#FAF8F5] border-t border-[#B8860B]/20 pt-20 pb-12 px-6 sm:px-8 lg:px-12 font-sans">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+        {/* Brand Column */}
+        <div className="md:col-span-4 space-y-4">
+          <div className="flex items-center gap-2 text-[#D4AF37]">
+            <span className="text-base">⚜</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-sans font-bold">House of Kashika</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-crest tracking-wider text-[#FAF8F5]">
+          <h2 className="text-2xl font-crest tracking-[0.15em] text-white">
             KASHIKA
           </h2>
-          <p className="text-xs text-stone-400 font-editorial leading-relaxed max-w-sm">
-            Woven in Varanasi since 1948. We preserve the sacred Kadwa handloom technique, weaving only one singular master naksha across five dynastic colorways with pure tested silver zari.
+          <p className="text-xs text-stone-400 font-editorial italic leading-relaxed max-w-sm">
+            Varanasi • Since 1948. Handcrafted pure mulberry silk & tested silver bullion.
           </p>
-          <div className="pt-2 flex items-center gap-4 text-xs text-[#B8860B]">
-            <span>100% Silk Mark Certified</span>
-            <span>•</span>
-            <span>0% Machine Powerloom</span>
-          </div>
         </div>
 
-        {/* Navigation Links */}
-        <div>
-          <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#B8860B] mb-4">
+        {/* Column 1: Curations */}
+        <div className="md:col-span-2 space-y-3">
+          <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#D4AF37]">
             The Atelier
           </h3>
-          <ul className="space-y-2.5 text-xs text-stone-400">
+          <ul className="space-y-2 text-xs text-stone-400">
             <li>
-              <button onClick={() => { onNavigate('atelier'); window.scrollTo(0,0); }} className="hover:text-[#FAF8F5] transition-colors">
-                The Atelier Story
+              <button onClick={() => { onNavigate('collection'); window.scrollTo(0,0); }} className="hover:text-white transition-colors">
+                The 5 Colorways
               </button>
             </li>
             <li>
-              <button onClick={() => { onNavigate('collection'); window.scrollTo(0,0); }} className="hover:text-[#FAF8F5] transition-colors">
-                The Master Collection (5 Colors)
-              </button>
-            </li>
-            <li>
-              <button onClick={() => { onNavigate('craft'); window.scrollTo(0,0); }} className="hover:text-[#FAF8F5] transition-colors">
-                The Craft & Karigar Ledger
-              </button>
-            </li>
-            <li>
-              <button onClick={() => { onNavigate('trousseau'); window.scrollTo(0,0); }} className="hover:text-[#FAF8F5] transition-colors">
+              <button onClick={() => { onNavigate('trousseau'); window.scrollTo(0,0); }} className="hover:text-white transition-colors">
                 Bridal Trousseau Trunk
               </button>
             </li>
             <li>
-              <button onClick={() => { onNavigate('salon'); window.scrollTo(0,0); }} className="hover:text-[#FAF8F5] transition-colors">
-                Private Salon Appointment
+              <button onClick={() => { onNavigate('craft'); window.scrollTo(0,0); }} className="hover:text-white transition-colors">
+                Karigar Ledger
+              </button>
+            </li>
+            <li>
+              <button onClick={() => { onNavigate('salon'); window.scrollTo(0,0); }} className="hover:text-white transition-colors">
+                Private Viewing Suite
               </button>
             </li>
           </ul>
         </div>
 
-        {/* Boutiques */}
-        <div>
-          <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#B8860B] mb-4">
+        {/* Column 2: Boutiques */}
+        <div className="md:col-span-2 space-y-3">
+          <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#D4AF37]">
             Sanctuaries
           </h3>
-          <ul className="space-y-2.5 text-xs text-stone-400">
-            <li className="font-semibold text-stone-300">Bengaluru Flagship:</li>
-            <li className="text-[11px]">14 Lavelle Road, Shanthala Nagar</li>
-            <li className="font-semibold text-stone-300 pt-2">Varanasi Loom Sanctuary:</li>
-            <li className="text-[11px]">Shivala Ghat, Varanasi 221001</li>
-            <li className="font-semibold text-stone-300 pt-2">London Suite:</li>
-            <li className="text-[11px]">Mayfair, W1 (Private Viewing)</li>
+          <ul className="space-y-2 text-xs text-stone-400">
+            <li>Bengaluru (Lavelle Rd)</li>
+            <li>Varanasi (Shivala Ghat)</li>
+            <li>London (Mayfair Suite)</li>
+            <li className="pt-1 text-[#D4AF37] font-semibold">+91 76767 21111</li>
           </ul>
         </div>
 
-        {/* Gazette / Newsletter */}
-        <div>
-          <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#B8860B] mb-4">
+        {/* Column 3: Compact Newsletter Input Line */}
+        <div className="md:col-span-4 space-y-3">
+          <h3 className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#D4AF37]">
             The Imperial Gazette
           </h3>
-          <p className="text-xs text-stone-400 mb-3">
-            Receive private invitations to seasonal loom releases and private salon viewings.
+          <p className="text-xs text-stone-400 leading-relaxed">
+            Private invitations to seasonal loom releases.
           </p>
-          <form onSubmit={(e) => { e.preventDefault(); alert('Pranam. You are enrolled in the Imperial Gazette.'); }} className="space-y-2">
+          <form onSubmit={handleSubscribe} className="relative flex items-center pt-1">
             <input
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-3 py-2 bg-stone-900 border border-stone-700 text-xs text-stone-200 rounded focus:outline-none focus:border-[#B8860B]"
+              className="w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded text-xs text-stone-200 placeholder-stone-500 focus:outline-none focus:border-[#D4AF37] pr-10"
             />
             <button
               type="submit"
-              className="w-full py-2 bg-[#781224] text-white text-[11px] uppercase tracking-widest font-semibold rounded hover:bg-[#580B17] transition-all"
+              className="absolute right-2 p-1.5 text-stone-400 hover:text-[#D4AF37] transition-colors"
+              aria-label="Subscribe"
             >
-              Request Gazette
+              {subscribed ? <Check className="w-4 h-4 text-emerald-400" /> : <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
+          {subscribed && (
+            <span className="text-[11px] text-emerald-400 block">✓ Subscribed to the Gazette.</span>
+          )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 font-sans gap-4">
-        <p>© 1948–2026 House of Kashika Atelier Pvt. Ltd. All rights reserved.</p>
+      {/* Bottom Minimal Bar */}
+      <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-500 gap-4">
+        <p>© 1948–2026 House of Kashika Atelier. All rights reserved.</p>
         <div className="flex items-center gap-6">
-          <span className="text-stone-400">Handcrafted in Bharat</span>
+          <span>Handcrafted in Bharat</span>
           <span>•</span>
-          <span className="text-[#B8860B]">Pure Silver Zari Tested</span>
+          <span className="text-[#D4AF37]">Silk Mark India</span>
           <span>•</span>
-          <span className="text-stone-400">Insured Global Courier</span>
+          <span>Insured Global Courier</span>
         </div>
       </div>
     </footer>
