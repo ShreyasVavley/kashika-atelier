@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Calendar, Globe, Menu, X, ChevronDown, Sparkles, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Globe, Menu, X, ChevronDown, MessageCircle } from 'lucide-react';
 import { CURRENCIES } from '../utils/currency';
 
 export default function Navbar({
@@ -29,7 +29,7 @@ export default function Navbar({
     { id: 'collection', label: 'The Collection', badge: '5 Shades' },
     { id: 'craft', label: 'The Craft' },
     { id: 'trousseau', label: 'Bridal Trousseau' },
-    { id: 'salon', label: 'Private Salon' },
+    { id: 'salon', label: 'VIP Concierge' },
   ];
 
   const handleNavClick = (id) => {
@@ -154,17 +154,6 @@ export default function Navbar({
             </AnimatePresence>
           </div>
 
-          {/* Book Salon Quick CTA Button (Desktop & Tablet) */}
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={() => handleNavClick('salon')}
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.2em] font-sans font-bold text-black bg-[#D4AF37] hover:bg-[#C5A059] shadow-lg transition-all btn-shimmer"
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Book Salon</span>
-          </motion.button>
-
           {/* Luxury Silk Bag Trigger Pill */}
           <motion.button
             whileHover={{ scale: 1.06 }}
@@ -235,24 +224,19 @@ export default function Navbar({
               ))}
 
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
-                <button
-                  onClick={() => handleNavClick('salon')}
-                  className="w-full py-3 bg-[#D4AF37] text-black text-xs uppercase tracking-[0.2em] font-sans font-bold rounded-lg transition-all shadow-lg flex items-center justify-center gap-2 btn-shimmer"
+                <a
+                  href="https://wa.me/917676721111?text=Pranam%20Kashika%20Atelier.%20I%20wish%20to%20connect%20with%20the%20Bridal%20Concierge."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-3 bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-emerald-300 text-xs uppercase tracking-[0.2em] font-sans font-bold rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
                 >
-                  <Calendar className="w-4 h-4" />
-                  <span>Reserve Private Salon Suite</span>
-                </button>
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />
+                  <span>WhatsApp Bridal Concierge</span>
+                </a>
 
                 <div className="flex items-center justify-between text-xs text-stone-400 font-sans px-1">
-                  <span>WhatsApp Concierge:</span>
-                  <a
-                    href="https://wa.me/917676721111"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[#D4AF37] hover:underline"
-                  >
-                    +91 76767 21111
-                  </a>
+                  <span>Direct Concierge Desk:</span>
+                  <span className="text-[#D4AF37] font-medium">+91 76767 21111</span>
                 </div>
               </div>
             </div>

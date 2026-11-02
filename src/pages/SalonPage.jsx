@@ -73,10 +73,10 @@ export default function SalonPage() {
           className="lg:col-span-7 bg-[#121212] p-8 sm:p-12 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl"
         >
           <h2 className="text-2xl sm:text-3xl font-editorial font-normal text-[#FBF9F5] mb-2 tracking-wide">
-            Reserve Your Private Suite
+            Request VIP Bridal Consultation
           </h2>
           <p className="text-xs font-sans text-stone-400 mb-8">
-            Private salon viewings host one guest party at a time to ensure total privacy and dedicated draper styling.
+            Connect with our senior bridal stylists for a private one-on-one trousseau consultation and tailored video draping.
           </p>
 
           {submitted ? (
@@ -205,7 +205,7 @@ export default function SalonPage() {
                 type="submit"
                 className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl btn-shimmer"
               >
-                Confirm Private Salon Reservation &rarr;
+                Request Bridal Consultation &rarr;
               </button>
             </form>
           )}

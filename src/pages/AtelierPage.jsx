@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, X, Calendar, Video, ShieldCheck, Sparkles, ZoomIn, Check, ChevronRight } from 'lucide-react';
+import { ArrowRight, X, Video, ShieldCheck, Sparkles, ZoomIn, Check, ChevronRight, MessageCircle } from 'lucide-react';
 import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
@@ -15,11 +15,6 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
   const imageContainerRef = useRef(null);
-
-  // Booking Card States
-  const [bookingDate, setBookingDate] = useState('2026-11-06');
-  const [bookingTime, setBookingTime] = useState('11:00 AM');
-  const [sanctuaryLocation, setSanctuaryLocation] = useState('Bengaluru Flagship (Lavelle Road)');
 
   const activeColorway = masterSaree.colorways[activeVariantIndex];
 
@@ -42,11 +37,10 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
     setMousePos({ x, y });
   };
 
-  // Appointment Submission
-  const handleBookingSubmit = (e) => {
-    e.preventDefault();
+  // Bridal Stylist WhatsApp Advisory
+  const handleConciergeWhatsApp = () => {
     const msg = encodeURIComponent(
-      `Pranam Kashika Concierge. I wish to book a private Sanctuary Suite viewing at "${sanctuaryLocation}" on ${bookingDate} for the ${bookingTime} slot. Saree of interest: "${activeColorway.name}".`
+      `Pranam Kashika Concierge. I would like to consult with a senior bridal stylist regarding the "${activeColorway.name}" colorway and bespoke trousseau curation.`
     );
     window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
@@ -730,7 +724,7 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
         </div>
       </section>
 
-      {/* 7. Private Salon & Trunk Booking: Modernized Boutique Concierge */}
+      {/* 7. VIP Bridal Concierge & Live Video Draping */}
       <section className="py-32 md:py-40 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto">
         <div className="space-y-12">
           {/* Section Header */}
@@ -742,19 +736,19 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
             className="text-center max-w-xl mx-auto space-y-3"
           >
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold block">
-              Private Concierge
+              VIP Bridal Concierge
             </span>
             <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-              Experience Kashika Firsthand
+              Personalized White-Glove Curation
             </h2>
             <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
-              Personalized one-on-one appointments for discerning brides and royal patrons.
+              Direct assistance from our senior bridal drapers for brides across India, London, New York, and Dubai.
             </p>
           </motion.div>
 
           {/* Side-by-Side Modern Concierge Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-            {/* Sanctuary Suite Card */}
+            {/* White-Glove Stylist Advisory Card */}
             <motion.div
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -767,77 +761,42 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                 <div className="relative h-44 -mx-8 sm:-mx-10 -mt-8 sm:-mt-10 rounded-t-lg overflow-hidden border-b border-white/10 group">
                   <img
                     src={BRAND_ASSETS.salonInterior}
-                    alt="Private Bridal Draping Salon Suite"
+                    alt="Private Bridal Concierge Desk"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
                   <span className="absolute bottom-3 left-6 text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-sans font-bold">
-                    Lavelle Road & Shivala Ghat
+                    Direct Stylist Desk
                   </span>
                 </div>
 
                 <div className="space-y-2">
                   <h3 className="text-2xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-                    Sanctuary Suite In-Person Viewing
+                    Personal Bridal Stylist Advisory
                   </h3>
                   <p className="text-xs text-stone-400 leading-relaxed font-sans">
-                    Private draping suite appointment with our senior master draper over warm Kashmiri Saffron Kahwa. One party hosted at a time.
+                    Connect directly on WhatsApp with our senior bridal stylists. We guide blouse embroidery patterns, jewelry pairing, and royal muhurtham trousseau curation.
                   </p>
                 </div>
 
-                {/* Direct Calendar Slot Selector Form */}
-                <form onSubmit={handleBookingSubmit} className="space-y-3 pt-2">
-                  <div>
-                    <label className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans mb-1.5">
-                      Select Sanctuary Location
-                    </label>
-                    <select
-                      value={sanctuaryLocation}
-                      onChange={(e) => setSanctuaryLocation(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-[#0A0A0A] border-[0.5px] border-white/20 rounded text-xs font-sans text-stone-200 focus:outline-none focus:border-[#D4AF37]"
-                    >
-                      <option value="Bengaluru Flagship (Lavelle Road)">Bengaluru Flagship Atelier (14 Lavelle Road)</option>
-                      <option value="Varanasi Sanctuary (Shivala Ghat)">Varanasi Loom Sanctuary (Shivala Ghat)</option>
-                      <option value="London Mayfair Suite (By Invitation)">London Mayfair Suite (By Invitation)</option>
-                    </select>
-                  </div>
+                <div className="p-4 rounded bg-[#0A0A0A] border-[0.5px] border-white/10 space-y-2 text-xs font-sans">
+                  <span className="text-[#D4AF37] font-semibold block uppercase tracking-wider text-[10px]">
+                    Complimentary White-Glove Inclusions:
+                  </span>
+                  <p className="text-stone-400 leading-relaxed">
+                    Custom unstitched brocade blouse piece, 24K gold-plated brass monogram plate, and insured express worldwide courier.
+                  </p>
+                </div>
+              </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans mb-1.5">
-                        Date
-                      </label>
-                      <input
-                        type="date"
-                        value={bookingDate}
-                        onChange={(e) => setBookingDate(e.target.value)}
-                        className="w-full px-3.5 py-2 bg-[#0A0A0A] border-[0.5px] border-white/20 rounded text-xs font-sans text-stone-200 focus:outline-none focus:border-[#D4AF37]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[10px] uppercase tracking-wider text-stone-400 block font-sans mb-1.5">
-                        Time Slot
-                      </label>
-                      <select
-                        value={bookingTime}
-                        onChange={(e) => setBookingTime(e.target.value)}
-                        className="w-full px-3.5 py-2 bg-[#0A0A0A] border-[0.5px] border-white/20 rounded text-xs font-sans text-stone-200 focus:outline-none focus:border-[#D4AF37]"
-                      >
-                        <option value="11:00 AM">11:00 AM Morning</option>
-                        <option value="2:30 PM">2:30 PM Afternoon</option>
-                        <option value="5:30 PM">5:30 PM Sunset Gala</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all mt-3 shadow-lg btn-shimmer"
-                  >
-                    Reserve Sanctuary Suite &rarr;
-                  </button>
-                </form>
+              <div>
+                <button
+                  onClick={handleConciergeWhatsApp}
+                  className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat with Senior Stylist on WhatsApp &rarr;</span>
+                </button>
               </div>
             </motion.div>
 
