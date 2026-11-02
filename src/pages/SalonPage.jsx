@@ -31,21 +31,34 @@ export default function SalonPage() {
   };
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1C1917] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
+    <div className="bg-[#FAF8F5] text-[#1C1917] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
       {/* Editorial Header */}
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-2">
+      <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
+        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> Private Draping Salons <span>⚜</span>
         </span>
-        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#1C1917] tracking-tight mb-4">
+        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#1C1917] tracking-tight">
           Experience Kashika in Person
         </h1>
-        <p className="text-base font-editorial italic text-[#44403C]">
-          Step into our private draping salons for an intimate, unhurried consultation over Kashmiri saffron kahwa, or connect with our master drapers via 1-on-1 virtual HD video worldwide.
+        <p className="text-sm sm:text-base font-editorial italic text-[#44403C] leading-relaxed">
+          Step into our private draping salons for an intimate, unhurried consultation over artisanal tea, or connect via private high-definition video consultation from anywhere in the world.
         </p>
+
+        {/* Visual Metric Chips */}
+        <div className="pt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>☕</span> Kashmiri Saffron Hospitality
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>🔒</span> One Guest Party at a Time
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>🎥</span> Worldwide HD Video Consults
+          </span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
         {/* Left Column: Private Appointment Booking Form */}
         <div className="lg:col-span-7 bg-white p-8 sm:p-12 rounded border border-[#B8860B]/30 shadow-md">
           <h2 className="text-2xl sm:text-3xl font-editorial font-bold text-[#1C1917] mb-2">

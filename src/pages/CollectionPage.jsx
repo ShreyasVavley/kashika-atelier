@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Sparkles, ShieldCheck, Check, ShoppingBag, Eye, Sun, Flame, Gem, ArrowRight, MessageCircle, ZoomIn, Layers } from 'lucide-react';
+import { Sparkles, ShieldCheck, Check, ShoppingBag, Eye, Sun, Flame, Gem, ArrowRight, MessageCircle, ZoomIn, ChevronDown, ChevronUp } from 'lucide-react';
 import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
@@ -20,7 +20,7 @@ export default function CollectionPage({
   const [lightX, setLightX] = useState(0.5);
   const [lightY, setLightY] = useState(0.5);
   const [addedAnimation, setAddedAnimation] = useState(false);
-  const [activeTab, setActiveTab] = useState('specs');
+  const [specsAccordionOpen, setSpecsAccordionOpen] = useState(false);
 
   const canvasRef = useRef(null);
 
@@ -119,22 +119,22 @@ export default function CollectionPage({
   };
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1C1917] py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
+    <div className="bg-[#FAF8F5] text-[#1C1917] py-28 md:py-36 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
       {/* Editorial Header */}
-      <div className="text-center max-w-3xl mx-auto mb-10">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-2">
+      <div className="text-center max-w-2xl mx-auto mb-16 space-y-2">
+        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> The Masterpiece Studio <span>⚜</span>
         </span>
-        <h1 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] tracking-tight mb-2">
+        <h1 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] tracking-tight">
           {masterSaree.name}
         </h1>
-        <p className="text-sm font-editorial italic text-[#44403C]">
-          One supreme Kadwa naksha. Select any of the 5 heritage colorways below to inspect the drape, zari alloy, and blouse piece.
+        <p className="text-sm font-editorial italic text-[#44403C] leading-relaxed">
+          One supreme Kadwa naksha. Select any of the 5 heritage colorways to inspect the drape, zari alloy, and blouse piece.
         </p>
       </div>
 
       {/* 5 Visual Colorway Selector Cards */}
-      <div className="mb-10">
+      <div className="mb-14">
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-5xl mx-auto">
           {masterSaree.colorways.map((cw) => {
             const isSelected = cw.id === activeColorway.id;
@@ -168,11 +168,11 @@ export default function CollectionPage({
       </div>
 
       {/* Main Dual-Column Interactive Studio */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-28">
         {/* Left Column: Visual Saree Showcase */}
         <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded border border-[#B8860B]/30 shadow-md">
           {/* View Mode Switcher Pills */}
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-[#B8860B]/20 text-xs font-sans">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-[#B8860B]/20 text-xs font-sans">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setViewMode('drape')}
@@ -292,47 +292,46 @@ export default function CollectionPage({
             </div>
           </div>
 
-          {/* Quick Provenance Badges */}
-          <div className="grid grid-cols-3 gap-3 mt-5 text-center text-xs font-sans">
-            <div className="p-3 bg-[#FAF8F5] rounded border border-[#B8860B]/20">
-              <span className="text-[10px] uppercase tracking-widest text-[#78716C] block">Warp Threads</span>
-              <span className="font-semibold text-[#1C1917]">2,400 Silk / meter</span>
-            </div>
-            <div className="p-3 bg-[#FAF8F5] rounded border border-[#B8860B]/20">
-              <span className="text-[10px] uppercase tracking-widest text-[#78716C] block">Zari Assay</span>
-              <span className="font-semibold text-[#1C1917]">98.2% Pure Silver</span>
-            </div>
-            <div className="p-3 bg-[#FAF8F5] rounded border border-[#B8860B]/20">
-              <span className="text-[10px] uppercase tracking-widest text-[#78716C] block">Blouse Piece</span>
-              <span className="font-semibold text-[#1C1917]">0.8m Brocade Included</span>
-            </div>
+          {/* Clean Metric Pills under Frame */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs font-sans">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF8F5] border border-[#B8860B]/20 text-[#1C1917]">
+              <span>🪡</span> 2,400 Silk Warp / meter
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF8F5] border border-[#B8860B]/20 text-[#1C1917]">
+              <span>🪙</span> 98.2% Tested Silver Zari
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAF8F5] border border-[#B8860B]/20 text-[#1C1917]">
+              <span>👔</span> 0.8m Brocade Blouse Included
+            </span>
           </div>
         </div>
 
         {/* Right Column: Acquisition Panel */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white p-6 sm:p-8 rounded border border-[#B8860B]/30 shadow-md">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase tracking-[0.2em] text-[#8A661C] font-sans font-bold">
-                Masterpiece No. 01
-              </span>
-              <span className="text-[10px] uppercase tracking-wider bg-[#781224]/10 text-[#781224] px-2.5 py-1 rounded font-sans font-bold border border-[#781224]/20">
-                Only {activeColorway.stockCount} Pieces Available
-              </span>
+          <div className="bg-white p-6 sm:p-8 rounded border border-[#B8860B]/30 shadow-md space-y-6">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs uppercase tracking-[0.2em] text-[#8A661C] font-sans font-bold">
+                  Masterpiece No. 01
+                </span>
+                <span className="text-[10px] uppercase tracking-wider bg-[#781224]/10 text-[#781224] px-2.5 py-1 rounded font-sans font-bold border border-[#781224]/20">
+                  Only {activeColorway.stockCount} Available
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-editorial font-bold text-[#1C1917]">
+                {masterSaree.name}
+              </h2>
+              <p className="text-xs font-editorial italic text-[#781224] mt-0.5">
+                {activeColorway.name} • {activeColorway.sanskrit}
+              </p>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-editorial font-bold text-[#1C1917] mb-1">
-              {masterSaree.name}
-            </h2>
-            <p className="text-xs font-editorial italic text-[#781224] mb-4">
-              {activeColorway.name} • {activeColorway.sanskrit}
-            </p>
-
             {/* Price Banner */}
-            <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20 flex items-center justify-between mb-6">
+            <div className="p-4 bg-[#F4EFEA] rounded border border-[#B8860B]/20 flex items-center justify-between">
               <div>
                 <span className="text-[10px] uppercase tracking-widest text-[#78716C] block font-sans">
-                  Investment Privilege
+                  Acquisition Privilege
                 </span>
                 <span className="text-2xl font-editorial font-bold text-[#1C1917]">
                   {formatPrice(masterSaree.basePriceINR, currency)}
@@ -373,33 +372,40 @@ export default function CollectionPage({
                 <span>VIP Video Consultation on WhatsApp</span>
               </button>
             </div>
-          </div>
 
-          {/* Quick Specs */}
-          <div className="bg-white p-6 rounded border border-[#B8860B]/30 shadow-md">
-            <h3 className="text-sm font-editorial font-bold text-[#1C1917] uppercase tracking-wider mb-3 pb-2 border-b border-[#B8860B]/20">
-              Heirloom Specifications
-            </h3>
-            <div className="space-y-2 text-xs font-sans">
-              {masterSaree.specs.map((s, idx) => (
-                <div key={idx} className="flex justify-between py-1 border-b border-stone-100">
-                  <span className="text-[#78716C] uppercase tracking-wider">{s.label}</span>
-                  <span className="font-semibold text-[#1C1917]">{s.value}</span>
+            {/* Expandable Accordion for Specs */}
+            <div className="pt-2 border-t border-[#B8860B]/20">
+              <button
+                onClick={() => setSpecsAccordionOpen(!specsAccordionOpen)}
+                className="w-full flex items-center justify-between text-xs uppercase tracking-widest font-sans font-bold text-[#8A661C] py-2"
+              >
+                <span>Detailed Weave & Blouse Specifications</span>
+                {specsAccordionOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+
+              {specsAccordionOpen && (
+                <div className="mt-3 space-y-2 text-xs font-sans text-[#44403C] animate-fadeIn">
+                  {masterSaree.specs.map((s, idx) => (
+                    <div key={idx} className="flex justify-between py-1 border-b border-stone-100">
+                      <span className="text-[#78716C]">{s.label}</span>
+                      <span className="font-semibold text-[#1C1917]">{s.value}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between py-1 border-b border-stone-100">
+                    <span className="text-[#78716C]">Blouse Fabric</span>
+                    <span className="font-semibold text-[#781224]">{activeColorway.blousePiece}</span>
+                  </div>
                 </div>
-              ))}
-              <div className="flex justify-between py-1">
-                <span className="text-[#78716C] uppercase tracking-wider">Blouse Match</span>
-                <span className="font-semibold text-[#781224]">{activeColorway.blousePiece}</span>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
       {/* Real Brides Customer Lookbook */}
-      <section className="pt-12 border-t border-[#B8860B]/20">
-        <div className="text-center mb-8">
-          <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold block mb-1">
+      <section className="pt-24 border-t border-[#B8860B]/20">
+        <div className="text-center max-w-xl mx-auto mb-14 space-y-2">
+          <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold block">
             ⚜ Real Dynastic Weddings
           </span>
           <h2 className="text-2xl sm:text-4xl font-editorial text-[#1C1917]">
@@ -407,7 +413,7 @@ export default function CollectionPage({
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="group rounded overflow-hidden shadow border border-[#B8860B]/20 bg-white">
             <div className="h-72 overflow-hidden">
               <img
@@ -416,9 +422,9 @@ export default function CollectionPage({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-4 text-center">
-              <p className="text-sm font-editorial font-bold text-[#1C1917]">Radhika Singhal</p>
-              <p className="text-[11px] text-[#78716C] font-sans">Sindoor Crimson • Udaipur Palace Wedding</p>
+            <div className="p-5 text-center space-y-1">
+              <p className="text-base font-editorial font-bold text-[#1C1917]">Radhika Singhal</p>
+              <p className="text-xs text-[#78716C] font-sans">Sindoor Crimson • Udaipur Palace Wedding</p>
             </div>
           </div>
 
@@ -430,9 +436,9 @@ export default function CollectionPage({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-4 text-center">
-              <p className="text-sm font-editorial font-bold text-[#1C1917]">Kavita Verma</p>
-              <p className="text-[11px] text-[#78716C] font-sans">Neelambari Indigo • Mayfair Reception, London</p>
+            <div className="p-5 text-center space-y-1">
+              <p className="text-base font-editorial font-bold text-[#1C1917]">Kavita Verma</p>
+              <p className="text-xs text-[#78716C] font-sans">Neelambari Indigo • Mayfair Reception, London</p>
             </div>
           </div>
 
@@ -444,9 +450,9 @@ export default function CollectionPage({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-4 text-center">
-              <p className="text-sm font-editorial font-bold text-[#1C1917]">Ananya Hegde</p>
-              <p className="text-[11px] text-[#78716C] font-sans">Mor-Pankhi Emerald • Bangalore Temple Vows</p>
+            <div className="p-5 text-center space-y-1">
+              <p className="text-base font-editorial font-bold text-[#1C1917]">Ananya Hegde</p>
+              <p className="text-xs text-[#78716C] font-sans">Mor-Pankhi Emerald • Bangalore Temple Vows</p>
             </div>
           </div>
         </div>

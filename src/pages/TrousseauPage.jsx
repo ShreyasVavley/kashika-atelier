@@ -55,22 +55,38 @@ export default function TrousseauPage({
   };
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1C1917] py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
+    <div className="bg-[#FAF8F5] text-[#1C1917] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-14">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2 mb-2">
+      <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
+        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> The Imperial Bridal Trunk <span>⚜</span>
         </span>
-        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#1C1917] tracking-tight mb-4">
-          Curate Your Three-Piece Trousseau
+        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#1C1917] tracking-tight">
+          The Three-Piece Trousseau
         </h1>
-        <p className="text-base font-editorial italic text-[#44403C]">
-          An heirloom trousseau for a lifetime of dynastic celebrations. Curate three sacred colorways to unlock your 15% Royal Courtesy privilege and a complimentary hand-carved Sheesham wood velvet trunk.
+        <p className="text-sm sm:text-base font-editorial italic text-[#44403C] leading-relaxed">
+          Curate three sacred colorways to unlock your 15% Royal Courtesy privilege and a complimentary hand-carved Sheesham wood velvet trunk.
         </p>
+
+        {/* Visual Metric Chips */}
+        <div className="pt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>🪵</span> Sheesham Wood Trunk Included
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>🪙</span> 24K Engraved Monogram
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>✨</span> 15% Bridal Courtesy
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+            <span>📦</span> Free Insured Delivery
+          </span>
+        </div>
       </div>
 
       {/* Main Visual Trunk Workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
         {/* Left Column: 3 Visual Velvet Compartments */}
         <div className="lg:col-span-8 space-y-6">
           <div className="bg-white p-6 sm:p-10 rounded border border-[#B8860B]/30 shadow-md">
@@ -90,7 +106,7 @@ export default function TrousseauPage({
                   <span>15% Royal Courtesy Privilege Applied</span>
                 </div>
               ) : (
-                <div className="text-xs font-sans text-[#8A661C] bg-[#F4EFEA] px-3 py-1.5 rounded border border-[#B8860B]/20">
+                <div className="text-xs font-sans text-[#8A661C] bg-[#F4EFEA] px-3.5 py-1.5 rounded border border-[#B8860B]/20">
                   Select {3 - filledCount} more saree{3 - filledCount > 1 ? 's' : ''} to unlock Sheesham trunk
                 </div>
               )}
