@@ -16,7 +16,7 @@ export default function Footer({ onNavigate }) {
   };
 
   return (
-    <footer className="bg-[#141210] text-[#FAF8F5] border-t border-[#B8860B]/20 pt-20 pb-12 px-6 sm:px-8 lg:px-12 font-sans">
+    <footer className="bg-[#0A0A0A] text-[#FBF9F5] border-t border-[0.5px] border-[#D4AF37]/20 pt-20 pb-12 px-6 sm:px-8 lg:px-12 font-sans">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/10">
         {/* Brand Column */}
         <div className="md:col-span-4 space-y-4">

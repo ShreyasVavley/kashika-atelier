@@ -1,33 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  /* Warm Royal Indian Haute Couture Palette */
-  --bg-ivory: #FAF8F5;
-  --bg-cream: #F4EFEA;
-  --bg-parchment: #EDE6DC;
-  --bg-card: #FFFFFF;
-  --bg-velvet: #781224;
-  --bg-night: #141D2B;
+  /* Opulent Obsidian & Champagne Gold Haute Couture Palette */
+  --bg-obsidian: #0A0A0A;
+  --bg-charcoal: #121212;
+  --bg-charcoal-card: #181818;
+  --bg-alabaster: #FBF9F5;
   
-  --gold-primary: #B8860B;
-  --gold-antique: #C5A059;
-  --gold-deep: #8A661C;
-  --gold-light: #FBF4DE;
-  --gold-glow: rgba(184, 134, 11, 0.25);
+  --gold-champagne: #D4AF37;
+  --gold-brushed: #C5A059;
+  --gold-antique: #8A661C;
+  --gold-glow: rgba(212, 175, 55, 0.22);
   
-  --text-primary: #1C1917;
-  --text-secondary: #44403C;
+  --text-ivory: #FBF9F5;
+  --text-primary: #EDEDED;
+  --text-secondary: #A8A29E;
   --text-muted: #78716C;
-  --text-light: #A8A29E;
   
-  --border-gold: rgba(184, 134, 11, 0.28);
-  --border-subtle: rgba(28, 25, 23, 0.08);
+  --border-gold-hairline: rgba(212, 175, 55, 0.20);
+  --border-subtle: rgba(255, 255, 255, 0.08);
 
   --font-crest: 'Cinzel Decorative', serif;
   --font-royal: 'Cinzel', serif;
-  --font-editorial: 'Cormorant Garamond', serif;
-  --font-italiana: 'Italiana', serif;
-  --font-sans: 'Montserrat', 'Plus Jakarta Sans', sans-serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
 }
 
 * {
@@ -40,18 +36,14 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-ivory);
-  color: var(--text-primary);
+  background-color: var(--bg-obsidian);
+  color: var(--text-ivory);
   font-family: var(--font-sans);
 }
 
 body {
-  background-color: var(--bg-ivory);
-  background-image: 
-    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(120, 18, 36, 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
-  color: var(--text-primary);
+  background-color: var(--bg-obsidian);
+  color: var(--text-ivory);
   min-height: 100vh;
   line-height: 1.6;
   overflow-x: hidden;
@@ -59,72 +51,38 @@ body {
 
 /* Custom Royal Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-cream);
+  background: #0A0A0A;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--gold-antique);
+  background: rgba(212, 175, 55, 0.35);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.65);
 }
 
 /* Typography Utility Classes */
 .font-crest { font-family: var(--font-crest); }
 .font-royal { font-family: var(--font-royal); }
 .font-editorial { font-family: var(--font-editorial); }
-.font-italiana { font-family: var(--font-italiana); }
 .font-sans { font-family: var(--font-sans); }
 
 /* Royal Metallic Gold Text */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #785A18 0%, #B8860B 50%, #D4AF37 80%, #785A18 100%);
+  background: linear-gradient(135deg, #C5A059 0%, #D4AF37 50%, #F5E5B8 80%, #C5A059 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gold-glow {
-  color: #B8860B;
-  text-shadow: 0 0 16px rgba(184, 134, 11, 0.25);
-}
-
-/* Atelier Cards */
-.atelier-card {
-  background: #FFFFFF;
-  border: 1px solid var(--border-gold);
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(44, 30, 20, 0.05);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.atelier-card:hover {
-  box-shadow: 0 20px 45px rgba(184, 134, 11, 0.12);
-  border-color: rgba(184, 134, 11, 0.5);
-  transform: translateY(-4px);
+  color: #D4AF37;
+  text-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
 }
 
 /* Fine Gold Hairline Rules */
 .gold-hairline {
-  border-color: var(--border-gold);
-}
-
-/* Smooth Image Zoom */
-.atelier-zoom-container {
-  overflow: hidden;
-  position: relative;
-}
-.atelier-zoom-container img {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.atelier-zoom-container:hover img {
-  transform: scale(1.06);
-}
-
-/* Noise Texture for Raw Handloom Silk feel */
-.silk-texture-bg {
-  background-color: #FAF8F5;
-  background-image: radial-gradient(#d6cbbd 0.75px, transparent 0.75px);
-  background-size: 16px 16px;
+  border-color: var(--border-gold-hairline);
 }

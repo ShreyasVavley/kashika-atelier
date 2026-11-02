@@ -55,31 +55,31 @@ export default function TrousseauPage({
   };
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1C1917] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#B8860B]/20 selection:text-[#781224]">
+    <div className="bg-[#0A0A0A] text-[#FBF9F5] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5]">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#8A661C] font-sans font-semibold flex items-center justify-center gap-2">
+        <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> The Imperial Bridal Trunk <span>⚜</span>
         </span>
-        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#1C1917] tracking-tight">
+        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#FBF9F5] tracking-tight">
           The Three-Piece Trousseau
         </h1>
-        <p className="text-sm sm:text-base font-editorial italic text-[#44403C] leading-relaxed">
+        <p className="text-sm sm:text-base font-editorial italic text-stone-300 leading-relaxed">
           Curate three sacred colorways to unlock your 15% Royal Courtesy privilege and a complimentary hand-carved Sheesham wood velvet trunk.
         </p>
 
         {/* Visual Metric Chips */}
         <div className="pt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300 shadow-sm">
             <span>🪵</span> Sheesham Wood Trunk Included
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-[#D4AF37] shadow-sm">
             <span>🪙</span> 24K Engraved Monogram
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-emerald-400 shadow-sm">
             <span>✨</span> 15% Bridal Courtesy
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-[#B8860B]/30 text-[#1C1917] shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300 shadow-sm">
             <span>📦</span> Free Insured Delivery
           </span>
         </div>
@@ -89,24 +89,24 @@ export default function TrousseauPage({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
         {/* Left Column: 3 Visual Velvet Compartments */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white p-6 sm:p-10 rounded border border-[#B8860B]/30 shadow-md">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 mb-8 border-b border-[#B8860B]/20 gap-3">
+          <div className="bg-[#121212] p-6 sm:p-10 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 mb-8 border-b border-white/10 gap-3">
               <div>
-                <span className="text-xs uppercase tracking-widest text-[#8A661C] font-sans font-bold block">
+                <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
                   Velvet Trunk Assembly
                 </span>
-                <span className="text-2xl font-editorial font-bold text-[#1C1917]">
+                <span className="text-2xl font-editorial font-normal text-[#FBF9F5]">
                   {filledCount} of 3 Masterpieces Placed
                 </span>
               </div>
 
               {isTrunkComplete ? (
-                <div className="bg-emerald-800 text-white text-xs uppercase tracking-widest px-4 py-2 rounded font-sans font-bold flex items-center gap-2 shadow-sm animate-pulse">
-                  <CheckCircle2 className="w-4 h-4" />
+                <div className="bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs uppercase tracking-widest px-4 py-2 rounded-full font-sans font-bold flex items-center gap-2 shadow-sm animate-pulse">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                   <span>15% Royal Courtesy Privilege Applied</span>
                 </div>
               ) : (
-                <div className="text-xs font-sans text-[#8A661C] bg-[#F4EFEA] px-3.5 py-1.5 rounded border border-[#B8860B]/20">
+                <div className="text-xs font-sans text-stone-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
                   Select {3 - filledCount} more saree{3 - filledCount > 1 ? 's' : ''} to unlock Sheesham trunk
                 </div>
               )}
@@ -119,16 +119,16 @@ export default function TrousseauPage({
                 return (
                   <div
                     key={idx}
-                    className={`p-5 rounded border transition-all ${
+                    className={`p-5 rounded-lg border transition-all ${
                       selected
-                        ? 'bg-[#FAF8F5] border-[#781224]/40 shadow-sm'
-                        : 'bg-[#F4EFEA]/40 border-dashed border-[#B8860B]/40 hover:border-[#781224]'
+                        ? 'bg-[#0A0A0A] border-[#D4AF37]/40 shadow-sm'
+                        : 'bg-white/[0.02] border-dashed border-white/15 hover:border-[#D4AF37]/50'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       {/* Photo Thumbnail */}
                       <div className="flex items-center gap-4">
-                        <div className="w-20 h-24 rounded overflow-hidden border border-black/15 shadow-sm bg-stone-900 shrink-0 relative">
+                        <div className="w-20 h-24 rounded overflow-hidden border border-white/10 shadow-sm bg-stone-900 shrink-0 relative">
                           <img
                             src={selected ? selected.image : lbl.defaultImg}
                             alt={lbl.title}
@@ -142,19 +142,19 @@ export default function TrousseauPage({
                         </div>
 
                         <div>
-                          <span className="text-[10px] uppercase tracking-widest text-[#8A661C] font-sans font-bold block">
+                          <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
                             Slot 0{idx + 1} • {lbl.subtitle}
                           </span>
-                          <h3 className="text-xl font-editorial font-bold text-[#1C1917]">
+                          <h3 className="text-xl font-editorial font-normal text-[#FBF9F5]">
                             {lbl.title}
                           </h3>
                           {selected ? (
                             <div className="flex items-center gap-2 mt-1">
                               <span
-                                className="w-3 h-3 rounded-full border border-black/20"
+                                className="w-3 h-3 rounded-full border border-white/20"
                                 style={{ backgroundColor: selected.hex }}
                               />
-                              <span className="text-xs font-sans font-bold text-[#781224]">
+                              <span className="text-xs font-sans font-bold text-[#D4AF37]">
                                 {selected.name} ({selected.zariName})
                               </span>
                             </div>
@@ -170,7 +170,7 @@ export default function TrousseauPage({
                         {selected ? (
                           <button
                             onClick={() => onClearSlot(idx)}
-                            className="p-2 text-stone-400 hover:text-rose-700 transition-colors"
+                            className="p-2 text-stone-400 hover:text-rose-400 transition-colors"
                             title="Remove Colorway"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -178,7 +178,7 @@ export default function TrousseauPage({
                         ) : (
                           <button
                             onClick={() => setActiveSelectSlotIndex(idx)}
-                            className="px-5 py-2.5 bg-[#781224] text-white text-xs uppercase tracking-widest font-sans font-bold rounded hover:bg-[#580B17] transition-all shadow flex items-center gap-1.5"
+                            className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-xs uppercase tracking-widest font-sans font-bold rounded transition-all shadow-md flex items-center gap-1.5"
                           >
                             <Plus className="w-3.5 h-3.5" />
                             <span>Select Colorway</span>
@@ -192,8 +192,8 @@ export default function TrousseauPage({
             </div>
 
             {/* Brass Monogram Customizer */}
-            <div className="mt-8 pt-6 border-t border-[#B8860B]/20">
-              <label className="block text-xs uppercase tracking-widest font-sans font-bold text-[#8A661C] mb-2">
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <label className="block text-xs uppercase tracking-widest font-sans font-bold text-[#D4AF37] mb-2">
                 ⚜ Complimentary 24K Gold-Plated Brass Monogram Plate Engraving:
               </label>
               <input
@@ -201,15 +201,15 @@ export default function TrousseauPage({
                 value={monogramText}
                 onChange={(e) => setMonogramText(e.target.value)}
                 placeholder="Bride & Groom Names / Wedding Year"
-                className="w-full px-4 py-3 bg-[#FAF8F5] border border-[#B8860B]/40 rounded text-sm font-editorial text-[#1C1917] focus:outline-none focus:border-[#781224] mb-3"
+                className="w-full px-4 py-3 bg-[#0A0A0A] border border-[0.5px] border-white/20 rounded text-sm font-editorial text-stone-200 focus:outline-none focus:border-[#D4AF37] mb-3"
               />
 
               {/* Monogram Live Preview */}
-              <div className="p-4 bg-[#1C1917] text-[#FAF8F5] rounded border-2 border-[#B8860B] text-center shadow-lg">
-                <span className="text-[10px] uppercase tracking-widest text-[#B8860B] block font-sans">
+              <div className="p-4 bg-[#0A0A0A] text-[#FBF9F5] rounded border border-[#D4AF37]/50 text-center shadow-lg">
+                <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] block font-sans">
                   Engraved Brass Monogram Nameplate
                 </span>
-                <span className="text-base font-editorial tracking-[0.25em] text-[#FBF4DE] uppercase font-bold mt-1 block">
+                <span className="text-base font-editorial tracking-[0.25em] text-[#FBF9F5] uppercase font-bold mt-1 block">
                   {monogramText || 'YOUR NAMES • 2026'}
                 </span>
               </div>
@@ -219,54 +219,54 @@ export default function TrousseauPage({
 
         {/* Right Column: Investment Privilege Breakdown */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white p-6 sm:p-8 rounded border border-[#B8860B]/30 shadow-md">
-            <h2 className="text-xl font-editorial font-bold text-[#1C1917] mb-4 pb-3 border-b border-[#B8860B]/20">
+          <div className="bg-[#121212] p-6 sm:p-8 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl">
+            <h2 className="text-xl font-editorial font-normal text-[#FBF9F5] mb-4 pb-3 border-b border-white/10 tracking-wide">
               Trousseau Privileges
             </h2>
 
             <div className="space-y-3 text-xs font-sans mb-6">
-              <div className="flex justify-between py-1.5 border-b border-stone-100">
-                <span className="text-[#78716C]">Sarees Selected ({filledCount} of 3)</span>
-                <span className="font-semibold text-[#1C1917]">{formatPrice(subtotalINR, currency)}</span>
+              <div className="flex justify-between py-1.5 border-b border-white/5">
+                <span className="text-stone-400">Sarees Selected ({filledCount} of 3)</span>
+                <span className="font-semibold text-stone-200">{formatPrice(subtotalINR, currency)}</span>
               </div>
 
               {isTrunkComplete ? (
-                <div className="flex justify-between py-1.5 border-b border-stone-100 text-emerald-800 font-bold">
+                <div className="flex justify-between py-1.5 border-b border-white/5 text-emerald-400 font-bold">
                   <span>15% Royal Bridal Courtesy</span>
                   <span>- {formatPrice(discountINR, currency)}</span>
                 </div>
               ) : (
-                <div className="flex justify-between py-1.5 border-b border-stone-100 text-stone-400 italic">
+                <div className="flex justify-between py-1.5 border-b border-white/5 text-stone-500 italic">
                   <span>15% Courtesy (Add {3 - filledCount} more)</span>
                   <span>Unlocked at 3</span>
                 </div>
               )}
 
-              <div className="flex justify-between py-1.5 border-b border-stone-100">
-                <span className="text-[#78716C]">Hand-Carved Sheesham Trunk</span>
-                <span className="font-semibold text-[#781224]">Complimentary</span>
+              <div className="flex justify-between py-1.5 border-b border-white/5">
+                <span className="text-stone-400">Hand-Carved Sheesham Trunk</span>
+                <span className="font-semibold text-[#D4AF37]">Complimentary</span>
               </div>
 
-              <div className="flex justify-between py-1.5 border-b border-stone-100">
-                <span className="text-[#78716C]">24K Brass Monogram Plate</span>
-                <span className="font-semibold text-[#781224]">Complimentary</span>
+              <div className="flex justify-between py-1.5 border-b border-white/5">
+                <span className="text-stone-400">24K Brass Monogram Plate</span>
+                <span className="font-semibold text-[#D4AF37]">Complimentary</span>
               </div>
 
-              <div className="flex justify-between py-1.5 border-b border-stone-100">
-                <span className="text-[#78716C]">White-Glove Insured Courier</span>
-                <span className="font-semibold text-emerald-800">Free Worldwide</span>
+              <div className="flex justify-between py-1.5 border-b border-white/5">
+                <span className="text-stone-400">White-Glove Insured Courier</span>
+                <span className="font-semibold text-emerald-400">Free Worldwide</span>
               </div>
 
-              <div className="pt-3 flex justify-between text-base font-editorial font-bold text-[#1C1917]">
+              <div className="pt-3 flex justify-between text-base font-editorial font-bold text-[#FBF9F5]">
                 <span>Total Investment</span>
-                <span className="text-2xl text-[#781224]">{formatPrice(finalTotalINR, currency)}</span>
+                <span className="text-2xl text-[#D4AF37]">{formatPrice(finalTotalINR, currency)}</span>
               </div>
             </div>
 
             <div className="space-y-3">
               <button
                 onClick={handleWhatsAppBooking}
-                className="w-full py-4 bg-[#781224] text-white text-xs uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all shadow-md flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Commission Trunk via Concierge</span>
@@ -274,7 +274,7 @@ export default function TrousseauPage({
 
               <button
                 onClick={() => onNavigate('salon')}
-                className="w-full py-3 bg-transparent text-[#781224] border border-[#B8860B] text-xs uppercase tracking-widest font-sans font-semibold rounded hover:bg-[#FAF8F5] transition-all text-center"
+                className="w-full py-3 bg-transparent text-[#D4AF37] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[11px] uppercase tracking-widest font-sans font-semibold rounded hover:bg-white/5 transition-all text-center"
               >
                 Book Private Salon Draping Session
               </button>
@@ -282,13 +282,13 @@ export default function TrousseauPage({
           </div>
 
           {/* Unboxing Trunk Photo Card */}
-          <div className="rounded overflow-hidden shadow-md border border-[#B8860B]/20 bg-white">
+          <div className="rounded-lg overflow-hidden shadow-xl border border-[0.5px] border-[#D4AF37]/20 bg-[#121212]">
             <img
               src={BRAND_ASSETS.trousseauTrunk}
               alt="Velvet Trousseau Trunk Unboxing"
-              className="w-full h-48 object-cover"
+              className="w-full h-48 object-cover filter brightness-95"
             />
-            <div className="p-4 text-xs font-sans text-center text-[#78716C]">
+            <div className="p-4 text-xs font-sans text-center text-stone-400">
               Every trunk is lined in pure raw silk velvet with solid brass latches and custom monogramming.
             </div>
           </div>
@@ -297,20 +297,20 @@ export default function TrousseauPage({
 
       {/* Modal: Select Colorway for Active Slot */}
       {activeSelectSlotIndex !== null && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-[#FAF8F5] p-6 sm:p-8 rounded max-w-2xl w-full border border-[#B8860B] shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-[#B8860B]/20">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-[#121212] p-6 sm:p-8 rounded-lg max-w-2xl w-full border border-[#D4AF37]/40 shadow-2xl space-y-6">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
-                <span className="text-xs uppercase tracking-widest text-[#8A661C] font-sans font-bold block">
+                <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
                   Assign Saree Colorway
                 </span>
-                <h3 className="text-xl font-editorial font-bold text-[#1C1917]">
+                <h3 className="text-xl font-editorial font-normal text-[#FBF9F5]">
                   {slotLabels[activeSelectSlotIndex].title}
                 </h3>
               </div>
               <button
                 onClick={() => setActiveSelectSlotIndex(null)}
-                className="text-stone-400 hover:text-stone-700 text-lg font-bold"
+                className="text-stone-400 hover:text-white text-lg font-bold p-1"
               >
                 ✕
               </button>
@@ -321,19 +321,19 @@ export default function TrousseauPage({
                 <div
                   key={cw.id}
                   onClick={() => handleSelectForSlot(cw)}
-                  className="p-3 bg-white rounded border border-[#B8860B]/30 hover:border-[#781224] cursor-pointer transition-all flex items-center gap-3 group shadow-sm hover:shadow"
+                  className="p-3 bg-[#0A0A0A] rounded border border-white/10 hover:border-[#D4AF37] cursor-pointer transition-all flex items-center gap-3 group shadow-sm hover:shadow"
                 >
                   <img
                     src={cw.image}
                     alt={cw.name}
-                    className="w-14 h-16 rounded object-cover border border-black/10 shrink-0"
+                    className="w-14 h-16 rounded object-cover border border-white/10 shrink-0"
                   />
                   <div>
-                    <h4 className="text-sm font-editorial font-bold text-[#1C1917] group-hover:text-[#781224]">
+                    <h4 className="text-sm font-editorial font-bold text-[#FBF9F5] group-hover:text-[#D4AF37]">
                       {cw.name}
                     </h4>
-                    <p className="text-[11px] font-sans text-[#781224] font-medium">{cw.sanskrit}</p>
-                    <span className="text-[10px] font-sans text-[#8A661C] block">{cw.zariTone}</span>
+                    <p className="text-[11px] font-sans text-[#D4AF37] font-medium">{cw.sanskrit}</p>
+                    <span className="text-[10px] font-sans text-stone-400 block">{cw.zariTone}</span>
                   </div>
                 </div>
               ))}
@@ -342,7 +342,7 @@ export default function TrousseauPage({
             <div className="text-right pt-2">
               <button
                 onClick={() => setActiveSelectSlotIndex(null)}
-                className="px-6 py-2 text-xs uppercase tracking-wider font-sans text-stone-500 hover:text-stone-800"
+                className="px-6 py-2 text-xs uppercase tracking-wider font-sans text-stone-400 hover:text-white"
               >
                 Cancel
               </button>

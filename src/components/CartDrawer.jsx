@@ -28,20 +28,20 @@ export default function CartDrawer({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
       />
 
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#FAF8F5] border-l border-[#B8860B]/30 shadow-2xl flex flex-col text-[#1C1917] font-sans">
+        <div className="w-screen max-w-md bg-[#121212] border-l border-[0.5px] border-[#D4AF37]/30 shadow-2xl flex flex-col text-[#FBF9F5] font-sans">
           {/* Drawer Header */}
-          <div className="p-6 border-b border-[#B8860B]/20 flex items-center justify-between bg-white">
-            <div className="flex items-center gap-2">
-              <span className="text-lg text-[#781224]">⚜</span>
+          <div className="p-6 border-b border-white/10 flex items-center justify-between bg-[#0A0A0A]">
+            <div className="flex items-center gap-2.5">
+              <span className="text-base text-[#D4AF37]">⚜</span>
               <div>
-                <h2 className="text-lg font-editorial font-bold text-[#1C1917]">
+                <h2 className="text-lg font-editorial font-normal text-[#FBF9F5]">
                   Your Silk Bag
                 </h2>
-                <span className="text-xs text-[#78716C]">
+                <span className="text-xs text-stone-400 font-sans">
                   {cart.length} {cart.length === 1 ? 'Masterpiece' : 'Masterpieces'} Selected
                 </span>
               </div>
@@ -49,7 +49,7 @@ export default function CartDrawer({
 
             <button
               onClick={onClose}
-              className="p-2 text-stone-400 hover:text-stone-700 transition-colors"
+              className="p-2 text-stone-400 hover:text-white transition-colors"
               aria-label="Close Bag"
             >
               <X className="w-5 h-5" />
@@ -60,11 +60,11 @@ export default function CartDrawer({
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {cart.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-                <ShoppingBag className="w-12 h-12 text-[#B8860B]/40 stroke-1" />
-                <h3 className="text-lg font-editorial font-bold text-[#1C1917]">
+                <ShoppingBag className="w-12 h-12 text-[#D4AF37]/40 stroke-1" />
+                <h3 className="text-lg font-editorial font-normal text-[#FBF9F5]">
                   Your Silk Bag is Empty
                 </h3>
-                <p className="text-xs text-[#78716C] max-w-xs">
+                <p className="text-xs text-stone-400 max-w-xs leading-relaxed">
                   Each Kashika saree is limited to a small loom edition of 2 to 4 pieces per season.
                 </p>
                 <button
@@ -72,7 +72,7 @@ export default function CartDrawer({
                     onClose();
                     onNavigate('collection');
                   }}
-                  className="px-6 py-2.5 bg-[#781224] text-white text-xs uppercase tracking-widest font-semibold rounded hover:bg-[#580B17] transition-all"
+                  className="px-6 py-2.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-xs uppercase tracking-widest font-bold rounded transition-all"
                 >
                   Explore Collection
                 </button>
@@ -81,23 +81,23 @@ export default function CartDrawer({
               cart.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-4 bg-white rounded border border-[#B8860B]/20 shadow-sm flex items-center justify-between gap-4"
+                  className="p-4 bg-[#0A0A0A] rounded-lg border border-[0.5px] border-white/10 shadow-sm flex items-center justify-between gap-4"
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-12 h-12 rounded border border-black/10 shrink-0 flex items-center justify-center text-white text-xs"
-                      style={{ backgroundColor: item.colorHex || '#781224' }}
+                      className="w-12 h-12 rounded border border-white/15 shrink-0 flex items-center justify-center text-white text-xs shadow-inner"
+                      style={{ backgroundColor: item.colorHex || '#121212' }}
                     >
                       ⚜
                     </div>
                     <div>
-                      <h4 className="text-sm font-editorial font-bold text-[#1C1917]">
+                      <h4 className="text-sm font-editorial font-bold text-[#FBF9F5]">
                         {item.title}
                       </h4>
-                      <p className="text-xs text-[#781224] font-medium">
+                      <p className="text-xs text-[#D4AF37] font-medium">
                         {item.colorwayName}
                       </p>
-                      <span className="text-xs font-editorial font-bold text-[#1C1917] block mt-1">
+                      <span className="text-xs font-editorial font-bold text-stone-200 block mt-1">
                         {formatPrice(item.priceINR, currency)}
                       </span>
                     </div>
@@ -105,7 +105,7 @@ export default function CartDrawer({
 
                   <button
                     onClick={() => onRemoveItem(idx)}
-                    className="p-2 text-stone-400 hover:text-rose-700 transition-colors"
+                    className="p-2 text-stone-400 hover:text-rose-400 transition-colors"
                     title="Remove Saree"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -117,36 +117,36 @@ export default function CartDrawer({
 
           {/* Drawer Footer & Checkout */}
           {cart.length > 0 && (
-            <div className="p-6 bg-white border-t border-[#B8860B]/20 space-y-4">
-              <div className="space-y-1.5 text-xs text-[#78716C]">
+            <div className="p-6 bg-[#0A0A0A] border-t border-white/10 space-y-4">
+              <div className="space-y-1.5 text-xs text-stone-400">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-semibold text-[#1C1917]">{formatPrice(totalINR, currency)}</span>
+                  <span className="font-semibold text-stone-200">{formatPrice(totalINR, currency)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Insured Global Courier</span>
-                  <span className="font-semibold text-emerald-800">Complimentary</span>
+                  <span className="font-semibold text-emerald-400">Complimentary</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Preservation Muslin Wrap</span>
-                  <span className="font-semibold text-[#781224]">Included</span>
+                  <span className="font-semibold text-[#D4AF37]">Included</span>
                 </div>
-                <div className="pt-2 flex justify-between text-base font-editorial font-bold text-[#1C1917] border-t border-stone-200">
+                <div className="pt-2 flex justify-between text-base font-editorial font-bold text-[#FBF9F5] border-t border-white/10">
                   <span>Total Investment</span>
-                  <span className="text-[#781224]">{formatPrice(totalINR, currency)}</span>
+                  <span className="text-[#D4AF37]">{formatPrice(totalINR, currency)}</span>
                 </div>
               </div>
 
               <button
                 onClick={handleWhatsAppCheckout}
-                className="w-full py-4 bg-[#781224] text-[#FAF8F5] text-xs uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-[#580B17] transition-all shadow-md flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Finalize via WhatsApp Concierge</span>
               </button>
 
-              <div className="text-center text-[10px] text-[#78716C] flex items-center justify-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#781224]" />
+              <div className="text-center text-[10px] text-stone-400 flex items-center justify-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
                 <span>100% Tested Silver Bullion Zari & SilkMark Verified</span>
               </div>
             </div>
