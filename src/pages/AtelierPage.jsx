@@ -195,7 +195,7 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
             Five Sacred Weaves. One Imperial Heritage.
           </h2>
           <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
-            Hover any column to expand the drape and explore the pure zari shades.
+            Hover any column to preview the weave and explore pure zari shades.
           </p>
         </div>
 
@@ -256,7 +256,7 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                         />
                       </div>
 
-                      <div className="space-y-4 max-w-md pointer-events-auto">
+                      <div className="space-y-3 max-w-md pointer-events-auto">
                         <div className="space-y-1">
                           <span className="text-[11px] uppercase tracking-[0.25em] text-[#D4AF37] block font-sans font-semibold">
                             {cw.occasion}
@@ -265,13 +265,22 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                             {cw.name}
                           </h3>
                           <p className="text-xs font-editorial italic text-stone-300">
-                            Sanskrit: <span className="text-[#D4AF37]">{cw.sanskrit}</span> ({cw.tagline})
+                            {cw.sanskrit} • {cw.tagline}
                           </p>
                         </div>
 
-                        <p className="text-xs font-sans text-stone-300 leading-relaxed">
-                          Blouse: {cw.blousePiece} • 144 Hours on the pit loom with 98.2% pure bullion zari.
-                        </p>
+                        {/* Minimal Spec Chips instead of long sentences */}
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <span className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[10px] uppercase tracking-wider text-stone-200 font-sans">
+                            144 Loom Hours
+                          </span>
+                          <span className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[10px] uppercase tracking-wider text-stone-200 font-sans">
+                            98.2% Silver Zari
+                          </span>
+                          <span className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[10px] uppercase tracking-wider text-stone-200 font-sans">
+                            Silk Mark
+                          </span>
+                        </div>
 
                         <div className="pt-2 flex items-center gap-3">
                           <button
@@ -298,13 +307,13 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
       {/* ============================================================== */}
       {/* 3. ANCIENT CRAFT, MODERN SOUL: matching sec_05s.jpg from video */}
       {/* ============================================================== */}
-      <section className="py-28 md:py-36 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+      <section className="py-24 md:py-32 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left: Stacked Editorial Text + Arched Burgundy Medallion from video */}
           <div className="lg:col-span-4 space-y-6">
             <div className="space-y-1">
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
-                Heritage Manifesto
+                Heritage Lineage
               </span>
               <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-[1.08] tracking-tight">
                 ANCIENT<br />
@@ -314,8 +323,8 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
               </h2>
             </div>
 
-            <p className="text-xs sm:text-sm font-editorial italic text-stone-600 leading-relaxed max-w-xs">
-              Every Kashika weave bridges the 76-year royal lineage of Varanasi pit looms with contemporary bridal aesthetics.
+            <p className="text-xs sm:text-sm font-editorial italic text-stone-600 max-w-xs">
+              76 years of pit loom mastery. Woven for dynasties.
             </p>
 
             {/* Arched Burgundy Medallion from sec_05s.jpg */}
@@ -336,52 +345,52 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
           </div>
 
           {/* Right: 4 Horizontal Craft Cards matching video */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
                 01. Pure Mulberry Silk
               </span>
-              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
                 Sidlaghatta Katan Warp
               </h3>
               <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Hand-reeled Grade-A Karnataka mulberry silk providing unbroken tensile strength and butter-smooth drape.
+                Grade-A mulberry silk warp. Butter-smooth drape with unbroken tensile strength.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
                 02. Pure Bullion Core
               </span>
-              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
                 98.2% Tested Silver Zari
               </h3>
               <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Genuine silver bullion electroplated in 24K pure liquid gold. Guaranteed dynastic longevity of 80 to 120 years.
+                Tested silver bullion core dipped in liquid 24K gold. 100-year heirloom longevity.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
                 03. Zero Loose Floats
               </span>
-              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
                 Hand-Locked Kadwa Weave
               </h3>
               <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Each motif is individually locked into the warp yarns with tiny wooden tilis so no threads scratch the skin.
+                Zero loose threads on the reverse. Every motif individually locked by hand.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-3 hover:shadow-md transition-shadow">
+            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
                 04. Authenticity Guarantee
               </span>
-              <h3 className="text-xl font-editorial font-normal text-[#1C1917]">
+              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
                 Silk Mark India Certified
               </h3>
               <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Every piece bears the government-sealed Silk Mark QR credential and master weaver provenance stamp.
+                Government-certified Silk Mark seal & master weaver provenance QR.
               </p>
             </div>
           </div>
@@ -391,10 +400,10 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
       {/* ============================================================== */}
       {/* 4. FRESH WEAVES, TIMELESS GRACE: Catalog Grid matching sec_15 & sec_22 */}
       {/* ============================================================== */}
-      <section id="fresh-weaves" className="py-28 md:py-36 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20">
+      <section id="fresh-weaves" className="py-24 md:py-32 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           {/* Header matching video */}
-          <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
               Curated Collection • 2026
             </span>
@@ -402,7 +411,7 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
               Fresh Weaves, Timeless Grace
             </h2>
             <p className="text-xs sm:text-sm font-editorial italic text-stone-600">
-              Collection crafted with pure silk, intricate motifs & festive radiance.
+              Handcrafted in Varanasi • Limited Seasonal Loom Runs
             </p>
           </div>
 
@@ -517,10 +526,10 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
       {/* ============================================================== */}
       {/* 5. WE'D LOVE TO HEAR FROM YOU: matching sec_09s.jpg from video */}
       {/* ============================================================== */}
-      <section className="py-28 md:py-36 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+      <section className="py-24 md:py-32 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column matching sec_09.jpg */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-5">
             <div className="space-y-2">
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
                 Direct Atelier Desk
@@ -530,16 +539,16 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
               </h2>
             </div>
 
-            <p className="text-sm font-editorial italic text-stone-600 leading-relaxed">
-              Whether you wish to inspect a saree over high-definition video, curate a custom bridal trousseau, or verify zari assay certificates, our master drapers are always at your service.
+            <p className="text-sm font-editorial italic text-stone-600">
+              1-on-1 private video draping and custom bridal curation with our senior drapers.
             </p>
 
-            <div className="space-y-4 pt-2 text-xs font-sans text-stone-700">
+            <div className="space-y-3 pt-1 text-xs font-sans text-stone-700">
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
                 <div>
                   <strong className="block text-stone-900">Heritage Weaving Guild</strong>
-                  <span>Shivala Ghat, Varanasi 221001 • Lavelle Road, Bengaluru</span>
+                  <span className="text-stone-600">Shivala Ghat, Varanasi • Lavelle Road, Bengaluru</span>
                 </div>
               </div>
 
