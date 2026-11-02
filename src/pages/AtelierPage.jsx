@@ -345,52 +345,52 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
           </div>
 
           {/* Right: 4 Horizontal Craft Cards matching video */}
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div className="p-5 bg-white rounded-xl border border-stone-200 shadow-sm space-y-1.5 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
-                01. Pure Mulberry Silk
+                01 • Silk Warp
               </span>
-              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
-                Sidlaghatta Katan Warp
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">
+                Grade-A Mulberry Silk
               </h3>
-              <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Grade-A mulberry silk warp. Butter-smooth drape with unbroken tensile strength.
+              <p className="text-xs font-sans text-stone-500">
+                Hand-reeled Sidlaghatta warp. Butter-smooth drape with unbroken strength.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
+            <div className="p-5 bg-white rounded-xl border border-stone-200 shadow-sm space-y-1.5 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
-                02. Pure Bullion Core
+                02 • Zari Core
               </span>
-              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">
                 98.2% Tested Silver Zari
               </h3>
-              <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Tested silver bullion core dipped in liquid 24K gold. 100-year heirloom longevity.
+              <p className="text-xs font-sans text-stone-500">
+                Silver bullion dipped in liquid 24K gold. 100-year heirloom longevity.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
+            <div className="p-5 bg-white rounded-xl border border-stone-200 shadow-sm space-y-1.5 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
-                03. Zero Loose Floats
+                03 • Kadwa Technique
               </span>
-              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
-                Hand-Locked Kadwa Weave
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">
+                Hand-Locked Motifs
               </h3>
-              <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Zero loose threads on the reverse. Every motif individually locked by hand.
+              <p className="text-xs font-sans text-stone-500">
+                Zero loose reverse threads. Every motif individually locked by hand.
               </p>
             </div>
 
-            <div className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm space-y-2 hover:shadow-md transition-shadow">
+            <div className="p-5 bg-white rounded-xl border border-stone-200 shadow-sm space-y-1.5 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
-                04. Authenticity Guarantee
+                04 • Provenance
               </span>
-              <h3 className="text-lg font-editorial font-normal text-[#1C1917]">
-                Silk Mark India Certified
+              <h3 className="text-base font-editorial font-bold text-[#1C1917]">
+                Silk Mark Certified
               </h3>
-              <p className="text-xs font-sans text-stone-600 leading-relaxed">
-                Government-certified Silk Mark seal & master weaver provenance QR.
+              <p className="text-xs font-sans text-stone-500">
+                Government-verified pure silk mark and weaver registry QR seal.
               </p>
             </div>
           </div>
@@ -524,69 +524,63 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
       </section>
 
       {/* ============================================================== */}
-      {/* 5. WE'D LOVE TO HEAR FROM YOU: matching sec_09s.jpg from video */}
+      {/* 5. ATELIER DESK: Direct Concierge & Inquiry */}
       {/* ============================================================== */}
-      <section className="py-24 md:py-32 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column matching sec_09.jpg */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="space-y-2">
+      <section className="py-20 md:py-28 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="space-y-1.5">
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
-                Direct Atelier Desk
+                Atelier Concierge
               </span>
-              <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-tight">
-                We'd Love to Hear From You
+              <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-[#1C1917] leading-tight">
+                Connect With Our Master Drapers
               </h2>
             </div>
 
-            <p className="text-sm font-editorial italic text-stone-600">
-              1-on-1 private video draping and custom bridal curation with our senior drapers.
+            <p className="text-xs sm:text-sm font-editorial italic text-stone-600">
+              1-on-1 private video draping and bridal trousseau consultations.
             </p>
 
-            <div className="space-y-3 pt-1 text-xs font-sans text-stone-700">
-              <div className="flex items-start gap-3">
+            <div className="space-y-2.5 pt-1 text-xs font-sans text-stone-700">
+              <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-stone-900">Heritage Weaving Guild</strong>
-                  <span className="text-stone-600">Shivala Ghat, Varanasi • Lavelle Road, Bengaluru</span>
-                </div>
+                <span className="text-stone-700">Shivala Ghat, Varanasi • Lavelle Road, Bengaluru</span>
               </div>
 
-              <div className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-stone-900">WhatsApp Bridal Concierge</strong>
-                  <a
-                    href="https://wa.me/917676721111"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[#881326] hover:underline font-bold"
-                  >
-                    +91 76767 21111 (Senior Draper)
-                  </a>
-                </div>
+              <div className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-[#881326] shrink-0" />
+                <a
+                  href="https://wa.me/917676721111"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#881326] hover:underline font-bold"
+                >
+                  +91 76767 21111 (WhatsApp Senior Draper)
+                </a>
               </div>
             </div>
           </div>
 
           {/* Right Column: Inquiry Form */}
-          <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-stone-200 shadow-xl">
+          <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xl">
             {contactSent ? (
-              <div className="text-center py-10 space-y-4">
+              <div className="text-center py-8 space-y-3">
                 <span className="text-3xl text-emerald-600">✓</span>
-                <h3 className="text-2xl font-editorial font-normal text-stone-900">
-                  Message Transmitted
+                <h3 className="text-xl font-editorial font-normal text-stone-900">
+                  Inquiry Transmitted
                 </h3>
                 <p className="text-xs font-sans text-stone-600">
                   Our Senior Draper will connect with you directly via WhatsApp.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleContactSubmit} className="space-y-4 text-xs font-sans">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <form onSubmit={handleContactSubmit} className="space-y-3.5 text-xs font-sans">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
-                      Your Full Name *
+                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
+                      Full Name *
                     </label>
                     <input
                       type="text"
@@ -594,13 +588,13 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
                       placeholder="Lady / Mr. Name"
-                      className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                      className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
-                      WhatsApp / Phone *
+                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
+                      WhatsApp *
                     </label>
                     <input
                       type="tel"
@@ -608,31 +602,31 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                       value={contactPhone}
                       onChange={(e) => setContactPhone(e.target.value)}
                       placeholder="+91 / +1 / +44 ..."
-                      className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                      className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1.5">
+                  <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
                     Your Saree / Bridal Inquiry
                   </label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     required
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
-                    placeholder="Tell us which saree shade, weave, or wedding date you have in mind..."
-                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                    placeholder="Saree shade, weave, or wedding dates..."
+                    className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
+                  className="w-full py-3.5 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Send Inquiry to Senior Draper &rarr;</span>
+                  <span>Connect on WhatsApp &rarr;</span>
                 </button>
               </form>
             )}

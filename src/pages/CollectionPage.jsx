@@ -126,8 +126,8 @@ export default function CollectionPage({
         <h1 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
           {masterSaree.name}
         </h1>
-        <p className="text-sm font-editorial italic text-stone-300 leading-relaxed">
-          One supreme Kadwa naksha. Select any of the 5 heritage colorways to inspect the drape, zari alloy, and blouse piece.
+        <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
+          Five heritage colorways • Tested 98.2% silver zari • Hand-locked Kadwa
         </p>
       </motion.div>
 
@@ -378,32 +378,32 @@ export default function CollectionPage({
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <button
                 onClick={handleAcquire}
-                className={`w-full py-4 text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer ${
+                className={`w-full py-3.5 text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer ${
                   addedAnimation
                     ? 'bg-emerald-600 text-white'
                     : 'bg-[#D4AF37] hover:bg-[#C5A059] text-black'
                 }`}
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>{addedAnimation ? '✓ Masterpiece Placed in Bag' : 'Acquire Masterpiece (Add to Bag)'}</span>
+                <span>{addedAnimation ? '✓ Placed in Bag' : 'Acquire Masterpiece'}</span>
               </button>
 
               <button
                 onClick={() => onAddToTrousseau(activeColorway)}
-                className="w-full py-3.5 bg-transparent text-[#D4AF37] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[11px] uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 bg-transparent text-[#D4AF37] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[10px] uppercase tracking-[0.2em] font-sans font-semibold rounded hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
               >
-                <span>⚜ Curate in 3-Piece Bridal Trunk (15% Off)</span>
+                <span>Curate in 3-Piece Trunk (15% Off)</span>
               </button>
 
               <button
                 onClick={handleWhatsAppConsult}
-                className="w-full py-3 bg-[#25D366]/10 text-emerald-300 border border-[#25D366]/40 text-[11px] uppercase tracking-widest font-sans font-semibold rounded hover:bg-[#25D366]/20 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#25D366]/10 text-emerald-300 border border-[#25D366]/40 text-[10px] uppercase tracking-widest font-sans font-semibold rounded hover:bg-[#25D366]/20 transition-all flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>VIP Video Consultation on WhatsApp</span>
+                <span>Video Drape Consultation</span>
               </button>
             </div>
 
@@ -453,7 +453,7 @@ export default function CollectionPage({
             ⚜ Real Dynastic Weddings
           </span>
           <h2 className="text-2xl sm:text-4xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
-            Patrons in The Rajkumari Mayil Jangla
+            Patrons in Kashika Silk
           </h2>
         </div>
 

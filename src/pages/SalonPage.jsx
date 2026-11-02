@@ -38,27 +38,27 @@ export default function SalonPage() {
         initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center max-w-2xl mx-auto mb-20 space-y-3"
+        className="text-center max-w-2xl mx-auto mb-16 space-y-2"
       >
         <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> Private Draping Salons <span>⚜</span>
         </span>
-        <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#FBF9F5] tracking-tight">
+        <h1 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-tight">
           Experience Kashika in Person
         </h1>
-        <p className="text-sm sm:text-base font-editorial italic text-stone-300 leading-relaxed">
-          Step into our private draping salons for an intimate, unhurried consultation over artisanal tea, or connect via private high-definition video consultation from anywhere in the world.
+        <p className="text-xs sm:text-sm font-editorial italic text-stone-300">
+          Private in-person draping at our flagship suites, or 1-on-1 worldwide HD video consultation.
         </p>
 
         {/* Visual Metric Chips */}
-        <div className="pt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300 shadow-sm">
+        <div className="pt-3 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300">
             <span>☕</span> Kashmiri Saffron Hospitality
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-[#D4AF37] shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-[#D4AF37]">
             <span>⚜</span> One Guest Party at a Time
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-emerald-400 shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-emerald-400">
             <span>📹</span> Worldwide HD Video Consults
           </span>
         </div>
@@ -72,11 +72,11 @@ export default function SalonPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="lg:col-span-7 bg-[#121212] p-8 sm:p-12 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl"
         >
-          <h2 className="text-2xl sm:text-3xl font-editorial font-normal text-[#FBF9F5] mb-2 tracking-wide">
-            Request VIP Bridal Consultation
+          <h2 className="text-2xl sm:text-3xl font-editorial font-normal text-[#FBF9F5] mb-1.5 tracking-wide">
+            Request VIP Consultation
           </h2>
-          <p className="text-xs font-sans text-stone-400 mb-8">
-            Connect with our senior bridal stylists for a private one-on-one trousseau consultation and tailored video draping.
+          <p className="text-xs font-sans text-stone-400 mb-6">
+            Private one-on-one trousseau consultation with our senior bridal drapers.
           </p>
 
           {submitted ? (
@@ -227,20 +227,20 @@ export default function SalonPage() {
             />
             <div className="relative z-10 p-6 sm:p-8 text-white space-y-3">
               <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
-                Worldwide VIP Concierge
+                Worldwide Concierge
               </span>
-              <h3 className="text-2xl font-editorial font-normal">
-                Virtual HD Video Draping Call
+              <h3 className="text-xl font-editorial font-normal">
+                Virtual HD Video Draping
               </h3>
-              <p className="text-xs font-sans text-stone-300 leading-relaxed mb-4">
-                Connect live with our senior master drapers from New York, London, Dubai, or Singapore. We drape your chosen colorways under calibrated daylight lighting live on camera.
+              <p className="text-xs font-sans text-stone-300 mb-3">
+                Live private draping of your selected sarees under calibrated studio lighting.
               </p>
               <button
                 onClick={handleStartVirtualCall}
-                className="w-full py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-widest font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
+                className="w-full py-3 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[10px] uppercase tracking-widest font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
               >
                 <Video className="w-4 h-4 text-black" />
-                <span>Request Instant Video Consultation</span>
+                <span>Request Video Consultation</span>
               </button>
             </div>
           </div>

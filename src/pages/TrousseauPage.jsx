@@ -70,8 +70,8 @@ export default function TrousseauPage({
         <h1 className="text-4xl sm:text-6xl font-editorial font-normal text-[#FBF9F5] tracking-tight">
           The Three-Piece Trousseau
         </h1>
-        <p className="text-sm sm:text-base font-editorial italic text-stone-300 leading-relaxed">
-          Curate three sacred colorways to unlock your 15% Royal Courtesy privilege and a complimentary hand-carved Sheesham wood velvet trunk.
+        <p className="text-xs sm:text-sm font-editorial italic text-stone-300">
+          Curate 3 sacred colorways. Includes 15% bridal courtesy and a hand-carved Sheesham trunk.
         </p>
 
         {/* Visual Metric Chips */}
@@ -280,20 +280,20 @@ export default function TrousseauPage({
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <button
                 onClick={handleWhatsAppBooking}
-                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
+                className="w-full py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Commission Trunk via Concierge</span>
+                <span>Commission Bridal Trunk</span>
               </button>
 
               <button
                 onClick={() => onNavigate('salon')}
-                className="w-full py-3 bg-transparent text-[#D4AF37] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[11px] uppercase tracking-widest font-sans font-semibold rounded hover:bg-white/5 transition-all text-center"
+                className="w-full py-3 bg-transparent text-[#D4AF37] border border-[#D4AF37]/40 hover:border-[#D4AF37] text-[10px] uppercase tracking-widest font-sans font-semibold rounded hover:bg-white/5 transition-all text-center"
               >
-                Book Private Salon Draping Session
+                Book Private Salon Draping
               </button>
             </div>
           </div>
@@ -305,8 +305,8 @@ export default function TrousseauPage({
               alt="Velvet Trousseau Trunk Unboxing"
               className="w-full h-48 object-cover filter brightness-95"
             />
-            <div className="p-4 text-xs font-sans text-center text-stone-400">
-              Every trunk is lined in pure raw silk velvet with solid brass latches and custom monogramming.
+            <div className="p-3 text-xs font-sans text-center text-stone-400">
+              Lined in pure raw silk velvet with solid brass latches and custom monogram.
             </div>
           </div>
         </motion.div>

@@ -51,8 +51,8 @@ export default function Footer({ onNavigate }) {
             Join the Royal Ledger
           </h3>
 
-          <p className="text-xs sm:text-sm font-editorial italic text-stone-300 max-w-xl mx-auto">
-            Receive private invitations to confidential loom releases, rare colorway drops, and personal bridal trousseau appointments.
+          <p className="text-xs sm:text-sm font-editorial italic text-stone-300 max-w-lg mx-auto">
+            Private invitations to confidential loom releases and seasonal bridal previews.
           </p>
 
           <form
@@ -106,8 +106,8 @@ export default function Footer({ onNavigate }) {
             </p>
           </div>
 
-          <p className="text-xs font-editorial italic text-stone-400 leading-relaxed max-w-sm">
-            Purveyors of pure mulberry silk & tested silver bullion zari to royal trousseaus for over seven decades. Hand-woven on pit looms at Shivala Ghat.
+          <p className="text-xs font-editorial italic text-stone-400 max-w-sm">
+            Pure mulberry silk & tested silver bullion zari. Handcrafted on Varanasi pit looms since 1948.
           </p>
 
           {/* Social / Direct Channels */}
