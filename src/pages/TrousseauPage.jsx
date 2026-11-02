@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Sparkles, Trash2, CheckCircle2, Gift, ShieldCheck, ArrowRight, MessageCircle, Plus } from 'lucide-react';
+import { Sparkles, Trash2, CheckCircle2, Gift, ShieldCheck, ArrowRight, MessageCircle, Plus, X } from 'lucide-react';
 import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 
@@ -57,7 +58,12 @@ export default function TrousseauPage({
   return (
     <div className="bg-[#0A0A0A] text-[#FBF9F5] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5]">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center max-w-2xl mx-auto mb-20 space-y-3"
+      >
         <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> The Imperial Bridal Trunk <span>⚜</span>
         </span>
@@ -71,24 +77,29 @@ export default function TrousseauPage({
         {/* Visual Metric Chips */}
         <div className="pt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs font-sans">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300 shadow-sm">
-            <span>🪵</span> Sheesham Wood Trunk Included
+            <span>🧰</span> Sheesham Wood Trunk Included
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-[#D4AF37] shadow-sm">
             <span>🪙</span> 24K Engraved Monogram
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-emerald-400 shadow-sm">
-            <span>✨</span> 15% Bridal Courtesy
+            <span>✓</span> 15% Bridal Courtesy
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-stone-300 shadow-sm">
-            <span>📦</span> Free Insured Delivery
+            <span>✈️</span> Free Insured Delivery
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Visual Trunk Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
         {/* Left Column: 3 Visual Velvet Compartments */}
-        <div className="lg:col-span-8 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="lg:col-span-8 space-y-6"
+        >
           <div className="bg-[#121212] p-6 sm:p-10 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 mb-8 border-b border-white/10 gap-3">
               <div>
@@ -117,8 +128,9 @@ export default function TrousseauPage({
               {slotLabels.map((lbl, idx) => {
                 const selected = trousseauSlots[idx];
                 return (
-                  <div
+                  <motion.div
                     key={idx}
+                    whileHover={{ scale: 1.01 }}
                     className={`p-5 rounded-lg border transition-all ${
                       selected
                         ? 'bg-[#0A0A0A] border-[#D4AF37]/40 shadow-sm'
@@ -155,12 +167,12 @@ export default function TrousseauPage({
                                 style={{ backgroundColor: selected.hex }}
                               />
                               <span className="text-xs font-sans font-bold text-[#D4AF37]">
-                                {selected.name} ({selected.zariName})
+                                {selected.name}
                               </span>
                             </div>
                           ) : (
                             <p className="text-xs font-sans text-stone-500 italic mt-0.5">
-                              Click below to select your colorway
+                              Click button to select your colorway
                             </p>
                           )}
                         </div>
@@ -178,7 +190,7 @@ export default function TrousseauPage({
                         ) : (
                           <button
                             onClick={() => setActiveSelectSlotIndex(idx)}
-                            className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-xs uppercase tracking-widest font-sans font-bold rounded transition-all shadow-md flex items-center gap-1.5"
+                            className="px-5 py-2.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-xs uppercase tracking-widest font-sans font-bold rounded transition-all shadow-md flex items-center gap-1.5 btn-shimmer"
                           >
                             <Plus className="w-3.5 h-3.5" />
                             <span>Select Colorway</span>
@@ -186,7 +198,7 @@ export default function TrousseauPage({
                         )}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -215,10 +227,15 @@ export default function TrousseauPage({
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Investment Privilege Breakdown */}
-        <div className="lg:col-span-4 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+          className="lg:col-span-4 space-y-6"
+        >
           <div className="bg-[#121212] p-6 sm:p-8 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl">
             <h2 className="text-xl font-editorial font-normal text-[#FBF9F5] mb-4 pb-3 border-b border-white/10 tracking-wide">
               Trousseau Privileges
@@ -266,7 +283,7 @@ export default function TrousseauPage({
             <div className="space-y-3">
               <button
                 onClick={handleWhatsAppBooking}
-                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2"
+                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.2em] font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Commission Trunk via Concierge</span>
@@ -292,64 +309,81 @@ export default function TrousseauPage({
               Every trunk is lined in pure raw silk velvet with solid brass latches and custom monogramming.
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Modal: Select Colorway for Active Slot */}
-      {activeSelectSlotIndex !== null && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-[#121212] p-6 sm:p-8 rounded-lg max-w-2xl w-full border border-[#D4AF37]/40 shadow-2xl space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div>
-                <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
-                  Assign Saree Colorway
-                </span>
-                <h3 className="text-xl font-editorial font-normal text-[#FBF9F5]">
-                  {slotLabels[activeSelectSlotIndex].title}
-                </h3>
-              </div>
-              <button
-                onClick={() => setActiveSelectSlotIndex(null)}
-                className="text-stone-400 hover:text-white text-lg font-bold p-1"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {masterSaree.colorways.map((cw) => (
-                <div
-                  key={cw.id}
-                  onClick={() => handleSelectForSlot(cw)}
-                  className="p-3 bg-[#0A0A0A] rounded border border-white/10 hover:border-[#D4AF37] cursor-pointer transition-all flex items-center gap-3 group shadow-sm hover:shadow"
-                >
-                  <img
-                    src={cw.image}
-                    alt={cw.name}
-                    className="w-14 h-16 rounded object-cover border border-white/10 shrink-0"
-                  />
-                  <div>
-                    <h4 className="text-sm font-editorial font-bold text-[#FBF9F5] group-hover:text-[#D4AF37]">
-                      {cw.name}
-                    </h4>
-                    <p className="text-[11px] font-sans text-[#D4AF37] font-medium">{cw.sanskrit}</p>
-                    <span className="text-[10px] font-sans text-stone-400 block">{cw.zariTone}</span>
-                  </div>
+      {/* Modal: Select Colorway for Active Slot with AnimatePresence */}
+      <AnimatePresence>
+        {activeSelectSlotIndex !== null && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveSelectSlotIndex(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ duration: 0.3 }}
+              className="relative z-10 bg-[#121212] p-6 sm:p-8 rounded-lg max-w-2xl w-full border border-[#D4AF37]/40 shadow-2xl space-y-6"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
+                    Assign Saree Colorway
+                  </span>
+                  <h3 className="text-xl font-editorial font-normal text-[#FBF9F5]">
+                    {slotLabels[activeSelectSlotIndex].title}
+                  </h3>
                 </div>
-              ))}
-            </div>
+                <button
+                  onClick={() => setActiveSelectSlotIndex(null)}
+                  className="p-1 text-stone-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
 
-            <div className="text-right pt-2">
-              <button
-                onClick={() => setActiveSelectSlotIndex(null)}
-                className="px-6 py-2 text-xs uppercase tracking-wider font-sans text-stone-400 hover:text-white"
-              >
-                Cancel
-              </button>
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {masterSaree.colorways.map((cw) => (
+                  <motion.div
+                    key={cw.id}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleSelectForSlot(cw)}
+                    className="p-3 bg-[#0A0A0A] rounded border border-white/10 hover:border-[#D4AF37] cursor-pointer transition-all flex items-center gap-3 group shadow-sm hover:shadow"
+                  >
+                    <img
+                      src={cw.image}
+                      alt={cw.name}
+                      className="w-14 h-16 rounded object-cover border border-white/10 shrink-0"
+                    />
+                    <div>
+                      <h4 className="text-sm font-editorial font-bold text-[#FBF9F5] group-hover:text-[#D4AF37]">
+                        {cw.name}
+                      </h4>
+                      <p className="text-[11px] font-sans text-[#D4AF37] font-medium">{cw.sanskrit}</p>
+                      <span className="text-[10px] font-sans text-stone-400 block">{cw.zariTone}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="text-right pt-2">
+                <button
+                  onClick={() => setActiveSelectSlotIndex(null)}
+                  className="px-6 py-2 text-xs uppercase tracking-wider font-sans text-stone-400 hover:text-white"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 }

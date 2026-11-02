@@ -86,3 +86,87 @@ body {
 .gold-hairline {
   border-color: var(--border-gold-hairline);
 }
+
+/* Keyframe Animations & Transitions */
+@keyframes slowZoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes marqueeInfinite {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulseGoldGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(212, 175, 55, 0.40);
+  }
+}
+
+.animate-slow-zoom {
+  animation: slowZoom 24s ease-in-out infinite;
+}
+
+.animate-shimmer-sweep {
+  animation: shimmerSweep 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-marquee-scroll {
+  display: flex;
+  width: max-content;
+  animation: marqueeInfinite 28s linear infinite;
+}
+.animate-marquee-scroll:hover {
+  animation-play-state: paused;
+}
+
+.glow-gold-pulse {
+  animation: pulseGoldGlow 4s ease-in-out infinite;
+}
+
+/* Shimmer Button Overlay Utility */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  transform: translateX(-140%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-shimmer:hover::after {
+  transform: translateX(250%);
+}
+

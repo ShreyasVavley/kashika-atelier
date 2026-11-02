@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Calendar, Video, Clock, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { BRAND_ASSETS } from '../data/sarees';
 
@@ -33,7 +34,12 @@ export default function SalonPage() {
   return (
     <div className="bg-[#0A0A0A] text-[#FBF9F5] py-32 md:py-40 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5]">
       {/* Editorial Header */}
-      <div className="text-center max-w-2xl mx-auto mb-20 space-y-3">
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center max-w-2xl mx-auto mb-20 space-y-3"
+      >
         <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold flex items-center justify-center gap-2">
           <span>⚜</span> Private Draping Salons <span>⚜</span>
         </span>
@@ -50,17 +56,22 @@ export default function SalonPage() {
             <span>☕</span> Kashmiri Saffron Hospitality
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-[#D4AF37] shadow-sm">
-            <span>🔒</span> One Guest Party at a Time
+            <span>⚜</span> One Guest Party at a Time
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#121212] border border-[0.5px] border-[#D4AF37]/30 text-emerald-400 shadow-sm">
-            <span>🎥</span> Worldwide HD Video Consults
+            <span>📹</span> Worldwide HD Video Consults
           </span>
         </div>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
         {/* Left Column: Private Appointment Booking Form */}
-        <div className="lg:col-span-7 bg-[#121212] p-8 sm:p-12 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="lg:col-span-7 bg-[#121212] p-8 sm:p-12 rounded-lg border border-[0.5px] border-[#D4AF37]/30 shadow-2xl"
+        >
           <h2 className="text-2xl sm:text-3xl font-editorial font-normal text-[#FBF9F5] mb-2 tracking-wide">
             Reserve Your Private Suite
           </h2>
@@ -69,7 +80,11 @@ export default function SalonPage() {
           </p>
 
           {submitted ? (
-            <div className="p-8 bg-[#0A0A0A] rounded-lg border border-[0.5px] border-[#D4AF37]/40 text-center space-y-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="p-8 bg-[#0A0A0A] rounded-lg border border-[0.5px] border-[#D4AF37]/40 text-center space-y-4"
+            >
               <CheckCircle2 className="w-12 h-12 text-[#D4AF37] mx-auto" />
               <h3 className="text-xl font-editorial font-normal text-[#FBF9F5]">
                 Appointment Transmitted to Concierge
@@ -77,7 +92,7 @@ export default function SalonPage() {
               <p className="text-xs font-sans text-stone-300">
                 Our Senior Draper is reviewing your appointment and will confirm your salon reservation via WhatsApp.
               </p>
-            </div>
+            </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5 text-xs font-sans">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -188,16 +203,21 @@ export default function SalonPage() {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl"
+                className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.25em] font-sans font-bold rounded transition-all shadow-xl btn-shimmer"
               >
                 Confirm Private Salon Reservation &rarr;
               </button>
             </form>
           )}
-        </div>
+        </motion.div>
 
         {/* Right Column: Virtual Consultation & Atelier Photos */}
-        <div className="lg:col-span-5 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+          className="lg:col-span-5 space-y-6"
+        >
           {/* Virtual Video Draping Card */}
           <div className="relative rounded-lg overflow-hidden shadow-2xl border border-[0.5px] border-[#D4AF37]/30 min-h-[300px] flex items-end">
             <img
@@ -217,7 +237,7 @@ export default function SalonPage() {
               </p>
               <button
                 onClick={handleStartVirtualCall}
-                className="w-full py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-widest font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-widest font-sans font-bold rounded transition-all shadow-xl flex items-center justify-center gap-2 btn-shimmer"
               >
                 <Video className="w-4 h-4 text-black" />
                 <span>Request Instant Video Consultation</span>
@@ -259,7 +279,7 @@ export default function SalonPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

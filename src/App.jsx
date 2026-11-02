@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -113,7 +114,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1C1917] flex flex-col font-sans selection:bg-[#B8860B]/20 selection:text-[#781224]">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#FBF9F5] flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5]">
       {/* Global Royal Navigation */}
       <Navbar
         currentPage={currentPage}
@@ -124,51 +125,62 @@ export default function App() {
         onOpenCart={() => setCartOpen(true)}
       />
 
-      {/* Multipage Content */}
-      <main className="flex-1">
-        {currentPage === 'atelier' && (
-          <AtelierPage
-            onNavigate={handleNavigate}
-            onSelectColorway={(id) => {
-              setSelectedColorwayId(id);
-              handleNavigate('collection');
-            }}
-            currency={currency}
-          />
-        )}
+      {/* Multipage Content with Silky Haute Couture Route Transitions */}
+      <main className="flex-1 overflow-hidden relative">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+          >
+            {currentPage === 'atelier' && (
+              <AtelierPage
+                onNavigate={handleNavigate}
+                onSelectColorway={(id) => {
+                  setSelectedColorwayId(id);
+                  handleNavigate('collection');
+                }}
+                currency={currency}
+              />
+            )}
 
-        {currentPage === 'collection' && (
-          <CollectionPage
-            selectedColorwayId={selectedColorwayId}
-            onSelectColorway={setSelectedColorwayId}
-            onAddToCart={handleAddToCart}
-            onAddToTrousseau={handleAddToTrousseauFromCollection}
-            currency={currency}
-            onNavigate={handleNavigate}
-          />
-        )}
+            {currentPage === 'collection' && (
+              <CollectionPage
+                selectedColorwayId={selectedColorwayId}
+                onSelectColorway={setSelectedColorwayId}
+                onAddToCart={handleAddToCart}
+                onAddToTrousseau={handleAddToTrousseauFromCollection}
+                currency={currency}
+                onNavigate={handleNavigate}
+              />
+            )}
 
-        {currentPage === 'craft' && (
-          <CraftPage onNavigate={handleNavigate} />
-        )}
+            {currentPage === 'craft' && (
+              <CraftPage onNavigate={handleNavigate} />
+            )}
 
-        {currentPage === 'trousseau' && (
-          <TrousseauPage
-            trousseauSlots={trousseauSlots}
-            onUpdateSlot={handleUpdateTrousseauSlot}
-            onClearSlot={handleClearTrousseauSlot}
-            onAddToCart={handleAddToCart}
-            currency={currency}
-            onNavigate={handleNavigate}
-          />
-        )}
+            {currentPage === 'trousseau' && (
+              <TrousseauPage
+                trousseauSlots={trousseauSlots}
+                onUpdateSlot={handleUpdateTrousseauSlot}
+                onClearSlot={handleClearTrousseauSlot}
+                onAddToCart={handleAddToCart}
+                currency={currency}
+                onNavigate={handleNavigate}
+              />
+            )}
 
-        {currentPage === 'salon' && (
-          <SalonPage />
-        )}
+            {currentPage === 'salon' && (
+              <SalonPage />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      {/* Silk Bag Slide-over Drawer */}
+      {/* Silk Bag Slide-over Drawer with AnimatePresence */}
       <CartDrawer
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
