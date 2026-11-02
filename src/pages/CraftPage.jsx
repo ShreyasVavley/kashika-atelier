@@ -138,6 +138,53 @@ export default function CraftPage({ onNavigate }) {
         </div>
       </div>
 
+      {/* Extreme Macro Zari Detail Spotlight */}
+      <div className="bg-[#141210] text-[#FAF8F5] rounded-lg border border-[#B8860B]/40 shadow-2xl overflow-hidden mb-24 grid grid-cols-1 lg:grid-cols-12 items-center">
+        <div className="lg:col-span-6 relative h-[360px] sm:h-[440px] overflow-hidden group">
+          <img
+            src={BRAND_ASSETS.zariDetail}
+            alt="Extreme Macro Banarasi Kadwa Peacock Zari Weave"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+          <div className="absolute bottom-4 left-6 right-6">
+            <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-sans font-bold block">
+              Macro Hasselblad Medium Format Capture
+            </span>
+            <span className="text-sm font-editorial italic text-stone-300">
+              Peacock Kadwa Weft with Tested 98.2% Silver Core
+            </span>
+          </div>
+        </div>
+
+        <div className="lg:col-span-6 p-8 sm:p-12 space-y-6 font-sans">
+          <div className="space-y-2">
+            <span className="text-xs uppercase tracking-[0.3em] text-[#D4AF37] font-semibold block">
+              Bullion Metallurgy
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-editorial font-normal text-white">
+              The 98.2% Silver Core & 24K Liquid Gold
+            </h3>
+            <div className="w-12 h-0.5 bg-[#B8860B]" />
+          </div>
+
+          <p className="text-xs sm:text-sm font-editorial italic text-stone-300 leading-relaxed">
+            Unlike commercial lurex foil (plastic polyester), authentic Varanasi zari begins with 98.2% pure silver bullion flattened into micro-ribbons, wound around fine mulberry silk cores, and dipped into 24K liquid gold.
+          </p>
+
+          <div className="grid grid-cols-2 gap-4 pt-2 text-xs">
+            <div className="p-3.5 bg-white/5 rounded border border-white/10">
+              <span className="text-[#D4AF37] font-bold block text-sm mb-1">Zero Tarnishing</span>
+              <span className="text-stone-400 text-[11px] leading-tight block">Preserves radiant golden luminescence for generations.</span>
+            </div>
+            <div className="p-3.5 bg-white/5 rounded border border-white/10">
+              <span className="text-[#D4AF37] font-bold block text-sm mb-1">Heirloom Assay</span>
+              <span className="text-stone-400 text-[11px] leading-tight block">Government certified laboratory bullion verification certificate.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Visual Connoisseur Transparency Guide */}
       <div className="bg-white p-8 sm:p-14 rounded border border-[#B8860B]/30 shadow-md mb-24">
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">

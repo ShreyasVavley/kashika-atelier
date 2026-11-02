@@ -363,12 +363,19 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
             <div className="space-y-3">
               <span className="text-3xl font-editorial font-bold text-[#D4AF37]">04</span>
               <p className="text-[10px] uppercase tracking-widest text-[#8A661C] font-bold">Atelier Shivala, Varanasi</p>
+              <div className="relative h-28 rounded overflow-hidden border border-stone-200">
+                <img
+                  src={BRAND_ASSETS.craftLoom}
+                  alt="Ustad Bashir at Pit Loom"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="text-lg font-editorial font-bold text-[#1C1917]">144-Hour Pit Loom</h3>
               <p className="text-xs text-stone-600 leading-relaxed font-sans">
                 Hand-manipulated Kadwa weft embroidery where every single peacock buti is individually locked with silver tilis.
               </p>
             </div>
-            <div className="pt-4 mt-6 border-t border-stone-100 text-[11px] text-emerald-800 font-bold">
+            <div className="pt-4 mt-4 border-t border-stone-100 text-[11px] text-emerald-800 font-bold">
               ✓ Ustad Bashir Lineage
             </div>
           </div>
@@ -392,6 +399,18 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
             {/* Card 1: Bengaluru Flagship Suite */}
             <div className="bg-white p-8 rounded-lg border border-[#B8860B]/30 shadow-md flex flex-col justify-between space-y-6">
               <div className="space-y-4">
+                <div className="relative h-36 -mx-8 -mt-8 mb-4 rounded-t-lg overflow-hidden border-b border-[#B8860B]/20 group">
+                  <img
+                    src={BRAND_ASSETS.salonInterior}
+                    alt="Bengaluru Private Salon Suite"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-4 text-[10px] text-white/90 uppercase tracking-widest font-sans font-bold">
+                    Lavelle Road Sanctuary
+                  </span>
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-[#781224] text-xs font-bold uppercase tracking-wider">
                     <MapPin className="w-4 h-4" />
@@ -564,9 +583,21 @@ export default function AtelierPage({ onNavigate, onSelectColorway, currency }) 
                 {/* Assay & Certification */}
                 <div className="space-y-3">
                   <h4 className="text-xs uppercase tracking-widest text-[#8A661C] font-bold">
-                    Bullion Assay Certificate
+                    Bullion Assay Certificate & Macro Zari
                   </h4>
-                  <div className="p-4 bg-white rounded border border-[#B8860B]/20 space-y-2 text-xs">
+                  <div className="p-4 bg-white rounded border border-[#B8860B]/20 space-y-3 text-xs">
+                    <div className="relative h-36 rounded overflow-hidden border border-[#B8860B]/30 group">
+                      <img
+                        src="/images/zari_macro_detail.jpg"
+                        alt="Macro Kadwa 98.2% Silver Bullion Zari"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
+                      <span className="absolute bottom-2 left-3 text-[10px] text-amber-200 uppercase tracking-widest font-sans font-bold">
+                        98.2% Silver Bullion Dipped in 24K Gold
+                      </span>
+                    </div>
+
                     <p className="text-stone-600 leading-relaxed">
                       <strong>98.2% Tested Silver Zari:</strong> Electroplated in 24K liquid gold bullion. Guaranteed dynastic lifespan exceeding 80–120 years.
                     </p>
