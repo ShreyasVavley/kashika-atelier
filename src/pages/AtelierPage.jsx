@@ -1,25 +1,44 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
-  X,
-  Video,
   ShieldCheck,
   Sparkles,
-  ZoomIn,
-  Check,
   ChevronRight,
+  ChevronLeft,
   MessageCircle,
   Heart,
-  ShoppingBag,
   Eye,
   SlidersHorizontal,
   Phone,
-  Mail,
   MapPin,
+  Check,
+  Clock,
+  Award,
+  Flame,
 } from 'lucide-react';
 import { MASTER_DESIGNS, BRAND_ASSETS, CATALOG_PRODUCTS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
+import ProgressiveImage from '../components/ProgressiveImage';
+import ProductDetailModal from '../components/ProductDetailModal';
+
+const COUNTRY_DIAL_CODES = [
+  { code: '+91', country: 'India', flag: '🇮🇳' },
+  { code: '+1', country: 'USA / Canada', flag: '🇺🇸' },
+  { code: '+44', country: 'United Kingdom', flag: '🇬🇧' },
+  { code: '+971', country: 'UAE / Dubai', flag: '🇦🇪' },
+  { code: '+65', country: 'Singapore', flag: '🇸🇬' },
+  { code: '+61', country: 'Australia', flag: '🇦🇺' },
+];
+
+const COLOR_FILTERS = [
+  { id: 'all', name: 'All Hues', hex: null },
+  { id: 'crimson', name: 'Sindoor Crimson', hex: '#881326' },
+  { id: 'indigo', name: 'Kashi Indigo', hex: '#0d1d36' },
+  { id: 'emerald', name: 'Panna Emerald', hex: '#082d20' },
+  { id: 'saffron', name: 'Kesar Saffron', hex: '#a86a08' },
+  { id: 'gulabi', name: 'Gulabi Pink', hex: '#8f144e' },
+];
 
 export default function AtelierPage({
   onNavigate,
@@ -32,25 +51,67 @@ export default function AtelierPage({
   const masterSaree = MASTER_DESIGNS[0];
   const [expandedLookbookIndex, setExpandedLookbookIndex] = useState(0);
 
-  // Catalog Filter State (Fresh Weaves, Timeless Grace)
+  // Faceted Filtering & Sorting State
   const [selectedCategory, setSelectedCategory] = useState('All Sarees');
+  const [sortBy, setSortBy] = useState('featured');
+  const [selectedColorFilter, setSelectedColorFilter] = useState('all');
 
-  // Quick View / Detail Modal State (Matching sec_30.jpg from video)
+  // Detail Modal State
   const [inspectModalProduct, setInspectModalProduct] = useState(null);
-  const [modalActiveThumb, setModalActiveThumb] = useState(0);
 
-  // Contact Form State (We'd Love to Hear From You - sec_09.jpg)
+  // Concierge Form State
   const [contactName, setContactName] = useState('');
+  const [contactDialCode, setContactDialCode] = useState('+91');
   const [contactPhone, setContactPhone] = useState('');
   const [contactMessage, setContactMessage] = useState('');
+  const [contactLoading, setContactLoading] = useState(false);
   const [contactSent, setContactSent] = useState(false);
 
   // Categories
-  const categories = ['All Sarees', 'Banarasi Katan', 'Royal Kadwa', 'Organza Silk', 'Bridal Trousseau'];
+  const categories = [
+    'All Sarees',
+    'Banarasi Katan',
+    'Royal Kadwa',
+    'Organza Silk',
+    'Bridal Trousseau',
+  ];
 
-  const filteredProducts = selectedCategory === 'All Sarees'
-    ? CATALOG_PRODUCTS
-    : CATALOG_PRODUCTS.filter((p) => p.category === selectedCategory);
+  // Filtered & Sorted Products
+  const filteredProducts = useMemo(() => {
+    let result = [...CATALOG_PRODUCTS];
+
+    // Category filter
+    if (selectedCategory !== 'All Sarees') {
+      result = result.filter((p) => p.category === selectedCategory);
+    }
+
+    // Color filter
+    if (selectedColorFilter !== 'all') {
+      if (selectedColorFilter === 'crimson') {
+        result = result.filter((p) => p.hex === '#881326');
+      } else if (selectedColorFilter === 'indigo') {
+        result = result.filter((p) => p.hex === '#0d1d36' || p.hex === '#141414');
+      } else if (selectedColorFilter === 'emerald') {
+        result = result.filter((p) => p.hex === '#082d20');
+      } else if (selectedColorFilter === 'saffron') {
+        result = result.filter((p) => p.hex === '#a86a08');
+      } else if (selectedColorFilter === 'gulabi') {
+        result = result.filter((p) => p.hex === '#8f144e');
+      }
+    }
+
+    // Sorting
+    if (sortBy === 'price-asc') {
+      result.sort((a, b) => a.priceINR - b.priceINR);
+    } else if (sortBy === 'price-desc') {
+      result.sort((a, b) => b.priceINR - a.priceINR);
+    } else if (sortBy === 'loom-desc') {
+      // Sort with longest weave priority
+      result.sort((a, b) => b.name.length - a.name.length);
+    }
+
+    return result;
+  }, [selectedCategory, selectedColorFilter, sortBy]);
 
   const toggleWishlist = (id) => {
     if (onToggleWishlist) {
@@ -58,13 +119,33 @@ export default function AtelierPage({
     }
   };
 
+  const handleLookbookPrev = () => {
+    setExpandedLookbookIndex((prev) =>
+      prev === 0 ? masterSaree.colorways.length - 1 : prev - 1
+    );
+  };
+
+  const handleLookbookNext = () => {
+    setExpandedLookbookIndex((prev) =>
+      prev === masterSaree.colorways.length - 1 ? 0 : prev + 1
+    );
+  };
+
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    setContactSent(true);
-    const msg = encodeURIComponent(
-      `Pranam Kashika Concierge. Inquiring from website:%0A- Name: ${contactName}%0A- Phone: ${contactPhone}%0A- Message: ${contactMessage}`
-    );
-    window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
+    if (!contactPhone || contactPhone.trim().length < 6) return;
+
+    setContactLoading(true);
+
+    setTimeout(() => {
+      setContactLoading(false);
+      setContactSent(true);
+
+      const msg = encodeURIComponent(
+        `Pranam Kashika Concierge. Inquiring from website:%0A- Name: ${contactName}%0A- Phone: ${contactDialCode} ${contactPhone}%0A- Message: ${contactMessage || 'Private bridal saree inquiry'}`
+      );
+      window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
+    }, 900);
   };
 
   return (
@@ -77,7 +158,7 @@ export default function AtelierPage({
         <div className="absolute left-0 top-0 bottom-0 w-72 bg-[radial-gradient(ellipse_at_left,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
-          {/* Left Column: Left-Aligned Editorial Text matching video */}
+          {/* Left Column: Left-Aligned Editorial Text */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -90,12 +171,11 @@ export default function AtelierPage({
               <span>SAREES WOVEN WITH</span>
             </p>
 
-            {/* Massive Display Title with EXACT sweeping flourish underline from video */}
+            {/* Display Title with calligraphic underline */}
             <div className="relative inline-block">
               <h1 className="text-5xl sm:text-7xl md:text-8xl font-editorial font-normal tracking-[0.08em] sm:tracking-[0.12em] uppercase text-[#FBF9F5] leading-none drop-shadow-2xl">
                 CULTURE
               </h1>
-              {/* Custom calligraphic underline bowl flourish curve matching video */}
               <svg
                 className="w-full h-8 sm:h-10 text-[#D4AF37] -mt-2 sm:-mt-3"
                 viewBox="0 0 340 32"
@@ -116,7 +196,7 @@ export default function AtelierPage({
               Heirloom Drapes for Modern Stories
             </p>
 
-            {/* CTA Pill Button (Light/Ivory Pill matching video screenshot) */}
+            {/* CTA Pill Button */}
             <div className="pt-2">
               <a
                 href="#fresh-weaves"
@@ -127,7 +207,7 @@ export default function AtelierPage({
               </a>
             </div>
 
-            {/* 3 Metric Features in clean horizontal row with thin dividers matching video */}
+            {/* 3 Metric Features in clean horizontal row */}
             <div className="pt-6 sm:pt-8 border-t border-white/10 flex items-center gap-6 sm:gap-8 text-[10px] sm:text-[11px] font-sans tracking-[0.22em] uppercase text-stone-300">
               <div className="flex items-center gap-2">
                 <span className="text-[#D4AF37]">✦</span>
@@ -146,7 +226,7 @@ export default function AtelierPage({
             </div>
           </motion.div>
 
-          {/* Right Column: High-Fashion Model Drape matching video */}
+          {/* Right Column: High-Fashion Model Drape with Progressive WebP Loading */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -154,15 +234,15 @@ export default function AtelierPage({
             className="lg:col-span-6 relative flex justify-center"
           >
             <div className="relative w-full max-w-lg lg:max-w-none h-[520px] sm:h-[620px] rounded-2xl overflow-hidden border border-[#D4AF37]/35 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group">
-              <img
+              <ProgressiveImage
                 src={BRAND_ASSETS.heroBanner}
                 alt="Imperial Indian Bridal Drape - House of Kashika"
                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000 filter brightness-95"
+                aspectRatio="3/4"
               />
-              {/* Subtle ambient lighting vignette */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20 pointer-events-none" />
 
-              {/* Floating Monogram Badge on Drape */}
+              {/* Monogram Badge */}
               <div className="absolute top-5 right-5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] uppercase tracking-widest font-sans font-semibold">
                 Banarasi Katan Pure Silk
               </div>
@@ -190,7 +270,7 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: matching sec_6.jpg from video */}
+      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK WITH TOUCH NAVIGATION */}
       {/* ============================================================== */}
       <section className="py-24 sm:py-32 bg-[#0A0A0A] border-y border-[0.5px] border-white/10">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 mb-10 text-center space-y-2">
@@ -201,8 +281,43 @@ export default function AtelierPage({
             Five Sacred Weaves. One Imperial Heritage.
           </h2>
           <p className="text-xs sm:text-sm font-editorial italic text-stone-400">
-            Hover any column to preview the weave and explore pure zari shades.
+            Swipe or select a shade to inspect the weave and pure zari alloys.
           </p>
+
+          {/* Mobile Carousel Navigation Controls */}
+          <div className="flex items-center justify-center gap-3 pt-3">
+            <button
+              onClick={handleLookbookPrev}
+              className="p-2 rounded-full bg-white/5 hover:bg-[#D4AF37] text-stone-400 hover:text-black border border-white/10 transition-colors"
+              aria-label="Previous Shade"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {/* Indicator Dots */}
+            <div className="flex items-center gap-2">
+              {masterSaree.colorways.map((cw, idx) => (
+                <button
+                  key={cw.id}
+                  onClick={() => setExpandedLookbookIndex(idx)}
+                  className={`transition-all rounded-full ${
+                    expandedLookbookIndex === idx
+                      ? 'w-7 h-2 bg-[#D4AF37]'
+                      : 'w-2 h-2 bg-stone-700 hover:bg-stone-500'
+                  }`}
+                  aria-label={`Go to ${cw.name}`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={handleLookbookNext}
+              className="p-2 rounded-full bg-white/5 hover:bg-[#D4AF37] text-stone-400 hover:text-black border border-white/10 transition-colors"
+              aria-label="Next Shade"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* 5 Vertical Expanding Columns */}
@@ -230,10 +345,12 @@ export default function AtelierPage({
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/35 pointer-events-none" />
 
-                  {/* Collapsed Spine Typography */}
+                  {/* Collapsed Spine */}
                   {!isExpanded && (
                     <div className="absolute inset-0 flex flex-col items-center justify-between p-6 pointer-events-none">
-                      <span className="text-[10px] font-sans font-bold text-[#D4AF37]">0{idx + 1}</span>
+                      <span className="text-[10px] font-sans font-bold text-[#D4AF37]">
+                        0{idx + 1}
+                      </span>
                       <div className="[writing-mode:vertical-rl] rotate-180 text-xs sm:text-sm font-editorial tracking-[0.25em] uppercase text-stone-300">
                         {cw.name}
                       </div>
@@ -275,7 +392,7 @@ export default function AtelierPage({
                           </p>
                         </div>
 
-                        {/* Minimal Spec Chips instead of long sentences */}
+                        {/* Minimal Spec Chips */}
                         <div className="flex flex-wrap items-center gap-2 pt-1">
                           <span className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[10px] uppercase tracking-wider text-stone-200 font-sans">
                             144 Loom Hours
@@ -284,7 +401,7 @@ export default function AtelierPage({
                             98.2% Silver Zari
                           </span>
                           <span className="px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[10px] uppercase tracking-wider text-stone-200 font-sans">
-                            Silk Mark
+                            Silk Mark Verified
                           </span>
                         </div>
 
@@ -311,20 +428,23 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 3. ANCIENT CRAFT, MODERN SOUL: matching sec_05s.jpg from video */}
+      {/* 3. ANCIENT CRAFT, MODERN SOUL: Heritage Lineage */}
       {/* ============================================================== */}
       <section className="py-24 md:py-32 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left: Stacked Editorial Text + Arched Burgundy Medallion from video */}
+          {/* Left Column */}
           <div className="lg:col-span-4 space-y-6">
             <div className="space-y-1">
               <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
                 Heritage Lineage
               </span>
               <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-[1.08] tracking-tight">
-                ANCIENT<br />
-                CRAFT,<br />
-                MODERN<br />
+                ANCIENT
+                <br />
+                CRAFT,
+                <br />
+                MODERN
+                <br />
                 SOUL
               </h2>
             </div>
@@ -333,7 +453,7 @@ export default function AtelierPage({
               76 years of pit loom mastery. Woven for dynasties.
             </p>
 
-            {/* Arched Burgundy Medallion from sec_05s.jpg */}
+            {/* Arched Burgundy Medallion */}
             <div className="relative w-48 h-56 rounded-t-full bg-[#6A1424] text-white p-6 flex flex-col justify-between overflow-hidden shadow-xl border border-[#D4AF37]/40">
               <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,white_0%,transparent_80%)]" />
               <div className="text-center pt-2">
@@ -350,7 +470,7 @@ export default function AtelierPage({
             </div>
           </div>
 
-          {/* Right: 4 Horizontal Craft Cards matching video */}
+          {/* Right Column: 4 Craft Cards */}
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <div className="p-5 bg-white rounded-xl border border-stone-200 shadow-sm space-y-1.5 hover:shadow-md transition-shadow">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#881326] block">
@@ -404,11 +524,14 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 4. FRESH WEAVES, TIMELESS GRACE: Catalog Grid matching sec_15 & sec_22 */}
+      {/* 4. FRESH WEAVES, TIMELESS GRACE: Faceted Catalog Grid */}
       {/* ============================================================== */}
-      <section id="fresh-weaves" className="py-24 md:py-32 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20">
+      <section
+        id="fresh-weaves"
+        className="py-24 md:py-32 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20"
+      >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          {/* Header matching video */}
+          {/* Header */}
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
               Curated Collection • 2026
@@ -421,45 +544,96 @@ export default function AtelierPage({
             </p>
           </div>
 
-          {/* Filter Pills matching video */}
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-14">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-[#6A1424] text-white shadow-md'
-                    : 'bg-white text-stone-700 hover:text-black border border-stone-200 hover:border-stone-400'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* Faceted Controls Toolbar: Category Pills + Sort & Color Filters */}
+          <div className="space-y-4 mb-12">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 sm:px-5 py-2 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-all ${
+                    selectedCategory === cat
+                      ? 'bg-[#6A1424] text-white shadow-md'
+                      : 'bg-white text-stone-700 hover:text-black border border-stone-200 hover:border-stone-400'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Faceted Sub-Bar: Color Swatches & Sort Dropdown */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-stone-200/80 max-w-5xl mx-auto">
+              {/* Color Swatches Filter */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-500 mr-1">
+                  Colorway:
+                </span>
+                {COLOR_FILTERS.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => setSelectedColorFilter(c.id)}
+                    className={`px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold tracking-wider flex items-center gap-1.5 transition-all ${
+                      selectedColorFilter === c.id
+                        ? 'bg-stone-900 text-white shadow-sm'
+                        : 'bg-white text-stone-600 border border-stone-200 hover:border-stone-400'
+                    }`}
+                  >
+                    {c.hex && (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full border border-black/20"
+                        style={{ backgroundColor: c.hex }}
+                      />
+                    )}
+                    <span>{c.name}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Sort Dropdown */}
+              <div className="flex items-center gap-2 ml-auto">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-stone-500" />
+                <span className="text-[10px] uppercase tracking-wider font-bold text-stone-500">
+                  Sort:
+                </span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-white border border-stone-200 rounded-lg px-3 py-1 text-xs text-stone-800 font-sans focus:outline-none focus:border-[#881326]"
+                >
+                  <option value="featured">Featured Loom Pieces</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="loom-desc">Loom Craft Complexity</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          {/* Saree Catalog Grid matching video screenshots */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-8">
+          {/* Saree Catalog Grid with Micro-interactions & Gold Hover Glow */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProducts.map((product) => {
               const isWishlisted = wishlist.includes(product.id);
               return (
                 <motion.div
                   key={product.id}
                   whileHover={{ y: -6 }}
-                  transition={{ duration: 0.3 }}
-                  className="group bg-white rounded-xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="group bg-white rounded-2xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-[0_20px_45px_rgba(212,175,55,0.18)] hover:border-[#D4AF37]/60 transition-all duration-500 flex flex-col justify-between"
                 >
-                  {/* Photo Container */}
+                  {/* Image Container with WebP and Delicate Zoom */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-                    <img
+                    <ProgressiveImage
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                      className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
+                      aspectRatio="3/4"
                     />
 
                     {/* Corner Swatch Indicator Disc */}
                     <div
-                      className="absolute top-3 left-3 w-5 h-5 rounded-full border-2 border-white shadow-md"
+                      className="absolute top-3.5 left-3.5 w-5 h-5 rounded-full border-2 border-white shadow-md z-10"
                       style={{ backgroundColor: product.hex }}
                       title={product.sanskrit}
                     />
@@ -467,28 +641,25 @@ export default function AtelierPage({
                     {/* Wishlist Heart Button */}
                     <button
                       onClick={() => toggleWishlist(product.id)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-colors shadow"
+                      className="absolute top-3.5 right-3.5 p-2 rounded-full bg-white/85 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-all shadow-md z-10 hover:scale-110"
                       aria-label="Wishlist Saree"
                     >
                       <Heart
-                        className={`w-4 h-4 ${
+                        className={`w-4 h-4 transition-colors ${
                           isWishlisted ? 'fill-[#881326] text-[#881326]' : ''
                         }`}
                       />
                     </button>
 
                     {/* Badge */}
-                    <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[9px] uppercase tracking-wider font-sans font-medium">
+                    <span className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-black/65 backdrop-blur-md text-white text-[9px] uppercase tracking-wider font-sans font-medium z-10">
                       {product.badge}
                     </span>
 
                     {/* Quick View Hover Pill */}
                     <button
-                      onClick={() => {
-                        setInspectModalProduct(product);
-                        setModalActiveThumb(0);
-                      }}
-                      className="absolute inset-x-4 bottom-4 py-2.5 rounded-full bg-white/95 text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5"
+                      onClick={() => setInspectModalProduct(product)}
+                      className="absolute inset-x-5 bottom-4 py-2.5 rounded-full bg-white/95 hover:bg-[#D4AF37] text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-1.5 z-10 transform translate-y-2 group-hover:translate-y-0"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Inspect Weave</span>
@@ -496,29 +667,27 @@ export default function AtelierPage({
                   </div>
 
                   {/* Product Details */}
-                  <div className="p-4 sm:p-5 space-y-2">
+                  <div className="p-5 space-y-2">
                     <span className="text-[10px] uppercase tracking-widest text-[#881326] font-sans font-bold block">
                       {product.category}
                     </span>
-                    <h3 className="text-base sm:text-lg font-editorial font-bold text-stone-900 leading-tight">
+                    <h3 className="text-base sm:text-lg font-editorial font-bold text-stone-900 leading-tight group-hover:text-[#881326] transition-colors">
                       {product.name}
                     </h3>
                     <p className="text-[11px] font-sans text-stone-500 line-clamp-1">
                       {product.fabric} • {product.weave}
                     </p>
 
-                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                    <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
                       <span className="text-base sm:text-lg font-editorial font-bold text-stone-900">
                         {formatPrice(product.priceINR, currency)}
                       </span>
                       <button
-                        onClick={() => {
-                          setInspectModalProduct(product);
-                          setModalActiveThumb(0);
-                        }}
-                        className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:underline"
+                        onClick={() => setInspectModalProduct(product)}
+                        className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:text-[#600b18] hover:underline flex items-center gap-1"
                       >
-                        Inspect &rarr;
+                        <span>Inspect</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
@@ -530,7 +699,7 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 5. ATELIER DESK: Direct Concierge & Inquiry */}
+      {/* 5. ATELIER DESK: Concierge Scheduler with Country Mask */}
       {/* ============================================================== */}
       <section className="py-20 md:py-28 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -552,7 +721,9 @@ export default function AtelierPage({
             <div className="space-y-2.5 pt-1 text-xs font-sans text-stone-700">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#881326] shrink-0 mt-0.5" />
-                <span className="text-stone-700">Shivala Ghat, Varanasi • Lavelle Road, Bengaluru</span>
+                <span className="text-stone-700">
+                  Shivala Ghat, Varanasi • Lavelle Road, Bengaluru
+                </span>
               </div>
 
               <div className="flex items-center gap-2.5">
@@ -569,17 +740,25 @@ export default function AtelierPage({
             </div>
           </div>
 
-          {/* Right Column: Inquiry Form */}
+          {/* Right Column: Inquiry Form with Dial Code & Validation */}
           <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xl">
             {contactSent ? (
               <div className="text-center py-8 space-y-3">
-                <span className="text-3xl text-emerald-600">✓</span>
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-xl font-bold">
+                  ✓
+                </div>
                 <h3 className="text-xl font-editorial font-normal text-stone-900">
-                  Inquiry Transmitted
+                  Inquiry Transmitted to Senior Draper
                 </h3>
                 <p className="text-xs font-sans text-stone-600">
-                  Our Senior Draper will connect with you directly via WhatsApp.
+                  Our private salon desk is connecting with you directly via WhatsApp.
                 </p>
+                <button
+                  onClick={() => setContactSent(false)}
+                  className="mt-3 text-xs text-[#881326] font-bold uppercase tracking-wider underline"
+                >
+                  Submit Another Inquiry
+                </button>
               </div>
             ) : (
               <form onSubmit={handleContactSubmit} className="space-y-3.5 text-xs font-sans">
@@ -600,16 +779,29 @@ export default function AtelierPage({
 
                   <div>
                     <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
-                      WhatsApp *
+                      WhatsApp Number *
                     </label>
-                    <input
-                      type="tel"
-                      required
-                      value={contactPhone}
-                      onChange={(e) => setContactPhone(e.target.value)}
-                      placeholder="+91 / +1 / +44 ..."
-                      className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={contactDialCode}
+                        onChange={(e) => setContactDialCode(e.target.value)}
+                        className="px-2 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-800 focus:outline-none focus:border-[#881326] shrink-0"
+                      >
+                        {COUNTRY_DIAL_CODES.map((d) => (
+                          <option key={d.code} value={d.code}>
+                            {d.flag} {d.code}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="tel"
+                        required
+                        value={contactPhone}
+                        onChange={(e) => setContactPhone(e.target.value)}
+                        placeholder="98765 43210"
+                        className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -619,20 +811,29 @@ export default function AtelierPage({
                   </label>
                   <textarea
                     rows={2}
-                    required
                     value={contactMessage}
                     onChange={(e) => setContactMessage(e.target.value)}
-                    placeholder="Saree shade, weave, or wedding dates..."
+                    placeholder="Saree shade, weave, wedding dates, or trousseau inquiry..."
                     className="w-full px-3.5 py-2.5 bg-stone-50 border border-stone-200 rounded-lg text-sm text-stone-800 focus:outline-none focus:border-[#881326]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer"
+                  disabled={contactLoading}
+                  className="w-full py-3.5 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-lg transition-all flex items-center justify-center gap-2 btn-shimmer disabled:opacity-50"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Connect on WhatsApp &rarr;</span>
+                  {contactLoading ? (
+                    <>
+                      <span className="animate-spin text-sm">⟳</span>
+                      <span>Transmitting Inquiry...</span>
+                    </>
+                  ) : (
+                    <>
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Connect on WhatsApp &rarr;</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -641,147 +842,16 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* QUICK VIEW / DETAIL MODAL: matching sec_30.jpg from video */}
+      {/* RICH PRODUCT DETAIL MODAL: High-Res Zoom, Specs, Purity & Estimator */}
       {/* ============================================================== */}
-      <AnimatePresence>
-        {inspectModalProduct && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setInspectModalProduct(null)}
-              className="absolute inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
-            />
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.3 }}
-              className="relative z-10 bg-white text-stone-900 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-stone-300 max-h-[92vh] flex flex-col md:flex-row"
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setInspectModalProduct(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/60 text-white hover:bg-black transition-colors"
-                aria-label="Close Modal"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              {/* Left Column: Big Image + 4-Thumbnail Strip matching sec_30.jpg */}
-              <div className="md:w-1/2 p-6 bg-stone-50 flex flex-col justify-between">
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-stone-200 shadow-inner">
-                  <img
-                    src={inspectModalProduct.thumbnails[modalActiveThumb] || inspectModalProduct.image}
-                    alt={inspectModalProduct.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-black/70 text-white text-[9px] font-sans font-bold uppercase tracking-wider">
-                    {inspectModalProduct.badge}
-                  </span>
-                </div>
-
-                {/* 4-Thumbnail Strip */}
-                <div className="grid grid-cols-4 gap-2 pt-4">
-                  {inspectModalProduct.thumbnails.map((thumb, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setModalActiveThumb(idx)}
-                      className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                        modalActiveThumb === idx
-                          ? 'border-[#881326] scale-105 shadow'
-                          : 'border-transparent opacity-60 hover:opacity-100'
-                      }`}
-                    >
-                      <img src={thumb} alt="Thumbnail" className="w-full h-full object-cover" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right Column: Saree Details & Add to Bag */}
-              <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between space-y-6 overflow-y-auto">
-                <div className="space-y-4">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-[#881326] font-sans font-bold block">
-                      {inspectModalProduct.category}
-                    </span>
-                    <h3 className="text-2xl font-editorial font-bold text-stone-900">
-                      {inspectModalProduct.name}
-                    </h3>
-                    <p className="text-xs font-editorial italic text-stone-500">
-                      Sanskrit: {inspectModalProduct.sanskrit}
-                    </p>
-                  </div>
-
-                  <div className="text-2xl font-editorial font-bold text-[#881326]">
-                    {formatPrice(inspectModalProduct.priceINR, currency)}
-                  </div>
-
-                  <div className="space-y-2 text-xs font-sans border-y border-stone-200 py-4 divide-y divide-stone-100">
-                    <div className="flex justify-between py-1">
-                      <span className="text-stone-500">Fabric Composition</span>
-                      <span className="font-semibold text-stone-800">{inspectModalProduct.fabric}</span>
-                    </div>
-                    <div className="flex justify-between py-1">
-                      <span className="text-stone-500">Zari Alloy</span>
-                      <span className="font-semibold text-stone-800">{inspectModalProduct.zari}</span>
-                    </div>
-                    <div className="flex justify-between py-1">
-                      <span className="text-stone-500">Weave Duration</span>
-                      <span className="font-semibold text-stone-800">{inspectModalProduct.weave}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-emerald-700 text-xs font-sans font-semibold">
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>Silk Mark India Authenticated & Verified</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2.5 pt-3">
-                  <button
-                    onClick={() => {
-                      if (onAddToCart) {
-                        onAddToCart(
-                          {
-                            id: inspectModalProduct.id,
-                            name: inspectModalProduct.name,
-                            basePriceINR: inspectModalProduct.priceINR,
-                          },
-                          {
-                            id: inspectModalProduct.id,
-                            name: inspectModalProduct.name,
-                            hex: inspectModalProduct.hex,
-                          }
-                        );
-                      }
-                      setInspectModalProduct(null);
-                    }}
-                    className="w-full py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[11px] uppercase tracking-[0.22em] font-sans font-bold shadow-xl transition-all flex items-center justify-center gap-2 btn-shimmer"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span>Add to Silk Bag</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setInspectModalProduct(null);
-                      onSelectColorway('sindoor-crimson');
-                      onNavigate('collection');
-                    }}
-                    className="w-full py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-900 text-[10px] uppercase tracking-[0.2em] font-sans font-semibold transition-all flex items-center justify-center gap-1.5"
-                  >
-                    <span>Inspect in 3D Light Studio &rarr;</span>
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <ProductDetailModal
+        product={inspectModalProduct}
+        onClose={() => setInspectModalProduct(null)}
+        onAddToCart={onAddToCart}
+        currency={currency}
+        onNavigate={onNavigate}
+        onSelectColorway={onSelectColorway}
+      />
     </div>
   );
 }

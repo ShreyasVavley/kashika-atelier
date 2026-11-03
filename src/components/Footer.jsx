@@ -14,7 +14,7 @@ import {
   Compass,
 } from 'lucide-react';
 
-export default function Footer({ onNavigate }) {
+export default function Footer({ onNavigate, onOpenVerifier }) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -233,12 +233,16 @@ export default function Footer({ onNavigate }) {
             <li>
               <button
                 onClick={() => {
-                  onNavigate('craft');
-                  scrollToTop();
+                  if (onOpenVerifier) onOpenVerifier();
+                  else {
+                    onNavigate('craft');
+                    scrollToTop();
+                  }
                 }}
-                className="hover:text-white hover:translate-x-1 transition-all"
+                className="hover:text-[#D4AF37] hover:translate-x-1 transition-all text-left flex items-center gap-1.5"
               >
-                98.2% Silver Zari Assay
+                <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <span>98.2% Silver Zari Assay</span>
               </button>
             </li>
             <li>
@@ -256,7 +260,14 @@ export default function Footer({ onNavigate }) {
               <span className="text-stone-500">Sidlaghatta Mulberry Warp</span>
             </li>
             <li>
-              <span className="text-stone-500">Silk Mark India Registry</span>
+              <button
+                onClick={() => {
+                  if (onOpenVerifier) onOpenVerifier();
+                }}
+                className="hover:text-[#D4AF37] hover:translate-x-1 transition-all text-left text-stone-400"
+              >
+                Silk Mark India Registry & QR
+              </button>
             </li>
             <li>
               <span className="text-stone-500">Saree Preservation Care</span>

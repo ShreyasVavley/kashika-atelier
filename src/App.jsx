@@ -6,6 +6,8 @@ import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import Toast from './components/Toast';
+import CheckoutModal from './components/CheckoutModal';
+import VerifierModal from './components/VerifierModal';
 import AtelierPage from './pages/AtelierPage';
 import CollectionPage from './pages/CollectionPage';
 import CraftPage from './pages/CraftPage';
@@ -54,6 +56,10 @@ export default function App() {
 
   const [cartOpen, setCartOpen] = useState(false);
   const [wishlistOpen, setWishlistOpen] = useState(false);
+  const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
+  const [checkoutDiscountINR, setCheckoutDiscountINR] = useState(0);
+  const [checkoutPromoCode, setCheckoutPromoCode] = useState('');
+  const [verifierModalOpen, setVerifierModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -193,6 +199,7 @@ export default function App() {
         onOpenCart={() => setCartOpen(true)}
         wishlistCount={wishlist.length}
         onOpenWishlist={() => setWishlistOpen(true)}
+        onOpenVerifier={() => setVerifierModalOpen(true)}
       />
 
       {/* Multipage Content with Silky Haute Couture Route Transitions */}
@@ -262,6 +269,11 @@ export default function App() {
         onClearCart={handleClearCart}
         currency={currency}
         onNavigate={handleNavigate}
+        onOpenCheckout={(disc, promo) => {
+          setCheckoutDiscountINR(disc);
+          setCheckoutPromoCode(promo);
+          setCheckoutModalOpen(true);
+        }}
       />
 
       {/* Royal Wishlist Slide-over Drawer */}
@@ -273,6 +285,23 @@ export default function App() {
         onAddToCart={handleAddToCart}
         currency={currency}
         onNavigate={handleNavigate}
+      />
+
+      {/* Luxury Checkout Modal (Razorpay / Stripe Simulation) */}
+      <CheckoutModal
+        isOpen={checkoutModalOpen}
+        onClose={() => setCheckoutModalOpen(false)}
+        cart={cart}
+        onClearCart={handleClearCart}
+        currency={currency}
+        discountINR={checkoutDiscountINR}
+        promoCode={checkoutPromoCode}
+      />
+
+      {/* Royal Weaver Registry & Zari Spectrometry Verifier Modal */}
+      <VerifierModal
+        isOpen={verifierModalOpen}
+        onClose={() => setVerifierModalOpen(false)}
       />
 
       {/* Haute Couture Floating Action Toast */}
@@ -300,7 +329,10 @@ export default function App() {
       </AnimatePresence>
 
       {/* Global Heritage 5-Column Haute Couture Footer */}
-      <Footer onNavigate={handleNavigate} />
+      <Footer
+        onNavigate={handleNavigate}
+        onOpenVerifier={() => setVerifierModalOpen(true)}
+      />
     </div>
   );
 }

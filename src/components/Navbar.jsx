@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   MessageCircle,
+  ShieldCheck,
 } from 'lucide-react';
 import { CURRENCIES } from '../utils/currency';
 
@@ -34,6 +35,7 @@ export default function Navbar({
   onOpenCart,
   wishlistCount = 0,
   onOpenWishlist,
+  onOpenVerifier,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
@@ -238,6 +240,16 @@ export default function Navbar({
             )}
           </motion.button>
 
+          {/* Verify Loom Seal Trigger (Desktop) */}
+          <button
+            onClick={onOpenVerifier}
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/35 text-[#D4AF37] text-[10px] uppercase tracking-wider font-sans font-bold hover:bg-[#D4AF37]/20 transition-all shadow-sm"
+            title="Inspect Loom Hallmark & Zari Assay"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span className="hidden lg:inline">Verify Loom</span>
+          </button>
+
           {/* WhatsApp Concierge Quick Trigger (Desktop only) */}
           <a
             href="https://wa.me/917676721111?text=Pranam%20Kashika%20Atelier.%20I%20wish%20to%20connect%20with%20the%20Bridal%20Concierge."
@@ -332,6 +344,18 @@ export default function Navbar({
                   <span>Silk Bag ({cartCount})</span>
                 </button>
               </div>
+
+              {/* Mobile Verify Loom Button */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (onOpenVerifier) onOpenVerifier();
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/35 text-[#D4AF37] text-xs font-sans font-bold flex items-center justify-center gap-2 hover:bg-[#D4AF37]/20 transition-colors uppercase tracking-wider"
+              >
+                <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                <span>Verify Loom Seal & Zari Assay</span>
+              </button>
 
               <div className="pt-4 mt-2 border-t border-white/10 flex flex-col gap-3">
                 <a
