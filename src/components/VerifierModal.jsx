@@ -72,8 +72,6 @@ export default function VerifierModal({ isOpen, onClose }) {
   const [scanMode, setScanMode] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  if (!isOpen) return null;
-
   const handleVerify = (codeToVerify) => {
     const code = (codeToVerify || searchInput).trim().toUpperCase();
     setIsVerifying(true);
@@ -112,22 +110,24 @@ export default function VerifierModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
-        />
+      {isOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
+          />
 
-        {/* Modal Window */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          transition={{ duration: 0.3 }}
+          {/* Modal Window */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 w-full max-w-3xl bg-[#121212] border border-[0.5px] border-[#D4AF37]/50 rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden text-[#FBF9F5] font-sans my-8"
         >
           {/* Header */}
@@ -428,6 +428,7 @@ export default function VerifierModal({ isOpen, onClose }) {
           </div>
         </motion.div>
       </div>
+      )}
     </AnimatePresence>
   );
 }

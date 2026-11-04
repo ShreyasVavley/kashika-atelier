@@ -458,19 +458,22 @@ export default function AtelierPage({
           {/* Right Column: 4 Visual Saree Swatch Cards matching monitor_05s.jpg */}
           <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {masterSaree.colorways.slice(0, 4).map((cw, idx) => (
-              <div
+              <motion.div
                 key={cw.id}
+                whileHover={{ y: -6, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
                 onClick={() => {
                   onSelectColorway(cw.id);
                   onNavigate('collection');
                 }}
-                className="group cursor-pointer bg-white rounded-xl overflow-hidden border border-stone-200 shadow-sm hover:shadow-lg transition-all"
+                className="group cursor-pointer bg-white rounded-xl overflow-hidden border border-stone-200 hover:border-[#D4AF37]/60 shadow-sm hover:shadow-xl transition-all"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
                   <img
                     src={cw.image}
                     alt={cw.name}
-                    className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
                   />
                   <div
                     className="absolute top-2.5 left-2.5 w-3.5 h-3.5 rounded-full border border-white shadow"
@@ -485,7 +488,7 @@ export default function AtelierPage({
                     {cw.zariTone}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -512,19 +515,30 @@ export default function AtelierPage({
           {/* Faceted Controls: Category Pills + Color & Sort */}
           <div className="space-y-4 mb-10">
             <div className="flex flex-wrap items-center justify-center gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-all ${
-                    selectedCategory === cat
-                      ? 'bg-[#6A1424] text-white shadow-sm'
-                      : 'bg-white text-stone-700 hover:text-black border border-stone-200'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+              {categories.map((cat) => {
+                const isActive = selectedCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`relative px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-colors duration-200 ${
+                      isActive ? 'text-white' : 'text-stone-700 hover:text-black'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeCategoryPill"
+                        className="absolute inset-0 bg-[#6A1424] rounded-full shadow-sm -z-10"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    {!isActive && (
+                      <div className="absolute inset-0 bg-white border border-stone-200 rounded-full -z-20" />
+                    )}
+                    <span className="relative z-10">{cat}</span>
+                  </button>
+                );
+              })}
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-stone-200/80 max-w-5xl mx-auto">
@@ -565,72 +579,78 @@ export default function AtelierPage({
             </div>
           </div>
 
-          {/* Saree Catalog Grid: Clean, Minimal Micro-Copy */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {filteredProducts.map((product) => {
-              const isWishlisted = wishlist.includes(product.id);
-              return (
-                <motion.div
-                  key={product.id}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="group bg-white rounded-xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
-                >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-                    <ProgressiveImage
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      aspectRatio="3/4"
-                    />
-
-                    <div
-                      className="absolute top-3 left-3 w-4 h-4 rounded-full border-2 border-white shadow-md z-10"
-                      style={{ backgroundColor: product.hex }}
-                    />
-
-                    <button
-                      onClick={() => toggleWishlist(product.id)}
-                      className="absolute top-3 right-3 p-1.5 rounded-full bg-white/85 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-all shadow z-10"
-                      aria-label="Wishlist Saree"
-                    >
-                      <Heart
-                        className={`w-3.5 h-3.5 transition-colors ${
-                          isWishlisted ? 'fill-[#881326] text-[#881326]' : ''
-                        }`}
+          {/* Saree Catalog Grid: Clean, Minimal Micro-Copy with Fluid Layout Transitions */}
+          <motion.div layout className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredProducts.map((product) => {
+                const isWishlisted = wishlist.includes(product.id);
+                return (
+                  <motion.div
+                    layout
+                    key={product.id}
+                    initial={{ opacity: 0, scale: 0.94 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.94 }}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="group bg-white rounded-xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-[#D4AF37]/60 transition-all flex flex-col justify-between"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
+                      <ProgressiveImage
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
+                        aspectRatio="3/4"
                       />
-                    </button>
 
-                    <button
-                      onClick={() => setInspectModalProduct(product)}
-                      className="absolute inset-x-4 bottom-3 py-2 rounded-full bg-white/95 hover:bg-[#D4AF37] text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1 z-10"
-                    >
-                      <Eye className="w-3 h-3" />
-                      <span>Inspect</span>
-                    </button>
-                  </div>
+                      <div
+                        className="absolute top-3 left-3 w-4 h-4 rounded-full border-2 border-white shadow-md z-10"
+                        style={{ backgroundColor: product.hex }}
+                      />
 
-                  <div className="p-3.5 sm:p-4 space-y-1">
-                    <h3 className="text-sm sm:text-base font-editorial font-bold text-stone-900 leading-tight">
-                      {product.name}
-                    </h3>
+                      <button
+                        onClick={() => toggleWishlist(product.id)}
+                        className="absolute top-3 right-3 p-1.5 rounded-full bg-white/85 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-all shadow z-10"
+                        aria-label="Wishlist Saree"
+                      >
+                        <Heart
+                          className={`w-3.5 h-3.5 transition-colors ${
+                            isWishlisted ? 'fill-[#881326] text-[#881326]' : ''
+                          }`}
+                        />
+                      </button>
 
-                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
-                      <span className="text-sm sm:text-base font-editorial font-bold text-stone-900">
-                        {formatPrice(product.priceINR, currency)}
-                      </span>
                       <button
                         onClick={() => setInspectModalProduct(product)}
-                        className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:underline"
+                        className="absolute inset-x-4 bottom-3 py-2 rounded-full bg-white/95 hover:bg-[#D4AF37] text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center gap-1 z-10"
                       >
-                        Inspect &rarr;
+                        <Eye className="w-3 h-3" />
+                        <span>Inspect</span>
                       </button>
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+
+                    <div className="p-3.5 sm:p-4 space-y-1">
+                      <h3 className="text-sm sm:text-base font-editorial font-bold text-stone-900 leading-tight">
+                        {product.name}
+                      </h3>
+
+                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+                        <span className="text-sm sm:text-base font-editorial font-bold text-stone-900">
+                          {formatPrice(product.priceINR, currency)}
+                        </span>
+                        <button
+                          onClick={() => setInspectModalProduct(product)}
+                          className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:underline"
+                        >
+                          Inspect &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 

@@ -75,25 +75,26 @@ export default function CheckoutModal({
     window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto font-sans">
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto font-sans">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
+          />
 
-      {/* Main Modal */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          {/* Main Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 w-full max-w-4xl bg-[#140307] text-[#FBF9F5] rounded-3xl overflow-hidden border border-[#D4AF37]/35 shadow-[0_30px_90px_rgba(0,0,0,0.95)] max-h-[92vh] flex flex-col my-auto"
       >
         {/* Modal Header */}
@@ -475,5 +476,7 @@ export default function CheckoutModal({
         </div>
       </motion.div>
     </div>
+      )}
+    </AnimatePresence>
   );
 }

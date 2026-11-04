@@ -66,7 +66,9 @@ export default function App() {
   // Sync Hash changes with Browser Navigation
   useEffect(() => {
     const handleHashChange = () => {
-      setCurrentPage(getPageFromHash());
+      const targetPage = getPageFromHash();
+      setCurrentPage(targetPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -207,10 +209,10 @@ export default function App() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPage}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, y: 14, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: -14, filter: 'blur(4px)' }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="w-full"
           >
             {currentPage === 'atelier' && (

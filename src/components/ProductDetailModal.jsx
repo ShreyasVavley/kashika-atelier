@@ -37,9 +37,7 @@ export default function ProductDetailModal({
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50, isHovering: false });
   const imageContainerRef = useRef(null);
 
-  if (!product) return null;
-
-  const currentImage = product.thumbnails?.[activeThumb] || product.image;
+  const currentImage = product?.thumbnails?.[activeThumb] || product?.image;
 
   const handleMouseMove = (e) => {
     if (!imageContainerRef.current) return;
@@ -72,6 +70,7 @@ export default function ProductDetailModal({
   };
 
   const handleAddProductToCart = () => {
+    if (!product) return;
     for (let i = 0; i < quantity; i++) {
       onAddToCart(
         {
@@ -90,6 +89,7 @@ export default function ProductDetailModal({
   };
 
   const handleWhatsAppDrape = () => {
+    if (!product) return;
     const msg = encodeURIComponent(
       `Pranam Kashika Concierge. I am inspecting the "${product.name}" (${product.category}) on your website. I would like to schedule an immediate 1-on-1 HD Video Draping session to review the Kadwa zari and silk luster live on camera.`
     );
@@ -97,22 +97,25 @@ export default function ProductDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      {/* Dim Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
-      />
+    <AnimatePresence>
+      {product && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          {/* Dim Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
+          />
 
-      {/* Main Rich Inspection Modal Container */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          {/* Main Rich Inspection Modal Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 w-full max-w-5xl bg-[#140307] text-[#FBF9F5] rounded-3xl overflow-hidden border border-[#D4AF37]/35 shadow-[0_30px_90px_rgba(0,0,0,0.95)] max-h-[92vh] flex flex-col lg:flex-row my-auto font-sans"
       >
         {/* Close Button */}
@@ -417,5 +420,7 @@ export default function ProductDetailModal({
         </div>
       </motion.div>
     </div>
+      )}
+    </AnimatePresence>
   );
 }
