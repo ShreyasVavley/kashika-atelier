@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Sun, Flame, Lightbulb, ZoomIn, Eye } from "lucide-react";
-import { royalAudio } from "../utils/soundEngine";
 
 export default function SareeCanvas({
   selectedColorway,
@@ -299,7 +298,6 @@ export default function SareeCanvas({
                 type="button"
                 onClick={() => {
                   setLightingPreset(preset);
-                  royalAudio.playZariShimmer();
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
                   isActive

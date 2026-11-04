@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Volume2, VolumeX, ShoppingBag, Globe, ArrowLeft, Sparkles } from "lucide-react";
-import { royalAudio } from "../utils/soundEngine";
+import React from "react";
+import { ShoppingBag, Globe, ArrowLeft, Sparkles } from "lucide-react";
 
 export default function Header({
   cartCount,
@@ -8,16 +7,6 @@ export default function Header({
   currency,
   setCurrency
 }) {
-  const [audioEnabled, setAudioEnabled] = useState(false);
-
-  const toggleSound = () => {
-    const newState = royalAudio.toggle();
-    setAudioEnabled(newState);
-    if (newState) {
-      royalAudio.playSilkChord("gold");
-    }
-  };
-
   return (
     <header className="sticky top-0 z-40 w-full bg-[#07070a]/90 backdrop-blur-xl border-b border-[var(--border-gold)] transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-20 flex items-center justify-between">
@@ -46,30 +35,6 @@ export default function Header({
 
         {/* Right: Controls & Bag */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Audio Synthesizer Toggle */}
-          <button
-            type="button"
-            onClick={toggleSound}
-            title={audioEnabled ? "Mute Royal Soundscape" : "Enable Royal Soundscape"}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
-              audioEnabled
-                ? "bg-amber-400/20 text-amber-200 border border-amber-400/40 shadow-[0_0_15px_rgba(212,175,55,0.3)]"
-                : "bg-white/5 text-white/50 border border-white/10 hover:text-white hover:bg-white/10"
-            }`}
-          >
-            {audioEnabled ? (
-              <>
-                <Volume2 className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-                <span className="hidden sm:inline">Sound: ON</span>
-              </>
-            ) : (
-              <>
-                <VolumeX className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Sound: OFF</span>
-              </>
-            )}
-          </button>
-
           {/* Currency Switcher */}
           <div className="relative flex items-center bg-white/5 border border-white/10 rounded-full px-2 py-1 text-xs text-white/70">
             <Globe className="w-3 h-3 text-amber-300 mr-1.5" />

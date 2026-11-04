@@ -2,7 +2,6 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Gift, Sparkles, Check, Trash2, ArrowRight, ShieldCheck, HeartHandshake } from "lucide-react";
 import confetti from "canvas-confetti";
-import { royalAudio } from "../utils/soundEngine";
 
 export default function TrousseauBox({
   trousseauItems,
@@ -191,7 +190,6 @@ export default function TrousseauBox({
                 onClick={() => {
                   if (isComplete) triggerConfetti();
                   onCheckoutTrousseau(trousseauItems, isComplete ? discountPrice : totalPrice);
-                  royalAudio.playBoxLatch();
                 }}
                 className={`py-3.5 px-6 rounded-full font-royal font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all duration-300 ${
                   trousseauItems.length === 0

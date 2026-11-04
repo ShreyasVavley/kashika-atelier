@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ShieldCheck, Check, ShoppingBag, Eye, Sun, Flame, Gem, ArrowRight, MessageCircle, ZoomIn, ChevronDown, ChevronUp } from 'lucide-react';
 import { MASTER_DESIGNS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
-import { royalAudio } from '../utils/soundEngine';
 
 export default function CollectionPage({
   selectedColorwayId,
@@ -147,10 +146,7 @@ export default function CollectionPage({
                 key={cw.id}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  onSelectColorway(cw.id);
-                  royalAudio.playSilkChord(cw.zariTone);
-                }}
+                onClick={() => onSelectColorway(cw.id)}
                 className={`p-2.5 rounded-lg border transition-all text-left flex items-center gap-3 ${
                   isSelected
                     ? 'bg-[#181818] text-[#FBF9F5] border-[#D4AF37] shadow-xl ring-1 ring-[#D4AF37]/50'

@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Video, ShoppingBag, ShieldCheck, Clock, Award, CheckCircle2, ChevronRight, Gift } from "lucide-react";
-import { royalAudio } from "../utils/soundEngine";
 
 export default function ColorwaySelector({
   masterDesign,
@@ -82,7 +81,6 @@ export default function ColorwaySelector({
                 type="button"
                 onClick={() => {
                   setSelectedColorway(c);
-                  royalAudio.playSilkChord(c.zariTone);
                 }}
                 className={`group relative flex flex-col items-center p-2 rounded-2xl border transition-all duration-300 ${
                   isSelected
@@ -149,7 +147,6 @@ export default function ColorwaySelector({
           type="button"
           onClick={() => {
             onAddToCart(masterDesign, selectedColorway);
-            royalAudio.playSilkChord("gold");
           }}
           className="btn-royal-gold flex-1 py-3.5"
         >
@@ -162,7 +159,6 @@ export default function ColorwaySelector({
           type="button"
           onClick={() => {
             onAddToTrousseau(masterDesign, selectedColorway);
-            royalAudio.playBoxLatch();
           }}
           className="btn-royal-outline flex-1 py-3.5"
         >

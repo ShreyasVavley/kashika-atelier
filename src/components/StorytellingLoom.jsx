@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
-  Volume2,
-  VolumeX,
   Play,
   Pause,
   ChevronRight,
@@ -13,7 +11,6 @@ import {
   Clock,
   ShieldCheck,
 } from 'lucide-react';
-import { royalAudio } from '../utils/soundEngine';
 import { BRAND_ASSETS } from '../data/sarees';
 
 const CHAPTERS = [
@@ -62,9 +59,7 @@ const CHAPTERS = [
 export default function StorytellingLoom({ onNavigate }) {
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const timerRef = useRef(null);
 
   const activeChapter = CHAPTERS[activeChapterIndex];
 
@@ -81,9 +76,6 @@ export default function StorytellingLoom({ onNavigate }) {
       setProgress((prev) => {
         if (prev >= 100) {
           setActiveChapterIndex((curr) => (curr + 1) % CHAPTERS.length);
-          if (soundEnabled) {
-            royalAudio.playSilkChord('gold');
-          }
           return 0;
         }
         return prev + increment;
@@ -91,27 +83,11 @@ export default function StorytellingLoom({ onNavigate }) {
     }, stepTime);
 
     return () => clearInterval(interval);
-  }, [activeChapterIndex, isPlaying, soundEnabled]);
+  }, [activeChapterIndex, isPlaying]);
 
   const handleSelectChapter = (idx) => {
     setActiveChapterIndex(idx);
     setProgress(0);
-    if (soundEnabled) {
-      if (idx === 2) {
-        royalAudio.playLoomShuttle();
-      } else {
-        royalAudio.playSilkChord(idx === 1 ? 'silver' : 'gold');
-      }
-    }
-  };
-
-  const toggleSound = () => {
-    const nextState = !soundEnabled;
-    setSoundEnabled(nextState);
-    royalAudio.toggle(nextState);
-    if (nextState) {
-      royalAudio.playZariShimmer();
-    }
   };
 
   const handlePrev = () => {
@@ -141,21 +117,8 @@ export default function StorytellingLoom({ onNavigate }) {
             </h2>
           </div>
 
-          {/* Controls: Audio Toggle + Play/Pause */}
+          {/* Controls: Play/Pause */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleSound}
-              className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-wider font-sans font-semibold transition-all flex items-center gap-1.5 border ${
-                soundEnabled
-                  ? 'bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]'
-                  : 'bg-white/5 border-white/10 text-stone-400 hover:text-white'
-              }`}
-              title="Toggle Royal Audio Soundscape"
-            >
-              {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-[#D4AF37]" /> : <VolumeX className="w-3.5 h-3.5" />}
-              <span>{soundEnabled ? 'Ambiance On' : 'Muted'}</span>
-            </button>
-
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-stone-300 hover:text-white transition-colors"
