@@ -14,6 +14,7 @@ import { MASTER_DESIGNS, BRAND_ASSETS, CATALOG_PRODUCTS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ProductDetailModal from '../components/ProductDetailModal';
+import StorytellingLoom from '../components/StorytellingLoom';
 
 const COUNTRY_DIAL_CODES = [
   { code: '+91', country: 'India', flag: '🇮🇳' },
@@ -139,6 +140,31 @@ export default function AtelierPage({
       <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#2D060F] via-[#1A0308] to-[#0D0104] pt-24 pb-16">
         <div className="absolute left-0 top-0 bottom-0 w-72 bg-[radial-gradient(ellipse_at_left,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
+        {/* Ambient Floating Zari Gold Embers & Dust Particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(14)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-[#D4AF37]/65 shadow-[0_0_8px_#D4AF37]"
+              style={{
+                left: `${(i * 7.1 + 3)}%`,
+                top: `${(i * 6.8 + 8)}%`,
+              }}
+              animate={{
+                y: [0, -45, 0],
+                opacity: [0.15, 0.85, 0.15],
+                scale: [0.8, 1.35, 0.8],
+              }}
+              transition={{
+                duration: 4.5 + (i % 4) * 1.6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.25,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
           {/* Left Column: Left-Aligned Editorial Text */}
           <motion.div
@@ -156,17 +182,20 @@ export default function AtelierPage({
               <h1 className="text-5xl sm:text-7xl md:text-8xl font-editorial font-normal tracking-[0.08em] uppercase text-[#FBF9F5] leading-none drop-shadow-2xl">
                 CULTURE
               </h1>
+              {/* Dynamic Self-Drawing Calligraphic Flourish */}
               <svg
-                className="w-full h-7 sm:h-9 text-[#D4AF37] -mt-2 sm:-mt-3"
+                className="w-full h-7 sm:h-9 text-[#D4AF37] -mt-2 sm:-mt-3 overflow-visible"
                 viewBox="0 0 340 32"
                 fill="none"
-                preserveAspectRatio="none"
               >
-                <path
+                <motion.path
                   d="M 12 12 C 70 28, 170 32, 275 14 C 300 9, 320 8, 328 16"
                   stroke="#D4AF37"
                   strokeWidth="2.4"
                   strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 />
               </svg>
             </div>
@@ -194,7 +223,7 @@ export default function AtelierPage({
             </div>
           </motion.div>
 
-          {/* Right Column: High-Fashion Model Drape */}
+          {/* Right Column: High-Fashion Model Drape with Ambient Silk Floating */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -202,12 +231,25 @@ export default function AtelierPage({
             className="lg:col-span-6 relative flex justify-center"
           >
             <div className="relative w-full max-w-lg lg:max-w-none h-[500px] sm:h-[600px] rounded-2xl overflow-hidden border border-[#D4AF37]/35 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group">
-              <ProgressiveImage
-                src={BRAND_ASSETS.heroBanner}
-                alt="Imperial Indian Bridal Drape"
-                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000 filter brightness-95"
-                aspectRatio="3/4"
-              />
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                  scale: [1, 1.02, 1],
+                }}
+                transition={{
+                  duration: 7.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="w-full h-full"
+              >
+                <ProgressiveImage
+                  src={BRAND_ASSETS.heroBanner}
+                  alt="Imperial Indian Bridal Drape"
+                  className="w-full h-full object-cover object-top filter brightness-95"
+                  aspectRatio="3/4"
+                />
+              </motion.div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
 
               <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/40 text-[#D4AF37] text-[10px] uppercase tracking-widest font-sans font-semibold">
@@ -367,6 +409,11 @@ export default function AtelierPage({
           </div>
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* 2.5 THE LOOM CHRONICLE: Interactive Scrollytelling Animation */}
+      {/* ============================================================== */}
+      <StorytellingLoom onNavigate={onNavigate} />
 
       {/* ============================================================== */}
       {/* 3. ANCIENT CRAFT, MODERN SOUL: monitor_05s.jpg from video */}
