@@ -153,16 +153,21 @@ export default function App() {
   };
 
   const handleAddToCart = (saree, colorway) => {
+    if (!saree) return;
+    const cw = colorway || { id: saree.id, name: saree.name, hex: saree.hex || '#881326' };
+    const price = saree.priceINR || saree.basePriceINR || 42000;
     const newItem = {
-      id: `${saree.id}-${colorway.id}-${Date.now()}`,
+      id: `${saree.id}-${cw.id || 'std'}-${Date.now()}`,
       title: saree.name,
-      colorwayName: colorway.name,
-      colorwayId: colorway.id,
-      colorHex: colorway.hex,
-      priceINR: saree.basePriceINR
+      colorwayName: cw.name || saree.name,
+      colorwayId: cw.id || saree.id,
+      colorHex: cw.hex || saree.hex || '#881326',
+      priceINR: price,
+      image: saree.image,
+      fabric: saree.fabric,
     };
     setCart((prev) => [...prev, newItem]);
-    showToast(`${saree.name} placed in your Silk Bag`, 'Silk Bag Updated', 'cart');
+    showToast(`${saree.name} added to your Silk Bag`, 'Bag Updated', 'cart');
     setCartOpen(true);
   };
 
@@ -365,12 +370,6 @@ export default function App() {
 
       {/* Global Heritage 5-Column Haute Couture Footer */}
       <Footer
-        onNavigate={handleNavigate}
-        onOpenVerifier={() => setVerifierModalOpen(true)}
-      />
-
-      {/* Persistent Bottom Status Ticker (Instagram Reel Aesthetic) */}
-      <BottomStatusTicker
         onNavigate={handleNavigate}
         onOpenVerifier={() => setVerifierModalOpen(true)}
       />
