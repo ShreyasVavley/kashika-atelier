@@ -139,11 +139,21 @@ export default function AtelierPage({
   };
 
   return (
-    <div className="bg-[#0A0A0A] text-[#FBF9F5] selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5] font-sans min-h-screen">
+    <div className="bg-[#FAF8F5] text-[#1C1917] selection:bg-[#7A1C28]/20 selection:text-[#7A1C28] font-sans min-h-screen">
       {/* ============================================================== */}
       {/* 1. HERO SECTION: monitor_hero.jpg & sec_3.jpg from video */}
       {/* ============================================================== */}
-      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#2D060F] via-[#1A0308] to-[#0D0104] pt-24 pb-16">
+      <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#180308] pt-24 pb-16">
+        {/* Full-Bleed Warm Luxury Showroom Atmosphere Backdrop */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/salon_bengaluru_suite.jpg"
+            alt="Kashika Heritage Silk Sanctuary"
+            className="w-full h-full object-cover filter brightness-[0.25] contrast-[1.12] scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#180308]/90 via-[#260710]/80 to-[#120206] mix-blend-multiply" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_75%)]" />
+        </div>
         <div className="absolute left-0 top-0 bottom-0 w-72 bg-[radial-gradient(ellipse_at_left,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
         {/* Ambient Floating Zari Gold Embers & Dust Particles */}
@@ -328,14 +338,15 @@ export default function AtelierPage({
       <MuseMedia onNavigate={onNavigate} />
 
       {/* ============================================================== */}
-      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: sec_6.jpg from video */}
+      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: Dynastic Lookbook */}
       {/* ============================================================== */}
-      <section className="py-20 sm:py-28 bg-[#0A0A0A] border-y border-[0.5px] border-white/10">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 mb-8 text-center space-y-1">
-          <span className="text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-semibold block">
+      <section className="py-20 sm:py-28 bg-[#FAF8F5] border-b border-[#D4AF37]/20 text-[#1C1917] relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 mb-8 text-center space-y-1 relative z-10">
+          <span className="text-[10px] uppercase tracking-[0.35em] text-[#7A1C28] font-sans font-bold block">
             ⚜ Dynastic Lookbook ⚜
           </span>
-          <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-wide">
+          <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1A1A1A] tracking-wide">
             The Five Shades
           </h2>
 
@@ -343,7 +354,7 @@ export default function AtelierPage({
           <div className="flex items-center justify-center gap-3 pt-3">
             <button
               onClick={handleLookbookPrev}
-              className="p-1.5 rounded-full bg-white/5 hover:bg-[#D4AF37] text-stone-400 hover:text-black border border-white/10 transition-colors"
+              className="p-1.5 rounded-full bg-white border border-stone-200 hover:border-[#7A1C28] text-stone-600 hover:text-[#7A1C28] shadow-xs transition-colors"
               aria-label="Previous Shade"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
@@ -356,8 +367,8 @@ export default function AtelierPage({
                   onClick={() => setExpandedLookbookIndex(idx)}
                   className={`transition-all rounded-full ${
                     expandedLookbookIndex === idx
-                      ? 'w-6 h-1.5 bg-[#D4AF37]'
-                      : 'w-1.5 h-1.5 bg-stone-700 hover:bg-stone-500'
+                      ? 'w-6 h-1.5 bg-[#7A1C28]'
+                      : 'w-1.5 h-1.5 bg-stone-300 hover:bg-stone-400'
                   }`}
                   aria-label={`Go to ${cw.name}`}
                 />
@@ -366,7 +377,7 @@ export default function AtelierPage({
 
             <button
               onClick={handleLookbookNext}
-              className="p-1.5 rounded-full bg-white/5 hover:bg-[#D4AF37] text-stone-400 hover:text-black border border-white/10 transition-colors"
+              className="p-1.5 rounded-full bg-white border border-stone-200 hover:border-[#7A1C28] text-stone-600 hover:text-[#7A1C28] shadow-xs transition-colors"
               aria-label="Next Shade"
             >
               <ChevronRight className="w-3.5 h-3.5" />
@@ -469,7 +480,7 @@ export default function AtelierPage({
       {/* 3. ANCIENT CRAFT, MODERN SOUL: monitor_05s.jpg from video */}
       {/* Replaced wordy text boxes with 4 Visual Weave Gallery Cards */}
       {/* ============================================================== */}
-      <section className="py-20 md:py-28 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+      <section className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Stacked Title + Arched Graphic from video */}
           <div className="lg:col-span-4 space-y-5">
@@ -549,7 +560,7 @@ export default function AtelierPage({
       {/* ============================================================== */}
       <section
         id="fresh-weaves"
-        className="py-20 md:py-28 bg-[#F7F4EB] text-[#1C1917] border-b border-stone-200 scroll-mt-20"
+        className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20 scroll-mt-20"
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
           {/* Header */}
@@ -707,7 +718,7 @@ export default function AtelierPage({
       {/* ============================================================== */}
       {/* 5. WE'D LOVE TO HEAR FROM YOU: monitor_09s.jpg from video */}
       {/* ============================================================== */}
-      <section className="py-20 md:py-28 bg-[#FAF7F2] text-[#1C1917] border-b border-stone-200">
+      <section className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20">
         <div className="max-w-4xl mx-auto px-6 sm:px-8">
           <div className="text-center mb-10 space-y-1">
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">

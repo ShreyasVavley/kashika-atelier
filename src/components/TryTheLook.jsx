@@ -93,8 +93,9 @@ export default function TryTheLook({
   };
 
   return (
-    <section id="try-the-look" className="py-20 sm:py-28 bg-[#FFFFFF] text-[#1C1917] relative border-b border-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="try-the-look" className="py-20 sm:py-28 bg-[#FAF8F5] text-[#1C1917] relative border-b border-[#D4AF37]/20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase text-[#7A1C28] mb-3">
@@ -117,7 +118,7 @@ export default function TryTheLook({
           {/* Left Column: Depth-of-Field Stage Carousel (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col items-center">
             {/* Stage Backdrop with Center Focus & Side Blur */}
-            <div className="relative w-full h-[460px] sm:h-[560px] rounded-3xl bg-gradient-to-b from-stone-50 via-stone-100 to-stone-50 border border-stone-200 overflow-hidden flex items-center justify-center p-4">
+            <div className="relative w-full h-[460px] sm:h-[560px] rounded-3xl bg-gradient-to-b from-[#F4EFE6] via-[#FAF7F2] to-[#EFEAE0] border border-[#D4AF37]/30 shadow-inner overflow-hidden flex items-center justify-center p-4">
               {/* Radial glow spotlight behind active model */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)] pointer-events-none" />
 
@@ -193,7 +194,7 @@ export default function TryTheLook({
           </div>
 
           {/* Right Column: "In this look" Curated Ensemble Drawer (5 Cols) */}
-          <div className="lg:col-span-5 bg-stone-50/90 rounded-3xl p-6 sm:p-7 border border-stone-200/90 shadow-lg flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-white/95 rounded-3xl p-6 sm:p-7 border border-[#D4AF37]/30 shadow-[0_15px_35px_rgba(0,0,0,0.06)] flex flex-col justify-between">
             <div>
               {/* Box Header */}
               <div className="flex items-center justify-between border-b border-stone-200 pb-4 mb-5">

@@ -15,9 +15,9 @@ export default function TickerTape({ onNavigate }) {
   const tickerItems = [...items, ...items, ...items];
 
   return (
-    <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#170308] via-[#2A050E] to-[#120206] border-y border-[#D4AF37]/30 py-2.5 sm:py-3 select-none z-20">
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#170308] to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#120206] to-transparent z-10 pointer-events-none" />
+    <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#4A0A16] via-[#6B0F20] to-[#4A0A16] border-y border-[#D4AF37]/50 py-2.5 sm:py-3.5 select-none z-20 shadow-[0_4px_25px_rgba(107,15,32,0.3)]">
+      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#4A0A16] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#4A0A16] to-transparent z-10 pointer-events-none" />
 
       <motion.div
         className="flex items-center gap-8 sm:gap-12 whitespace-nowrap will-change-transform"

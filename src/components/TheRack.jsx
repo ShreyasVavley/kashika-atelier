@@ -94,8 +94,9 @@ export default function TheRack({
   const isModalWishlisted = activeModalProduct && wishlist.some((w) => w.id === activeModalProduct.id);
 
   return (
-    <section id="the-rack" className="py-20 sm:py-28 bg-[#FFFFFF] text-[#1C1917] relative overflow-hidden border-b border-stone-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="the-rack" className="py-20 sm:py-28 bg-[#FAF8F5] text-[#1C1917] relative overflow-hidden border-b border-[#D4AF37]/20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em] uppercase text-[#7A1C28] mb-3">
@@ -127,7 +128,7 @@ export default function TheRack({
                 className={`shrink-0 px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-2 border select-none ${
                   isSelected
                     ? 'bg-[#7A1C28] text-white border-[#7A1C28] shadow-[0_4px_14px_rgba(122,28,40,0.3)]'
-                    : 'bg-stone-50 text-stone-700 border-stone-200 hover:border-stone-300 hover:bg-stone-100'
+                    : 'bg-white/90 text-stone-700 border-stone-200/90 hover:border-[#D4AF37]/50 hover:bg-white shadow-xs'
                 }`}
               >
                 <span>{cat}</span>
@@ -144,7 +145,7 @@ export default function TheRack({
         </div>
 
         {/* The Physical Chrome Clothes Rail Container */}
-        <div className="relative w-full pt-12 pb-16 px-4">
+        <div className="relative w-full pt-12 pb-16 px-4 bg-gradient-to-b from-[#F7F3EB]/70 via-[#FAF8F5] to-[#F5F0E6]/90 rounded-3xl border border-[#D4AF37]/25 shadow-sm">
           {/* Chrome Rail Rod spanning horizontally */}
           <div className="relative w-full h-3 rounded-full bg-gradient-to-b from-[#F1F5F9] via-[#94A3B8] to-[#475569] shadow-[0_4px_10px_rgba(0,0,0,0.25)] border-t border-white/60 mb-8 flex items-center justify-between">
             {/* Left Chrome Wall Finial Bracket */}

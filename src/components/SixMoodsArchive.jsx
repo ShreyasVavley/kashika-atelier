@@ -14,8 +14,9 @@ export default function SixMoodsArchive({ onNavigate, onSelectColorway }) {
   };
 
   return (
-    <section id="six-moods" className="py-20 sm:py-28 bg-[#FFFFFF] text-[#1C1917] relative overflow-hidden border-b border-stone-200">
-      {/* Subtle background ambient texture */}
+    <section id="six-moods" className="py-20 sm:py-28 bg-[#FAF8F5] text-[#1C1917] relative overflow-hidden border-b border-[#D4AF37]/20">
+      {/* Subtle warm sanctuary ambient glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:32px_32px] opacity-15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
