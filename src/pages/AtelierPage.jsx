@@ -123,13 +123,13 @@ export default function AtelierPage({
       <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 border-b border-stone-200/80 overflow-hidden bg-gradient-to-b from-[#FAF7F2] via-[#F5EFE6] to-[#FAF7F2]">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Direct Value Proposition & Standard CTAs */}
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-stone-300 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#7A1C28] font-sans font-semibold shadow-xs">
+          <div className="lg:col-span-6 flex flex-col gap-6 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-stone-300 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#7A1C28] font-sans font-semibold shadow-xs self-start">
               <span className="w-2 h-2 rounded-full bg-[#7A1C28]" />
               <span>HAND-LOOMED IN VARANASI • EST. 1948</span>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-editorial font-normal text-stone-950 leading-[1.08] tracking-tight">
                 Authentic Hand-loomed <br />
                 <span className="text-[#7A1C28] italic font-normal">Banarasi Silks</span>
@@ -141,7 +141,7 @@ export default function AtelierPage({
             </div>
 
             {/* Clear E-Commerce Trust Badges Front & Center */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 pb-4 text-xs font-sans">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
               <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                 <Truck className="w-4 h-4 text-[#7A1C28] shrink-0" />
                 <div>
@@ -176,7 +176,7 @@ export default function AtelierPage({
             </div>
 
             {/* Streamlined Direct E-Commerce CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 pt-1">
               <button
                 onClick={handleShopBridal}
                 className="px-8 py-3.5 rounded-full bg-[#7A1C28] hover:bg-[#8F1A2D] text-white font-sans text-xs uppercase tracking-[0.18em] font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
