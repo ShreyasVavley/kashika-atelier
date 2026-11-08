@@ -141,8 +141,8 @@ export default function AtelierPage({
             </div>
 
             {/* Clear E-Commerce Trust Badges Front & Center */}
-            <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-sans">
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 pb-4 text-xs font-sans">
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                 <Truck className="w-4 h-4 text-[#7A1C28] shrink-0" />
                 <div>
                   <strong className="text-stone-900 block font-semibold text-[11px]">Free Insured Worldwide Shipping</strong>
@@ -150,7 +150,7 @@ export default function AtelierPage({
                 </div>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                 <Award className="w-4 h-4 text-[#7A1C28] shrink-0" />
                 <div>
                   <strong className="text-stone-900 block font-semibold text-[11px]">Certified Silk Mark India</strong>
@@ -158,7 +158,7 @@ export default function AtelierPage({
                 </div>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                 <RotateCcw className="w-4 h-4 text-[#7A1C28] shrink-0" />
                 <div>
                   <strong className="text-stone-900 block font-semibold text-[11px]">7-Day Easy Returns</strong>
@@ -166,7 +166,7 @@ export default function AtelierPage({
                 </div>
               </div>
 
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+              <div className="p-3.5 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
                 <Sparkles className="w-4 h-4 text-[#7A1C28] shrink-0" />
                 <div>
                   <strong className="text-stone-900 block font-semibold text-[11px]">Fall & Pico Included</strong>
@@ -199,11 +199,16 @@ export default function AtelierPage({
           <div className="lg:col-span-6 flex justify-center">
             <div className="relative w-full max-w-lg rounded-2xl overflow-hidden border border-stone-300 shadow-xl bg-white p-2">
               <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-stone-100">
-                <img
-                  src={BRAND_ASSETS.heroBanner}
-                  alt="Authentic Banarasi Katan Silk Saree Drape"
-                  className="w-full h-full object-cover object-top filter contrast-[1.03] brightness-[1.01]"
-                />
+                <picture>
+                  <source srcSet="/images/hero_bridal_drape.webp" type="image/webp" />
+                  <img
+                    src="/images/hero_bridal_drape.jpg"
+                    alt="Authentic Banarasi Katan Silk Saree Drape"
+                    loading="eager"
+                    decoding="sync"
+                    className="w-full h-full object-cover object-top filter contrast-[1.03] brightness-[1.01]"
+                  />
+                </picture>
                 <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-stone-900 text-[10px] font-sans font-bold uppercase tracking-wider shadow-sm">
                   Mulberry Katan • 840g
                 </div>
