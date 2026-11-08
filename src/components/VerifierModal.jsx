@@ -327,7 +327,7 @@ export default function VerifierModal({ isOpen, onClose }) {
                       {activeRecord.silkMarkNo}
                     </p>
                     <p className="text-[10px] text-stone-400">
-                      Inscribed on {activeRecord.registeredDate}
+                      Registered on {activeRecord.registeredDate}
                     </p>
                   </div>
 
@@ -409,7 +409,7 @@ export default function VerifierModal({ isOpen, onClose }) {
                   className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white text-xs font-sans flex items-center gap-2 border border-white/10 transition-colors"
                 >
                   <Copy className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>{copied ? 'License Inscribed to Clipboard!' : 'Copy License String'}</span>
+                  <span>{copied ? 'License Copied to Clipboard!' : 'Copy License String'}</span>
                 </button>
 
                 <a

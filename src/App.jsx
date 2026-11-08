@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import BottomStatusTicker from './components/BottomStatusTicker';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import Toast from './components/Toast';
@@ -24,7 +23,7 @@ export default function App() {
     if (hash === 'craft') return 'craft';
     if (hash === 'trousseau') return 'trousseau';
     if (hash === 'salon') return 'salon';
-    if (['rack', 'looks', 'picks', 'muse', 'moods', 'bridal'].includes(hash)) return 'atelier';
+    if (['collection', 'catalog', 'craft', 'trust', 'appointment', 'consultation'].includes(hash)) return 'atelier';
     return 'atelier';
   };
 
@@ -71,15 +70,15 @@ export default function App() {
       const rawHash = window.location.hash.toLowerCase().replace('#/', '').replace('#', '');
       const targetPage = getPageFromHash();
       setCurrentPage(targetPage);
-      if (['rack', 'looks', 'picks', 'muse', 'moods', 'bridal'].includes(rawHash)) {
+      if (['collection', 'catalog', 'craft', 'trust', 'appointment', 'consultation'].includes(rawHash)) {
         setTimeout(() => {
           const targetId = {
-            rack: 'the-rack',
-            looks: 'try-the-look',
-            picks: 'pick-a-silk',
-            muse: 'muse-film',
-            moods: 'six-moods',
-            bridal: 'bridal-collection',
+            collection: 'collection-grid',
+            catalog: 'collection-grid',
+            craft: 'craft-trust',
+            trust: 'craft-trust',
+            appointment: 'concierge-form',
+            consultation: 'concierge-form',
           }[rawHash];
           const el = document.getElementById(targetId);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -224,7 +223,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-stone-900 flex flex-col font-sans selection:bg-[#7A1C28]/25 selection:text-[#7A1C28] relative">
+    <div className="min-h-screen bg-[#FAF7F2] text-stone-900 flex flex-col font-sans selection:bg-[#7A1C28]/25 selection:text-[#7A1C28] relative">
       {/* Global 21st.dev Tubelight Navigation */}
       <Navbar
         currentPage={currentPage}
@@ -355,7 +354,7 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-14 left-6 z-40 p-3 rounded-full bg-black/80 hover:bg-[#D4AF37] text-stone-300 hover:text-black border border-[#D4AF37]/40 shadow-2xl backdrop-blur-md transition-all duration-300 group"
+            className="fixed bottom-6 left-6 z-40 p-3 rounded-full bg-black/80 hover:bg-[#D4AF37] text-stone-300 hover:text-black border border-[#D4AF37]/40 shadow-2xl backdrop-blur-md transition-all duration-300 group"
             aria-label="Scroll to Top"
             title="Return to Top"
           >

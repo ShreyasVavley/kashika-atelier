@@ -16,7 +16,7 @@ export default function CraftPage({ onNavigate }) {
       num: '02',
       title: 'Sacred Vat Dyeing',
       region: 'Ghats of Varanasi',
-      image: BRAND_ASSETS.varanasiSanctuary,
+      image: BRAND_ASSETS.varanasiatelier,
       desc: 'Natural vat infusion with pure kumkuma, indigo, and saffron.'
     },
     {

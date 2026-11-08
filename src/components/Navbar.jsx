@@ -14,6 +14,7 @@ import {
   X,
   MessageCircle,
   ShieldCheck,
+  MapPin,
   Video,
 } from 'lucide-react';
 import { CURRENCIES } from '../utils/currency';
@@ -42,13 +43,10 @@ export default function Navbar({
   }, []);
 
   const navLinks = [
-    { id: 'atelier', label: 'The Atelier', icon: Sparkles },
-    { id: 'looks', label: 'Try the Look', icon: Sparkles, badge: 'Looks' },
-    { id: 'rack', label: 'The Rack', icon: Layers, badge: 'Rail' },
-    { id: 'picks', label: 'Pick a Silk', icon: Feather },
-    { id: 'bridal', label: 'Bridal', icon: Crown, badge: 'Curved' },
-    { id: 'muse', label: 'The Muse', icon: Video },
-    { id: 'trousseau', label: 'Trunk', icon: Gift, badge: '15% Off' },
+    { id: 'collection', label: 'Collection', icon: Layers },
+    { id: 'craft', label: 'Pure Zari & Craft', icon: ShieldCheck },
+    { id: 'salon', label: 'Ateliers', icon: MapPin },
+    { id: 'appointment', label: 'Appointments', icon: Sparkles },
   ];
 
   const handleNavClick = (id) => {
@@ -223,10 +221,10 @@ export default function Navbar({
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => handleNavClick('salon')}
+            onClick={() => handleNavClick('appointment')}
             className="hidden sm:flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#7A1C28] via-[#8B1E2D] to-[#7A1C28] text-white text-[11px] font-sans font-bold tracking-wider uppercase hover:brightness-110 transition-all shadow-[0_4px_15px_rgba(122,28,40,0.4)] border border-[#D4AF37]/50 select-none cursor-pointer"
           >
-            <span>Visit the Salon</span>
+            <span>Book an Appointment</span>
             <span className="w-5 h-5 rounded-full bg-white text-[#7A1C28] flex items-center justify-center text-xs font-bold shadow-xs">
               →
             </span>

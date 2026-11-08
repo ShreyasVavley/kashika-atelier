@@ -214,7 +214,7 @@ export default function ProductDetailModal({
             {/* Title & Price Banner */}
             <div className="space-y-1.5 pb-4 border-b border-white/10">
               <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-bold block">
-                Varanasi Royal Guild
+                Authentic Banarasi Handloom
               </span>
               <h2 className="text-2xl sm:text-3xl font-editorial font-normal text-white leading-tight">
                 {product.name}
@@ -278,21 +278,33 @@ export default function ProductDetailModal({
                   <span className="text-stone-400">Fabric Composition</span>
                   <span className="font-semibold text-stone-200">{product.fabric}</span>
                 </div>
+                {product.weightGrams && (
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
+                    <span className="text-stone-400">Total Weight</span>
+                    <span className="font-semibold text-stone-200">{product.weightGrams} grams pure silk</span>
+                  </div>
+                )}
+                {product.occasion && (
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
+                    <span className="text-stone-400">Occasion</span>
+                    <span className="font-semibold text-[#D4AF37]">{product.occasion}</span>
+                  </div>
+                )}
                 <div className="flex justify-between py-1.5 border-b border-white/5">
-                  <span className="text-stone-400">Zari Metallurgy</span>
+                  <span className="text-stone-400">Zari Purity</span>
                   <span className="font-semibold text-[#D4AF37]">{product.zari}</span>
+                </div>
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-stone-400">Dimensions</span>
+                  <span className="font-semibold text-stone-200">{product.dimensions || '5.5m Saree + 0.8m Brocade Blouse (45" Width)'}</span>
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-white/5">
                   <span className="text-stone-400">Loom Architecture</span>
                   <span className="font-semibold text-stone-200">{product.weave}</span>
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-white/5">
-                  <span className="text-stone-400">Dimensions</span>
-                  <span className="font-semibold text-stone-200">5.5m Saree + 0.8m Brocade Blouse</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-white/5">
                   <span className="text-stone-400">Reverse Side</span>
-                  <span className="font-semibold text-emerald-400">Zero Cut-Work (Smooth Butter Kadwa)</span>
+                  <span className="font-semibold text-emerald-400">Zero Cut-Work (Smooth Kadwa Finish)</span>
                 </div>
               </motion.div>
             )}

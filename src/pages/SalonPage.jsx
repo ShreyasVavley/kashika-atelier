@@ -19,7 +19,7 @@ export default function SalonPage() {
     e.preventDefault();
     setSubmitted(true);
 
-    const msg = `Pranam Kashika Atelier.%0A%0A*Private Salon Appointment Request:*%0A- Guest: ${encodeURIComponent(formData.name)}%0A- Phone: ${encodeURIComponent(formData.phone)}%0A- Sanctuary: ${encodeURIComponent(formData.city)}%0A- Date & Time: ${encodeURIComponent(formData.date)} (${encodeURIComponent(formData.timeSlot)})%0A- Hospitality: ${encodeURIComponent(formData.beverage)}%0A- Notes: ${encodeURIComponent(formData.notes)}`;
+    const msg = `Pranam Kashika Atelier.%0A%0A*Private Salon Appointment Request:*%0A- Guest: ${encodeURIComponent(formData.name)}%0A- Phone: ${encodeURIComponent(formData.phone)}%0A- atelier: ${encodeURIComponent(formData.city)}%0A- Date & Time: ${encodeURIComponent(formData.date)} (${encodeURIComponent(formData.timeSlot)})%0A- Hospitality: ${encodeURIComponent(formData.beverage)}%0A- Notes: ${encodeURIComponent(formData.notes)}`;
 
     window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
   };
@@ -136,7 +136,7 @@ export default function SalonPage() {
                     className="w-full px-4 py-3 bg-[#0A0A0A] border border-[0.5px] border-white/20 rounded text-sm font-editorial text-stone-200 focus:outline-none focus:border-[#D4AF37]"
                   >
                     <option value="Bengaluru Flagship (Lavelle Road)">Bengaluru Flagship Atelier (Lavelle Road)</option>
-                    <option value="Varanasi Loom Sanctuary (Shivala Ghat)">Varanasi Loom Sanctuary (Shivala Ghat)</option>
+                    <option value="Varanasi Loom atelier (Shivala Ghat)">Varanasi Loom atelier (Shivala Ghat)</option>
                     <option value="London Mayfair Suite (By Invitation)">London Mayfair Suite (By Invitation)</option>
                   </select>
                 </div>
@@ -264,7 +264,7 @@ export default function SalonPage() {
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-bold text-stone-200 block">Varanasi Loom Sanctuary</span>
+                  <span className="font-bold text-stone-200 block">Varanasi Loom atelier</span>
                   <p className="text-stone-400">D 28/42 Shivala Ghat, Varanasi, Uttar Pradesh 221001</p>
                   <p className="text-[#D4AF37] mt-0.5">Mon – Sat: 10:00 AM – 6:00 PM</p>
                 </div>

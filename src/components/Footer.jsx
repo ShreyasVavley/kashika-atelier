@@ -32,7 +32,7 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-[#25050D] via-[#1A0309] to-[#0E0105] text-[#FBF9F5] border-t-2 border-[#D4AF37]/40 font-sans relative overflow-hidden pb-20 sm:pb-24 select-none">
+    <footer className="bg-gradient-to-b from-[#25050D] via-[#1A0309] to-[#0E0105] text-[#FBF9F5] border-t-2 border-[#D4AF37]/40 font-sans relative overflow-hidden pb-8 sm:pb-12 select-none">
       {/* Subtle Ambient Gold Radial Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-[radial-gradient(ellipse_at_top,rgba(212,175,55,0.12)_0%,transparent_70%)] pointer-events-none" />
 
@@ -46,7 +46,7 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
           </div>
 
           <h3 className="text-3xl sm:text-4xl font-editorial font-normal text-[#FBF9F5] tracking-tight">
-            Private Loom Previews & Heirloom Releases
+            Private Loom Previews & Releases
           </h3>
           <p className="text-xs sm:text-sm font-editorial italic text-stone-300 max-w-lg mx-auto leading-relaxed">
             Direct invitations to limited seasonal Kadwa loom unveilings, private trousseau consultations, and Varanasi weaver archives.
@@ -68,7 +68,7 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
               type="submit"
               className="w-full sm:w-auto px-7 py-3 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#E5C07B] to-[#D4AF37] text-stone-950 text-[11px] uppercase tracking-[0.2em] font-sans font-bold transition-all shadow-[0_4px_15px_rgba(212,175,55,0.3)] hover:brightness-110 shrink-0 cursor-pointer"
             >
-              {subscribed ? 'Inscribed ✓' : 'Inscribe ⚜'}
+              {subscribed ? 'Subscribed ✓' : 'Subscribe'}
             </button>
           </form>
         </div>
@@ -267,7 +267,7 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
         {/* Col 4: Private Viewing Suites (3 cols) */}
         <div className="lg:col-span-3 space-y-3">
           <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-bold text-[#D4AF37] block">
-            Sanctuary Locations
+            Showroom Locations
           </span>
           <ul className="space-y-2.5 text-xs font-sans text-stone-300">
             <li>
@@ -277,7 +277,7 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
               </span>
             </li>
             <li>
-              <strong className="text-white block font-medium">Varanasi Sanctuary:</strong>
+              <strong className="text-white block font-medium">Varanasi Atelier:</strong>
               <span className="text-stone-400 text-[11px] block">
                 Shivala Ghat, Ganga Banks, Varanasi
               </span>
@@ -285,12 +285,12 @@ export default function Footer({ onNavigate, onOpenVerifier }) {
             <li className="pt-1">
               <button
                 onClick={() => {
-                  onNavigate('salon');
+                  onNavigate('appointment');
                   scrollToTop();
                 }}
                 className="px-4 py-2 rounded-full bg-[#7A1C28] hover:bg-[#961F33] text-white text-[10px] uppercase tracking-wider font-semibold shadow-sm transition-all inline-flex items-center gap-1.5 cursor-pointer"
               >
-                <span>Reserve Salon Suite</span>
+                <span>Book an Appointment</span>
                 <ArrowRight className="w-3 h-3 text-[#D4AF37]" />
               </button>
             </li>
