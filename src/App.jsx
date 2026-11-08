@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import BottomStatusTicker from './components/BottomStatusTicker';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import Toast from './components/Toast';
@@ -13,7 +14,7 @@ import CollectionPage from './pages/CollectionPage';
 import CraftPage from './pages/CraftPage';
 import TrousseauPage from './pages/TrousseauPage';
 import SalonPage from './pages/SalonPage';
-import { MASTER_DESIGNS, CATALOG_PRODUCTS } from './data/sarees';
+import { CATALOG_PRODUCTS } from './data/sarees';
 
 export default function App() {
   // Hash-based Page Routing Helper
@@ -222,7 +223,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#FBF9F5] flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5] relative">
+    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5] relative">
       {/* Global 21st.dev Tubelight Navigation */}
       <Navbar
         currentPage={currentPage}
@@ -353,7 +354,7 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 left-6 z-40 p-3 rounded-full bg-black/80 hover:bg-[#D4AF37] text-stone-300 hover:text-black border border-[#D4AF37]/40 shadow-2xl backdrop-blur-md transition-all duration-300 group"
+            className="fixed bottom-14 left-6 z-40 p-3 rounded-full bg-black/80 hover:bg-[#D4AF37] text-stone-300 hover:text-black border border-[#D4AF37]/40 shadow-2xl backdrop-blur-md transition-all duration-300 group"
             aria-label="Scroll to Top"
             title="Return to Top"
           >
@@ -364,6 +365,12 @@ export default function App() {
 
       {/* Global Heritage 5-Column Haute Couture Footer */}
       <Footer
+        onNavigate={handleNavigate}
+        onOpenVerifier={() => setVerifierModalOpen(true)}
+      />
+
+      {/* Persistent Bottom Status Ticker (Instagram Reel Aesthetic) */}
+      <BottomStatusTicker
         onNavigate={handleNavigate}
         onOpenVerifier={() => setVerifierModalOpen(true)}
       />
