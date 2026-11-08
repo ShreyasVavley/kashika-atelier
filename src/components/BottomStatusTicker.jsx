@@ -7,6 +7,7 @@ export default function BottomStatusTicker({ onNavigate, onOpenVerifier }) {
     { label: 'TRY THE LOOK', sub: 'Interactive 3D Ensemble Builder', target: 'looks' },
     { label: '100% PURE SILVER ZARI', sub: '98.2% Certified Electro-Gilded in 24K Gold', target: 'craft' },
     { label: 'THE RACK', sub: '14+ Master Silks & Pure Brocade Blouses', target: 'rack' },
+    { label: 'THE BRIDAL COLLECTION', sub: '3D Curved Arch Carousel for the Muhurtham', target: 'bridal' },
     { label: 'SIX TEMPLE MOODS', sub: 'South Indian Gopuram Architectural Archive', target: 'moods' },
     { label: 'PICK A SILK', sub: '3D Fanned Arc of Sacred Heritage Colorways', target: 'picks' },
     { label: 'BRIDAL TRUNK', sub: 'Heirloom Muhurtham Velvet Trunk (15% Off)', target: 'trousseau' },

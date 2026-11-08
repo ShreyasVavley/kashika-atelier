@@ -94,8 +94,8 @@ export default function TheRack({
   const isModalWishlisted = activeModalProduct && wishlist.some((w) => w.id === activeModalProduct.id);
 
   return (
-    <section id="the-rack" className="py-20 sm:py-28 bg-[#FAF8F5] text-[#1C1917] relative overflow-hidden border-b border-[#D4AF37]/20">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+    <section id="the-rack" className="py-20 sm:py-28 bg-[#FAFAFB] text-stone-900 relative overflow-hidden border-b border-stone-200/80">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.04)_0%,transparent_70%)] pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">

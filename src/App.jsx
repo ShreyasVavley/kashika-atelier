@@ -24,7 +24,7 @@ export default function App() {
     if (hash === 'craft') return 'craft';
     if (hash === 'trousseau') return 'trousseau';
     if (hash === 'salon') return 'salon';
-    if (['rack', 'looks', 'picks', 'muse', 'moods'].includes(hash)) return 'atelier';
+    if (['rack', 'looks', 'picks', 'muse', 'moods', 'bridal'].includes(hash)) return 'atelier';
     return 'atelier';
   };
 
@@ -71,7 +71,7 @@ export default function App() {
       const rawHash = window.location.hash.toLowerCase().replace('#/', '').replace('#', '');
       const targetPage = getPageFromHash();
       setCurrentPage(targetPage);
-      if (['rack', 'looks', 'picks', 'muse', 'moods'].includes(rawHash)) {
+      if (['rack', 'looks', 'picks', 'muse', 'moods', 'bridal'].includes(rawHash)) {
         setTimeout(() => {
           const targetId = {
             rack: 'the-rack',
@@ -79,6 +79,7 @@ export default function App() {
             picks: 'pick-a-silk',
             muse: 'muse-film',
             moods: 'six-moods',
+            bridal: 'bridal-collection',
           }[rawHash];
           const el = document.getElementById(targetId);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -223,7 +224,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#FBF9F5] relative">
+    <div className="min-h-screen bg-[#FFFFFF] text-stone-900 flex flex-col font-sans selection:bg-[#7A1C28]/25 selection:text-[#7A1C28] relative">
       {/* Global 21st.dev Tubelight Navigation */}
       <Navbar
         currentPage={currentPage}

@@ -1,20 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowRight,
-  ShieldCheck,
-  ChevronRight,
-  ChevronLeft,
-  MessageCircle,
-  Heart,
-  Eye,
-  SlidersHorizontal,
-} from 'lucide-react';
-import { MASTER_DESIGNS, BRAND_ASSETS, CATALOG_PRODUCTS } from '../data/sarees';
-import { formatPrice } from '../utils/currency';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { BRAND_ASSETS } from '../data/sarees';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ProductDetailModal from '../components/ProductDetailModal';
-import StorytellingLoom from '../components/StorytellingLoom';
+import BridalCollection from '../components/BridalCollection';
 import TickerTape from '../components/TickerTape';
 import SixMoodsArchive from '../components/SixMoodsArchive';
 import TheRack from '../components/TheRack';
@@ -31,15 +21,6 @@ const COUNTRY_DIAL_CODES = [
   { code: '+61', country: 'Australia', flag: '🇦🇺' },
 ];
 
-const COLOR_FILTERS = [
-  { id: 'all', name: 'All', hex: null },
-  { id: 'crimson', name: 'Crimson', hex: '#881326' },
-  { id: 'indigo', name: 'Indigo', hex: '#0d1d36' },
-  { id: 'emerald', name: 'Emerald', hex: '#082d20' },
-  { id: 'saffron', name: 'Saffron', hex: '#a86a08' },
-  { id: 'gulabi', name: 'Pink', hex: '#8f144e' },
-];
-
 export default function AtelierPage({
   onNavigate,
   onSelectColorway,
@@ -48,14 +29,6 @@ export default function AtelierPage({
   wishlist = [],
   onToggleWishlist,
 }) {
-  const masterSaree = MASTER_DESIGNS[0];
-  const [expandedLookbookIndex, setExpandedLookbookIndex] = useState(0);
-
-  // Faceted Filtering & Sorting State
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [sortBy, setSortBy] = useState('featured');
-  const [selectedColorFilter, setSelectedColorFilter] = useState('all');
-
   // Detail Modal State
   const [inspectModalProduct, setInspectModalProduct] = useState(null);
 
@@ -67,41 +40,7 @@ export default function AtelierPage({
   const [contactLoading, setContactLoading] = useState(false);
   const [contactSent, setContactSent] = useState(false);
 
-  // Categories
-  const categories = ['All', 'Banarasi Katan', 'Royal Kadwa', 'Organza Silk', 'Bridal Trousseau'];
 
-  // Filtered & Sorted Products
-  const filteredProducts = useMemo(() => {
-    let result = [...CATALOG_PRODUCTS];
-
-    if (selectedCategory !== 'All') {
-      result = result.filter((p) => p.category === selectedCategory);
-    }
-
-    if (selectedColorFilter !== 'all') {
-      if (selectedColorFilter === 'crimson') {
-        result = result.filter((p) => p.hex === '#881326');
-      } else if (selectedColorFilter === 'indigo') {
-        result = result.filter((p) => p.hex === '#0d1d36' || p.hex === '#141414');
-      } else if (selectedColorFilter === 'emerald') {
-        result = result.filter((p) => p.hex === '#082d20');
-      } else if (selectedColorFilter === 'saffron') {
-        result = result.filter((p) => p.hex === '#a86a08');
-      } else if (selectedColorFilter === 'gulabi') {
-        result = result.filter((p) => p.hex === '#8f144e');
-      }
-    }
-
-    if (sortBy === 'price-asc') {
-      result.sort((a, b) => a.priceINR - b.priceINR);
-    } else if (sortBy === 'price-desc') {
-      result.sort((a, b) => b.priceINR - a.priceINR);
-    } else if (sortBy === 'loom-desc') {
-      result.sort((a, b) => b.name.length - a.name.length);
-    }
-
-    return result;
-  }, [selectedCategory, selectedColorFilter, sortBy]);
 
   const toggleWishlist = (id) => {
     if (onToggleWishlist) {
@@ -109,17 +48,7 @@ export default function AtelierPage({
     }
   };
 
-  const handleLookbookPrev = () => {
-    setExpandedLookbookIndex((prev) =>
-      prev === 0 ? masterSaree.colorways.length - 1 : prev - 1
-    );
-  };
 
-  const handleLookbookNext = () => {
-    setExpandedLookbookIndex((prev) =>
-      prev === masterSaree.colorways.length - 1 ? 0 : prev + 1
-    );
-  };
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
@@ -139,7 +68,7 @@ export default function AtelierPage({
   };
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1C1917] selection:bg-[#7A1C28]/20 selection:text-[#7A1C28] font-sans min-h-screen">
+    <div className="bg-[#FFFFFF] text-stone-900 selection:bg-[#7A1C28]/25 selection:text-[#7A1C28] font-sans min-h-screen">
       {/* ============================================================== */}
       {/* 1. HERO SECTION: monitor_hero.jpg & sec_3.jpg from video */}
       {/* ============================================================== */}
@@ -189,35 +118,22 @@ export default function AtelierPage({
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 space-y-6 sm:space-y-7 text-left pt-6 sm:pt-0"
           >
-            <p className="text-[11px] sm:text-xs uppercase tracking-[0.38em] text-[#D4AF37] font-semibold flex items-center gap-2">
-              <span>⚜</span>
-              <span>SAREES WOVEN WITH</span>
-            </p>
-
-            <div className="relative inline-block">
-              <h1 className="text-5xl sm:text-7xl md:text-8xl font-editorial font-normal tracking-[0.08em] uppercase text-[#FBF9F5] leading-none drop-shadow-2xl">
-                CULTURE
-              </h1>
-              {/* Dynamic Self-Drawing Calligraphic Flourish */}
-              <svg
-                className="w-full h-7 sm:h-9 text-[#D4AF37] -mt-2 sm:-mt-3 overflow-visible"
-                viewBox="0 0 340 32"
-                fill="none"
-              >
-                <motion.path
-                  d="M 12 12 C 70 28, 170 32, 275 14 C 300 9, 320 8, 328 16"
-                  stroke="#D4AF37"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                />
-              </svg>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.08] border border-[#D4AF37]/40 text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#D4AF37] font-sans font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+              <span>KASHIKA · VARANASI PIT LOOMS</span>
             </div>
 
-            <p className="text-base sm:text-lg font-editorial italic text-stone-200 tracking-wide font-normal">
-              Heirloom Drapes for Modern Stories
+            <div className="relative">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-editorial font-normal text-[#FBF9F5] leading-[1.04] tracking-tight">
+                Woven for the{' '}
+                <span className="bg-gradient-to-r from-[#D4AF37] via-[#F3CD68] to-[#D4AF37] bg-clip-text text-transparent italic font-normal">
+                  Divine.
+                </span>
+              </h1>
+            </div>
+
+            <p className="text-sm sm:text-base md:text-lg font-editorial italic text-stone-300 max-w-lg leading-relaxed">
+              Sacred temple silks handwoven in Varanasi. Consecrated with 98.2% pure tested silver zari and blessed by timeless Indian tradition.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -337,440 +253,76 @@ export default function AtelierPage({
       {/* 5. The Muse Film (Dual-Stream Parallax) & The Muse Reels (3D Arc Video) */}
       <MuseMedia onNavigate={onNavigate} />
 
-      {/* ============================================================== */}
-      {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: Dynastic Lookbook */}
-      {/* ============================================================== */}
-      <section className="py-20 sm:py-28 bg-[#FAF8F5] border-b border-[#D4AF37]/20 text-[#1C1917] relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 mb-8 text-center space-y-1 relative z-10">
-          <span className="text-[10px] uppercase tracking-[0.35em] text-[#7A1C28] font-sans font-bold block">
-            ⚜ Dynastic Lookbook ⚜
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1A1A1A] tracking-wide">
-            The Five Shades
-          </h2>
+      {/* 6. The Bridal Collection (3D Curved Arch Carousel matching NOOLAM Prompt 9) */}
+      <BridalCollection
+        currency={currency}
+        onAddToCart={onAddToCart}
+        wishlist={wishlist}
+        onToggleWishlist={toggleWishlist}
+      />
 
-          {/* Indicator Dots & Mobile Nav */}
-          <div className="flex items-center justify-center gap-3 pt-3">
-            <button
-              onClick={handleLookbookPrev}
-              className="p-1.5 rounded-full bg-white border border-stone-200 hover:border-[#7A1C28] text-stone-600 hover:text-[#7A1C28] shadow-xs transition-colors"
-              aria-label="Previous Shade"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-
-            <div className="flex items-center gap-1.5">
-              {masterSaree.colorways.map((cw, idx) => (
-                <button
-                  key={cw.id}
-                  onClick={() => setExpandedLookbookIndex(idx)}
-                  className={`transition-all rounded-full ${
-                    expandedLookbookIndex === idx
-                      ? 'w-6 h-1.5 bg-[#7A1C28]'
-                      : 'w-1.5 h-1.5 bg-stone-300 hover:bg-stone-400'
-                  }`}
-                  aria-label={`Go to ${cw.name}`}
-                />
-              ))}
+      {/* 7. Private Atelier Concierge & Bridal Consultation (Modern Haute Couture Suite) */}
+      <section className="py-20 sm:py-28 bg-[#FFFFFF] text-stone-900 border-b border-stone-200/80 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="rounded-3xl bg-gradient-to-br from-[#1C040A] via-[#2A0610] to-[#120206] text-white p-8 sm:p-12 lg:p-16 border border-[#D4AF37]/45 shadow-[0_25px_60px_rgba(28,4,10,0.5)] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Column: Editorial Invitation */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-[#D4AF37] font-sans font-bold">
+                <span className="w-5 h-[1.5px] bg-[#D4AF37]" />
+                PRIVATE ATELIER APPOINTMENTS
+              </div>
+              <h3 className="text-3xl sm:text-5xl font-editorial font-normal text-[#FBF9F5] tracking-tight leading-tight">
+                Curate Your Muhurtham Drape
+              </h3>
+              <p className="text-xs sm:text-sm font-editorial italic text-stone-300 max-w-md leading-relaxed">
+                Connect directly with our master drapers in Varanasi for personalized bridal consultations, custom zari weaving, and private trousseau appointments worldwide.
+              </p>
+              <div className="pt-2 flex items-center gap-6 text-[10px] uppercase tracking-widest text-[#D4AF37]">
+                <span>✓ ONE-ON-ONE ZOOM</span>
+                <span>✓ VARANASI GHAT SUITE</span>
+                <span>✓ WHITE-GLOVE COURIER</span>
+              </div>
             </div>
 
-            <button
-              onClick={handleLookbookNext}
-              className="p-1.5 rounded-full bg-white border border-stone-200 hover:border-[#7A1C28] text-stone-600 hover:text-[#7A1C28] shadow-xs transition-colors"
-              aria-label="Next Shade"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* 5 Vertical Expanding Columns */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row h-[560px] sm:h-[620px] w-full rounded-xl overflow-hidden border border-[#D4AF37]/30 bg-black shadow-2xl">
-            {masterSaree.colorways.map((cw, idx) => {
-              const isExpanded = expandedLookbookIndex === idx;
-              return (
-                <div
-                  key={cw.id}
-                  onMouseEnter={() => setExpandedLookbookIndex(idx)}
-                  onClick={() => setExpandedLookbookIndex(idx)}
-                  className={`relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer overflow-hidden border-b md:border-b-0 md:border-r border-[0.5px] border-white/10 ${
-                    isExpanded ? 'flex-[3.5] md:flex-[3.5]' : 'flex-1 md:flex-1'
-                  }`}
-                >
-                  <img
-                    src={cw.image}
-                    alt={cw.name}
-                    className={`w-full h-full object-cover transition-all duration-700 ${
-                      isExpanded
-                        ? 'filter brightness-[0.92] contrast-[1.08] scale-105'
-                        : 'filter brightness-[0.45] contrast-[1.0] scale-100'
-                    }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/35 pointer-events-none" />
-
-                  {/* Collapsed Spine */}
-                  {!isExpanded && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-between p-6 pointer-events-none">
-                      <span className="text-[10px] font-sans font-bold text-[#D4AF37]">
-                        0{idx + 1}
-                      </span>
-                      <div className="[writing-mode:vertical-rl] rotate-180 text-xs sm:text-sm font-editorial tracking-[0.25em] uppercase text-stone-300">
-                        {cw.name}
-                      </div>
-                      <span
-                        className="w-3.5 h-3.5 rounded-full border border-white/30"
-                        style={{ backgroundColor: cw.hex }}
-                      />
-                    </div>
-                  )}
-
-                  {/* Expanded Content Overlay */}
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.45 }}
-                      className="absolute inset-0 p-8 sm:p-10 flex flex-col justify-between text-white pointer-events-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-[0.25em] font-sans font-bold text-[#D4AF37] px-3 py-1 rounded-full bg-black/60 border border-[#D4AF37]/30">
-                          {cw.zariTone}
-                        </span>
-                        <span
-                          className="w-4 h-4 rounded-full border border-white/50 shadow-md ring-2 ring-[#D4AF37]"
-                          style={{ backgroundColor: cw.hex }}
-                        />
-                      </div>
-
-                      <div className="space-y-3 pointer-events-auto">
-                        <h3 className="text-2xl sm:text-4xl font-editorial font-normal tracking-wide text-[#FBF9F5]">
-                          {cw.name}
-                        </h3>
-
-                        <div>
-                          <button
-                            onClick={() => {
-                              onSelectColorway(cw.id);
-                              onNavigate('collection');
-                            }}
-                            className="px-5 py-2.5 rounded-full bg-[#D4AF37] hover:bg-[#C5A059] text-black text-[10px] uppercase tracking-[0.22em] font-sans font-bold transition-all shadow-xl flex items-center gap-1.5 btn-shimmer"
-                          >
-                            <span>Inspect Shade</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
+            {/* Right Column: Direct WhatsApp Connection Card */}
+            <div className="lg:col-span-5 bg-white/[0.06] backdrop-blur-xl border border-white/15 rounded-2xl p-6 sm:p-7 shadow-2xl">
+              {contactSent ? (
+                <div className="text-center py-6 space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-xl font-bold border border-emerald-500/40">
+                    ✓
+                  </div>
+                  <h4 className="text-lg font-editorial text-white">Inquiry Forwarded</h4>
+                  <p className="text-xs text-stone-300">Connecting you with our Senior Draper on WhatsApp...</p>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 2.5 THE LOOM CHRONICLE: Interactive Scrollytelling Animation */}
-      {/* ============================================================== */}
-      <StorytellingLoom onNavigate={onNavigate} />
-
-      {/* ============================================================== */}
-      {/* 3. ANCIENT CRAFT, MODERN SOUL: monitor_05s.jpg from video */}
-      {/* Replaced wordy text boxes with 4 Visual Weave Gallery Cards */}
-      {/* ============================================================== */}
-      <section className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Left Column: Stacked Title + Arched Graphic from video */}
-          <div className="lg:col-span-4 space-y-5">
-            <div className="space-y-1">
-              <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
-                Heritage Lineage
-              </span>
-              <h2 className="text-4xl sm:text-5xl font-editorial font-normal text-[#1C1917] leading-[1.08] tracking-tight">
-                ANCIENT
-                <br />
-                CRAFT,
-                <br />
-                MODERN
-                <br />
-                SOUL
-              </h2>
-            </div>
-
-            {/* Arched Burgundy Medallion from monitor_05s.jpg */}
-            <div className="relative w-44 h-52 rounded-t-full bg-[#6A1424] text-white p-5 flex flex-col justify-between overflow-hidden shadow-xl border border-[#D4AF37]/40">
-              <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,white_0%,transparent_80%)]" />
-              <div className="text-center pt-1">
-                <span className="text-xl text-[#D4AF37]">⚜</span>
-              </div>
-              <div className="text-center space-y-0.5">
-                <span className="text-[9px] uppercase tracking-widest text-[#D4AF37] block font-sans font-bold">
-                  PIT LOOM ARCHIVE
-                </span>
-                <span className="text-xs font-editorial tracking-wider">
-                  Shivala Ghat, Varanasi
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: 4 Visual Saree Swatch Cards matching monitor_05s.jpg */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {masterSaree.colorways.slice(0, 4).map((cw, idx) => (
-              <motion.div
-                key={cw.id}
-                whileHover={{ y: -6, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                onClick={() => {
-                  onSelectColorway(cw.id);
-                  onNavigate('collection');
-                }}
-                className="group cursor-pointer bg-white rounded-xl overflow-hidden border border-stone-200 hover:border-[#D4AF37]/60 shadow-sm hover:shadow-xl transition-all"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-                  <img
-                    src={cw.image}
-                    alt={cw.name}
-                    className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
-                  />
-                  <div
-                    className="absolute top-2.5 left-2.5 w-3.5 h-3.5 rounded-full border border-white shadow"
-                    style={{ backgroundColor: cw.hex }}
-                  />
-                </div>
-                <div className="p-3 text-center space-y-0.5">
-                  <span className="text-[9px] uppercase tracking-wider text-[#881326] font-bold block">
-                    0{idx + 1} • {cw.name.split(' ')[0]}
-                  </span>
-                  <span className="text-[11px] font-editorial text-stone-700 block">
-                    {cw.zariTone}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 4. FRESH WEAVES: Minimalist Catalog Grid matching monitor_22s.jpg */}
-      {/* ============================================================== */}
-      <section
-        id="fresh-weaves"
-        className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20 scroll-mt-20"
-      >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-          {/* Header */}
-          <div className="text-center max-w-xl mx-auto mb-8 space-y-1">
-            <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
-              Collection 2026
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-[#1C1917] tracking-tight">
-              Fresh Weaves
-            </h2>
-          </div>
-
-          {/* Faceted Controls: Category Pills + Color & Sort */}
-          <div className="space-y-4 mb-10">
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              {categories.map((cat) => {
-                const isActive = selectedCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`relative px-4 py-1.5 rounded-full text-[11px] uppercase tracking-wider font-sans font-semibold transition-colors duration-200 ${
-                      isActive ? 'text-white' : 'text-stone-700 hover:text-black'
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeCategoryPill"
-                        className="absolute inset-0 bg-[#6A1424] rounded-full shadow-sm -z-10"
-                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                      />
-                    )}
-                    {!isActive && (
-                      <div className="absolute inset-0 bg-white border border-stone-200 rounded-full -z-20" />
-                    )}
-                    <span className="relative z-10">{cat}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-stone-200/80 max-w-5xl mx-auto">
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-                {COLOR_FILTERS.map((c) => (
-                  <button
-                    key={c.id}
-                    onClick={() => setSelectedColorFilter(c.id)}
-                    className={`px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold tracking-wider flex items-center gap-1.5 transition-all ${
-                      selectedColorFilter === c.id
-                        ? 'bg-stone-900 text-white shadow-sm'
-                        : 'bg-white text-stone-600 border border-stone-200'
-                    }`}
-                  >
-                    {c.hex && (
-                      <span
-                        className="w-2 h-2 rounded-full border border-black/20"
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    )}
-                    <span>{c.name}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-1.5 ml-auto text-xs font-sans">
-                <SlidersHorizontal className="w-3 h-3 text-stone-500" />
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-white border border-stone-200 rounded-lg px-2.5 py-1 text-xs text-stone-800 font-sans focus:outline-none"
-                >
-                  <option value="featured">Featured</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Saree Catalog Grid: Clean, Minimal Micro-Copy with Fluid Layout Transitions */}
-          <motion.div layout className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            <AnimatePresence mode="popLayout">
-              {filteredProducts.map((product) => {
-                const isWishlisted = wishlist.includes(product.id);
-                return (
-                  <motion.div
-                    layout
-                    key={product.id}
-                    initial={{ opacity: 0, scale: 0.94 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.94 }}
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    className="group bg-white rounded-xl overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-[#D4AF37]/60 transition-all flex flex-col justify-between"
-                  >
-                    <div className="relative aspect-[3/4] overflow-hidden bg-stone-100">
-                      <ProgressiveImage
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
-                        aspectRatio="3/4"
-                      />
-
-                      <div
-                        className="absolute top-3 left-3 w-4 h-4 rounded-full border-2 border-white shadow-md z-10"
-                        style={{ backgroundColor: product.hex }}
-                      />
-
-                      <button
-                        onClick={() => toggleWishlist(product.id)}
-                        className="absolute top-3 right-3 p-1.5 rounded-full bg-white/85 hover:bg-white text-stone-700 hover:text-[#881326] backdrop-blur-sm transition-all shadow z-10"
-                        aria-label="Wishlist Saree"
-                      >
-                        <Heart
-                          className={`w-3.5 h-3.5 transition-colors ${
-                            isWishlisted ? 'fill-[#881326] text-[#881326]' : ''
-                          }`}
-                        />
-                      </button>
-
-                      <button
-                        onClick={() => setInspectModalProduct(product)}
-                        className="absolute inset-x-4 bottom-3 py-2 rounded-full bg-white/95 hover:bg-[#D4AF37] text-stone-900 text-[10px] uppercase tracking-widest font-sans font-bold shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center gap-1 z-10"
-                      >
-                        <Eye className="w-3 h-3" />
-                        <span>Inspect</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 space-y-1">
-                      <h3 className="text-sm sm:text-base font-editorial font-bold text-stone-900 leading-tight">
-                        {product.name}
-                      </h3>
-
-                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
-                        <span className="text-sm sm:text-base font-editorial font-bold text-stone-900">
-                          {formatPrice(product.priceINR, currency)}
-                        </span>
-                        <button
-                          onClick={() => setInspectModalProduct(product)}
-                          className="text-xs uppercase tracking-wider font-sans font-bold text-[#881326] hover:underline"
-                        >
-                          Inspect &rarr;
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 5. WE'D LOVE TO HEAR FROM YOU: monitor_09s.jpg from video */}
-      {/* ============================================================== */}
-      <section className="py-20 md:py-28 bg-[#FAF8F5] text-[#1C1917] border-b border-[#D4AF37]/20">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-10 space-y-1">
-            <span className="text-[10px] uppercase tracking-[0.35em] text-[#881326] font-sans font-bold block">
-              Atelier Concierge
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-editorial font-normal text-[#1C1917] tracking-tight">
-              We'd Love to Hear From You
-            </h2>
-          </div>
-
-          <div className="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xl max-w-xl mx-auto">
-            {contactSent ? (
-              <div className="text-center py-6 space-y-2">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-lg font-bold">
-                  ✓
-                </div>
-                <h3 className="text-lg font-editorial font-normal text-stone-900">
-                  Inquiry Transmitted
-                </h3>
-                <p className="text-xs font-sans text-stone-500">
-                  Opening WhatsApp to connect with our Senior Draper...
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleContactSubmit} className="space-y-3.5 text-xs font-sans">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-3.5 text-xs font-sans">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
-                      Full Name *
+                    <label className="block text-[9px] uppercase tracking-wider text-[#D4AF37] font-bold mb-1">
+                      Your Full Name *
                     </label>
                     <input
                       type="text"
                       required
                       value={contactName}
                       onChange={(e) => setContactName(e.target.value)}
-                      placeholder="Your Name"
-                      className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-800 focus:outline-none focus:border-[#881326]"
+                      placeholder="e.g. Ananya Sharma"
+                      className="w-full px-3.5 py-2.5 bg-black/40 border border-white/20 rounded-xl text-white placeholder-stone-400 focus:outline-none focus:border-[#D4AF37] transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
+                    <label className="block text-[9px] uppercase tracking-wider text-[#D4AF37] font-bold mb-1">
                       WhatsApp Number *
                     </label>
-                    <div className="flex gap-1.5">
+                    <div className="flex gap-2">
                       <select
                         value={contactDialCode}
                         onChange={(e) => setContactDialCode(e.target.value)}
-                        className="px-2 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-800 focus:outline-none focus:border-[#881326] shrink-0"
+                        className="px-2.5 py-2.5 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:border-[#D4AF37] text-xs shrink-0"
                       >
                         {COUNTRY_DIAL_CODES.map((d) => (
-                          <option key={d.code} value={d.code}>
+                          <option key={d.code} value={d.code} className="bg-stone-900 text-white">
                             {d.flag} {d.code}
                           </option>
                         ))}
@@ -781,35 +333,35 @@ export default function AtelierPage({
                         value={contactPhone}
                         onChange={(e) => setContactPhone(e.target.value)}
                         placeholder="Phone Number"
-                        className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-800 focus:outline-none focus:border-[#881326]"
+                        className="w-full px-3.5 py-2.5 bg-black/40 border border-white/20 rounded-xl text-white placeholder-stone-400 focus:outline-none focus:border-[#D4AF37] transition-colors"
                       />
                     </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1">
-                    Saree Inquiry (Optional)
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={contactMessage}
-                    onChange={(e) => setContactMessage(e.target.value)}
-                    placeholder="Saree shade, weave, or bridal inquiry..."
-                    className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-lg text-xs text-stone-800 focus:outline-none focus:border-[#881326]"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-[9px] uppercase tracking-wider text-[#D4AF37] font-bold mb-1">
+                      Saree or Muhurtham Notes (Optional)
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={contactMessage}
+                      onChange={(e) => setContactMessage(e.target.value)}
+                      placeholder="Bridal date, preferred colorway, or custom zari requirement..."
+                      className="w-full px-3.5 py-2 bg-black/40 border border-white/20 rounded-xl text-white placeholder-stone-400 focus:outline-none focus:border-[#D4AF37] transition-colors"
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  disabled={contactLoading}
-                  className="w-full py-3 rounded-full bg-[#6A1424] hover:bg-[#881326] text-white text-[11px] uppercase tracking-[0.2em] font-sans font-bold shadow-md transition-all flex items-center justify-center gap-2 btn-shimmer disabled:opacity-50"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Connect on WhatsApp &rarr;</span>
-                </button>
-              </form>
-            )}
+                  <button
+                    type="submit"
+                    disabled={contactLoading}
+                    className="w-full py-3 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#F3CD68] to-[#D4AF37] text-stone-950 text-xs uppercase tracking-[0.2em] font-sans font-bold shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <MessageCircle className="w-4 h-4 text-stone-950" />
+                    <span>Connect on WhatsApp ➔</span>
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>

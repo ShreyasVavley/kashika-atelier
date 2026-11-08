@@ -29,12 +29,12 @@ export default function MuseMedia({ onNavigate }) {
   };
 
   return (
-    <div id="muse-film" className="bg-[#FAF8F5] text-[#1C1917] relative border-b border-[#D4AF37]/20 overflow-hidden">
+    <div id="muse-film" className="bg-[#FFFFFF] text-stone-900 relative border-b border-stone-200/80 overflow-hidden">
       {/* =========================================================================
           PART 1: THE MUSE FILM (Dual-Stream Opposing Parallax)
       ========================================================================= */}
       <section className="py-20 sm:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
@@ -153,7 +153,7 @@ export default function MuseMedia({ onNavigate }) {
       {/* =========================================================================
           PART 2: THE MUSE REELS (3D Arc Video Stream)
       ========================================================================= */}
-      <section className="py-20 sm:py-28 bg-[#F5F0E6] border-t border-[#D4AF37]/25 relative overflow-hidden">
+      <section className="py-20 sm:py-28 bg-[#FAFAFB] text-stone-900 border-t border-stone-200/80 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header & Controls */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">

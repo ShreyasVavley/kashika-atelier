@@ -93,8 +93,8 @@ export default function TryTheLook({
   };
 
   return (
-    <section id="try-the-look" className="py-20 sm:py-28 bg-[#FAF8F5] text-[#1C1917] relative border-b border-[#D4AF37]/20">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06)_0%,transparent_70%)] pointer-events-none" />
+    <section id="try-the-look" className="py-20 sm:py-28 bg-[#FFFFFF] text-stone-900 relative border-b border-stone-200/80">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="mb-10 sm:mb-12">
@@ -118,7 +118,7 @@ export default function TryTheLook({
           {/* Left Column: Depth-of-Field Stage Carousel (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col items-center">
             {/* Stage Backdrop with Center Focus & Side Blur */}
-            <div className="relative w-full h-[460px] sm:h-[560px] rounded-3xl bg-gradient-to-b from-[#F4EFE6] via-[#FAF7F2] to-[#EFEAE0] border border-[#D4AF37]/30 shadow-inner overflow-hidden flex items-center justify-center p-4">
+            <div className="relative w-full h-[460px] sm:h-[560px] rounded-3xl bg-gradient-to-b from-[#F5F5F7] via-[#FAFAFC] to-[#EDEDF2] border border-stone-200/80 shadow-sm overflow-hidden flex items-center justify-center p-4">
               {/* Radial glow spotlight behind active model */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.12)_0%,transparent_70%)] pointer-events-none" />
 

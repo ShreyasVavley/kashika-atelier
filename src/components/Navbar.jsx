@@ -46,9 +46,9 @@ export default function Navbar({
     { id: 'looks', label: 'Try the Look', icon: Sparkles, badge: 'Looks' },
     { id: 'rack', label: 'The Rack', icon: Layers, badge: 'Rail' },
     { id: 'picks', label: 'Pick a Silk', icon: Feather },
+    { id: 'bridal', label: 'Bridal', icon: Crown, badge: 'Curved' },
     { id: 'muse', label: 'The Muse', icon: Video },
-    { id: 'trousseau', label: 'Bridal Trunk', icon: Gift, badge: '15% Off' },
-    { id: 'collection', label: '5 Shades', icon: Layers },
+    { id: 'trousseau', label: 'Trunk', icon: Gift, badge: '15% Off' },
   ];
 
   const handleNavClick = (id) => {
