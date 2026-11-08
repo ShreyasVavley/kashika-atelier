@@ -6,24 +6,17 @@ import {
   ShieldCheck,
   Award,
   CheckCircle2,
-  Calendar,
   MessageCircle,
-  MapPin,
   ArrowRight,
   SlidersHorizontal,
+  Truck,
+  RotateCcw,
+  Sparkles,
+  Zap,
 } from 'lucide-react';
 import { CATALOG_PRODUCTS, BRAND_ASSETS } from '../data/sarees';
 import { formatPrice } from '../utils/currency';
 import ProductDetailModal from '../components/ProductDetailModal';
-
-const COUNTRY_DIAL_CODES = [
-  { code: '+91', country: 'India', flag: '🇮🇳' },
-  { code: '+1', country: 'USA / Canada', flag: '🇺🇸' },
-  { code: '+44', country: 'UK', flag: '🇬🇧' },
-  { code: '+971', country: 'UAE', flag: '🇦🇪' },
-  { code: '+65', country: 'Singapore', flag: '🇸🇬' },
-  { code: '+61', country: 'Australia', flag: '🇦🇺' },
-];
 
 const FABRIC_CATEGORIES = [
   'All Weaves',
@@ -46,9 +39,12 @@ const COLOR_FILTERS = [
 export default function AtelierPage({
   onNavigate,
   onAddToCart,
+  onBuyNow,
   currency,
   wishlist = [],
   onToggleWishlist,
+  searchQuery = '',
+  onSearchChange,
 }) {
   // Filtering & Sorting State
   const [selectedCategory, setSelectedCategory] = useState('All Weaves');
@@ -58,24 +54,29 @@ export default function AtelierPage({
   // Inspection Modal State
   const [inspectModalProduct, setInspectModalProduct] = useState(null);
 
-  // Appointment Form State
-  const [clientName, setClientName] = useState('');
-  const [dialCode, setDialCode] = useState('+91');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [consultationType, setConsultationType] = useState('In-Person Varanasi Atelier');
-  const [weddingDate, setWeddingDate] = useState('');
-  const [sareeInterest, setSareeInterest] = useState('Pure Katan Silk & Bridal Kadwa');
-  const [appointmentSent, setAppointmentSent] = useState(false);
-  const [appointmentLoading, setAppointmentLoading] = useState(false);
-
   // Filtered & Sorted Saree Catalog
   const filteredProducts = useMemo(() => {
     let result = [...CATALOG_PRODUCTS];
 
+    // Search query filter
+    if (searchQuery && searchQuery.trim().length > 0) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          p.fabric.toLowerCase().includes(q) ||
+          (p.occasion && p.occasion.toLowerCase().includes(q)) ||
+          (p.zari && p.zari.toLowerCase().includes(q))
+      );
+    }
+
+    // Category filter
     if (selectedCategory !== 'All Weaves') {
       result = result.filter((p) => p.category === selectedCategory);
     }
 
+    // Color filter
     if (selectedColor !== 'all') {
       const targetFilter = COLOR_FILTERS.find((c) => c.id === selectedColor);
       if (targetFilter && targetFilter.hex) {
@@ -83,6 +84,7 @@ export default function AtelierPage({
       }
     }
 
+    // Sorting
     if (sortBy === 'price-asc') {
       result.sort((a, b) => a.priceINR - b.priceINR);
     } else if (sortBy === 'price-desc') {
@@ -92,30 +94,25 @@ export default function AtelierPage({
     }
 
     return result;
-  }, [selectedCategory, selectedColor, sortBy]);
-
-  const handleBookAppointment = (e) => {
-    e.preventDefault();
-    if (!phoneNumber || phoneNumber.trim().length < 6) return;
-
-    setAppointmentLoading(true);
-
-    setTimeout(() => {
-      setAppointmentLoading(false);
-      setAppointmentSent(true);
-
-      const msg = encodeURIComponent(
-        `Hello Kashika Atelier:%0A- Name: ${clientName}%0A- Phone: ${dialCode} ${phoneNumber}%0A- Type: ${consultationType}%0A- Occasion Date: ${weddingDate || 'Upcoming'}%0A- Interest: ${sareeInterest}`
-      );
-      window.open(`https://wa.me/917676721111?text=${msg}`, '_blank');
-    }, 600);
-  };
+  }, [selectedCategory, selectedColor, sortBy, searchQuery]);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleShopBridal = () => {
+    setSelectedCategory('Katan Silk');
+    scrollToSection('collection-grid');
+  };
+
+  const handleOpenWhatsAppConcierge = (sareeName) => {
+    const text = sareeName
+      ? `Hello Kashika Concierge. I am interested in the ${sareeName}. Could you share a live video preview and custom blouse options?`
+      : 'Hello Kashika Concierge. I am looking for an authentic Banarasi bridal saree and would like a live video preview and styling guidance.';
+    window.open(`https://wa.me/917676721111?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
@@ -139,51 +136,66 @@ export default function AtelierPage({
               </h1>
 
               <p className="text-base sm:text-lg text-stone-700 font-sans leading-relaxed max-w-xl">
-                Woven on traditional wooden pit looms in Varanasi with 98.2% pure tested silver zari electro-gilded in 24K gold. Certified Silk Mark India with geographical indication authentication.
+                Crafted on traditional wooden pit looms with 98.2% pure tested silver zari electro-gilded in 24K gold. Certified Silk Mark India with geographical indication authentication.
               </p>
             </div>
 
-            {/* Technical Craft Standards Pills */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-sans">
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs">
-                <span className="text-[10px] text-stone-500 uppercase tracking-wider block font-semibold">Zari Purity</span>
-                <span className="font-bold text-stone-900 mt-0.5 block">98.2% Pure Silver</span>
+            {/* Clear E-Commerce Trust Badges Front & Center */}
+            <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-sans">
+              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+                <Truck className="w-4 h-4 text-[#7A1C28] shrink-0" />
+                <div>
+                  <strong className="text-stone-900 block font-semibold text-[11px]">Free Insured Worldwide Shipping</strong>
+                  <span className="text-stone-500 text-[10px]">Tracked white-glove express courier</span>
+                </div>
               </div>
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs">
-                <span className="text-[10px] text-stone-500 uppercase tracking-wider block font-semibold">Silk Composition</span>
-                <span className="font-bold text-stone-900 mt-0.5 block">100% Katan Silk</span>
+
+              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+                <Award className="w-4 h-4 text-[#7A1C28] shrink-0" />
+                <div>
+                  <strong className="text-stone-900 block font-semibold text-[11px]">Certified Silk Mark India</strong>
+                  <span className="text-stone-500 text-[10px]">Physical authenticity card in every box</span>
+                </div>
               </div>
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs">
-                <span className="text-[10px] text-stone-500 uppercase tracking-wider block font-semibold">Authenticity</span>
-                <span className="font-bold text-stone-900 mt-0.5 block">Silk Mark Certified</span>
+
+              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+                <RotateCcw className="w-4 h-4 text-[#7A1C28] shrink-0" />
+                <div>
+                  <strong className="text-stone-900 block font-semibold text-[11px]">7-Day Easy Returns</strong>
+                  <span className="text-stone-500 text-[10px]">100% money-back guarantee</span>
+                </div>
               </div>
-              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs">
-                <span className="text-[10px] text-stone-500 uppercase tracking-wider block font-semibold">Logistics</span>
-                <span className="font-bold text-stone-900 mt-0.5 block">Insured Global Courier</span>
+
+              <div className="p-3 bg-white rounded-xl border border-stone-200 shadow-xs flex items-center gap-2.5">
+                <Sparkles className="w-4 h-4 text-[#7A1C28] shrink-0" />
+                <div>
+                  <strong className="text-stone-900 block font-semibold text-[11px]">Fall & Pico Included</strong>
+                  <span className="text-stone-500 text-[10px]">Ready-to-wear pre-attached</span>
+                </div>
               </div>
             </div>
 
-            {/* Streamlined Direct CTAs */}
+            {/* Streamlined Direct E-Commerce CTAs */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
-                onClick={() => scrollToSection('collection-grid')}
+                onClick={handleShopBridal}
                 className="px-8 py-3.5 rounded-full bg-[#7A1C28] hover:bg-[#8F1A2D] text-white font-sans text-xs uppercase tracking-[0.18em] font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
               >
-                <span>Explore Collection</span>
+                <span>Shop Bridal Katan</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#D4AF37]" />
               </button>
 
               <button
-                onClick={() => scrollToSection('concierge-form')}
+                onClick={() => scrollToSection('trust-guarantee')}
                 className="px-8 py-3.5 rounded-full bg-white hover:bg-stone-50 text-stone-900 border border-stone-300 font-sans text-xs uppercase tracking-[0.18em] font-bold shadow-xs hover:border-stone-400 transition-all flex items-center gap-2 cursor-pointer"
               >
-                <Calendar className="w-3.5 h-3.5 text-[#7A1C28]" />
-                <span>Book an Appointment</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-[#7A1C28]" />
+                <span>Silk Mark Guarantee</span>
               </button>
             </div>
           </div>
 
-          {/* Right Column: Sharp High-Resolution Editorial Drape (True-to-life studio lighting) */}
+          {/* Right Column: Sharp High-Resolution Editorial Drape */}
           <div className="lg:col-span-6 flex justify-center">
             <div className="relative w-full max-w-lg rounded-2xl overflow-hidden border border-stone-300 shadow-xl bg-white p-2">
               <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-stone-100">
@@ -192,10 +204,10 @@ export default function AtelierPage({
                   alt="Authentic Banarasi Katan Silk Saree Drape"
                   className="w-full h-full object-cover object-top filter contrast-[1.03] brightness-[1.01]"
                 />
-                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-stone-200 text-stone-900 text-[10px] font-sans font-bold uppercase tracking-wider shadow-sm">
+                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-stone-200 text-stone-900 text-[10px] font-sans font-bold uppercase tracking-wider shadow-sm">
                   Mulberry Katan • 840g
                 </div>
-                <div className="absolute bottom-3 inset-x-3 p-3 rounded-lg bg-white/95 backdrop-blur-md border border-stone-200 flex items-center justify-between shadow-md">
+                <div className="absolute bottom-3 inset-x-3 p-3.5 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200 flex items-center justify-between shadow-md">
                   <div>
                     <span className="text-[10px] uppercase tracking-wider text-[#7A1C28] font-bold block">
                       Authentic Kadwa Weave
@@ -206,9 +218,9 @@ export default function AtelierPage({
                   </div>
                   <button
                     onClick={() => scrollToSection('collection-grid')}
-                    className="px-3 py-1.5 rounded-full bg-[#7A1C28] text-white text-[10px] font-sans font-bold uppercase tracking-wider hover:bg-[#8F1A2D] transition-colors"
+                    className="px-4 py-2 rounded-lg bg-[#7A1C28] text-white text-[11px] font-sans font-bold uppercase tracking-wider hover:bg-[#8F1A2D] transition-colors cursor-pointer"
                   >
-                    View Specs
+                    Shop Drape
                   </button>
                 </div>
               </div>
@@ -218,7 +230,7 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 2. CATALOG SECTION: Clean 3- or 4-Column High-Res Product Grid */}
+      {/* 2. CATALOG SECTION: Clean 3-Column High-Res Product Grid */}
       {/* ============================================================== */}
       <section id="collection-grid" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-20">
         {/* Section Header */}
@@ -306,7 +318,7 @@ export default function AtelierPage({
           </div>
         </div>
 
-        {/* Product Grid: Clean 3-Column Layout with Product Essentials Front & Center */}
+        {/* Product Grid: Clean 3-Column Layout with Product Essentials & Direct Checkout Flow */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {filteredProducts.map((product) => {
             const isWishlisted = wishlist.includes(product.id);
@@ -386,30 +398,41 @@ export default function AtelierPage({
                     </div>
                   </div>
 
-                  {/* Price & Standard Action Buttons */}
-                  <div className="pt-2 flex items-center justify-between gap-3">
-                    <div>
-                      <span className="text-xs text-stone-500 block font-sans">Retail Price</span>
-                      <span className="text-xl font-editorial font-bold text-stone-950">
-                        {formatPrice(product.priceINR, currency)}
-                      </span>
+                  {/* Price & Direct Checkout Buttons ("Add to Cart" and "Buy Now") */}
+                  <div className="pt-2 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="text-xs text-stone-500 block font-sans">Price</span>
+                        <span className="text-xl font-editorial font-bold text-stone-950">
+                          {formatPrice(product.priceINR, currency)}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => handleOpenWhatsAppConcierge(product.name)}
+                        className="text-[11px] font-sans font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 cursor-pointer"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        <span>Live Preview</span>
+                      </button>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    {/* Action Row: Add to Cart & Buy Now */}
+                    <div className="grid grid-cols-2 gap-2">
                       <button
-                        onClick={() => setInspectModalProduct(product)}
-                        className="px-3.5 py-2 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-sans font-bold transition-colors cursor-pointer"
-                        title="View Full Specifications"
+                        onClick={() => onAddToCart && onAddToCart(product, { id: product.id, name: product.name, hex: product.hex })}
+                        className="w-full py-2.5 rounded-xl border border-[#7A1C28] text-[#7A1C28] hover:bg-[#7A1C28]/05 text-xs font-sans font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        Details
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>Add to Cart</span>
                       </button>
 
                       <button
-                        onClick={() => onAddToCart && onAddToCart(product, { id: product.id, name: product.name, hex: product.hex })}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#7A1C28] hover:bg-[#8F1A2D] text-white text-xs font-sans font-bold uppercase tracking-wider shadow-sm transition-all cursor-pointer"
+                        onClick={() => onBuyNow && onBuyNow(product, { id: product.id, name: product.name, hex: product.hex })}
+                        className="w-full py-2.5 rounded-xl bg-[#7A1C28] hover:bg-[#8F1A2D] text-white text-xs font-sans font-bold uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <ShoppingBag className="w-3.5 h-3.5 text-[#D4AF37]" />
-                        <span>Add</span>
+                        <Zap className="w-3.5 h-3.5 text-[#D4AF37]" />
+                        <span>Buy Now</span>
                       </button>
                     </div>
                   </div>
@@ -421,270 +444,122 @@ export default function AtelierPage({
       </section>
 
       {/* ============================================================== */}
-      {/* 3. TRUST BLOCK: Zari Test Report, Silk Mark & Store Locations */}
+      {/* 3. SELF-SERVE HIGH-TICKET TRUST ELEMENTS (Instead of Appointments) */}
       {/* ============================================================== */}
-      <section id="craft-trust" className="py-20 bg-white border-y border-stone-200/80 scroll-mt-20">
+      <section id="trust-guarantee" className="py-20 bg-white border-y border-stone-200/80 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-[#7A1C28] font-sans font-bold">
               <span className="w-5 h-[1.5px] bg-[#7A1C28]" />
-              AUTHENTICITY & STANDARDS
+              PURITY STANDARDS & BUYER PROTECTION
               <span className="w-5 h-[1.5px] bg-[#7A1C28]" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-stone-950 tracking-tight">
-              Purity Certification & Physical Ateliers
+              Silk Mark India & 98.2% Tested Zari Guarantee
             </h2>
 
             <p className="text-xs sm:text-sm text-stone-600 font-sans max-w-md mx-auto">
-              Every saree is accompanied by serialized laboratory hallmarking, government Silk Mark registry, and lifetime provenance guarantees.
+              Every saree is dispatched directly from our Varanasi pit looms with physical accreditation cards, tested bullion reports, and full insurance.
             </p>
           </div>
 
-          {/* 3 Trust Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* 4 Clear E-Commerce Trust Badges */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1: Silk Mark India */}
             <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-stone-200 space-y-3">
               <div className="w-10 h-10 rounded-full bg-[#7A1C28] text-white flex items-center justify-center">
                 <Award className="w-5 h-5 text-[#D4AF37]" />
               </div>
-              <h3 className="text-lg font-editorial font-bold text-stone-900">
+              <h3 className="text-base font-editorial font-bold text-stone-900">
                 Silk Mark India Certified
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                Issued by the Central Silk Board, Ministry of Textiles, Government of India. Guarantees 100% natural mulberry silk warp and weft with zero synthetic nylon or polyester blending.
+                Issued by the Central Silk Board, Ministry of Textiles, Govt. of India. 100% natural mulberry silk with official holographic authenticity card and QR code in every parcel.
               </p>
               <div className="text-[11px] font-semibold text-[#7A1C28]">
                 Registry Code: SMI-VAR-1948-KL
               </div>
             </div>
 
-            {/* Card 2: Zari Spectrometer Analysis */}
+            {/* Card 2: 98.2% Tested Zari Report */}
             <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-stone-200 space-y-3">
               <div className="w-10 h-10 rounded-full bg-[#7A1C28] text-white flex items-center justify-center">
                 <ShieldCheck className="w-5 h-5 text-[#D4AF37]" />
               </div>
-              <h3 className="text-lg font-editorial font-bold text-stone-900">
-                98.2% Tested Zari Report
+              <h3 className="text-base font-editorial font-bold text-stone-900">
+                98.2% Real Silver Zari
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                Real silver core wire electro-gilded with 24K fine gold (1.2 micron thickness). Zero copper, aluminum, or plastic lurex. Every piece includes an x-ray spectrometer purity certificate.
+                Real silver core wire electro-gilded with 24K fine gold (1.2 micron thickness). 0% synthetic lurex or copper. Every saree includes a laboratory spectrometer purity certificate.
               </p>
               <div className="text-[11px] font-semibold text-[#7A1C28]">
-                Laboratory Purity: 98.24% Real Silver
+                Tested Silver Bullion: 98.24% Pure
               </div>
             </div>
 
-            {/* Card 3: Geographical Indication (GI Tag) */}
+            {/* Card 3: Free Insured Shipping Worldwide */}
+            <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-stone-200 space-y-3">
+              <div className="w-10 h-10 rounded-full bg-[#7A1C28] text-white flex items-center justify-center">
+                <Truck className="w-5 h-5 text-[#D4AF37]" />
+              </div>
+              <h3 className="text-base font-editorial font-bold text-stone-900">
+                Free Insured Delivery
+              </h3>
+              <p className="text-xs text-stone-600 leading-relaxed font-sans">
+                Insured express courier across India and worldwide (USA, UK, UAE, Singapore, Australia). Dispatched in an airtight protective keepsake box with tamper-evident seal.
+              </p>
+              <div className="text-[11px] font-semibold text-[#7A1C28]">
+                Dispatches within 24-48 Hours
+              </div>
+            </div>
+
+            {/* Card 4: 7-Day Easy Returns / Fall & Pico */}
             <div className="p-6 rounded-2xl bg-[#FAF7F2] border border-stone-200 space-y-3">
               <div className="w-10 h-10 rounded-full bg-[#7A1C28] text-white flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5 text-[#D4AF37]" />
               </div>
-              <h3 className="text-lg font-editorial font-bold text-stone-900">
-                Geographical Indication (GI)
+              <h3 className="text-base font-editorial font-bold text-stone-900">
+                7-Day Returns & Fall Included
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                Registered under the Geographical Indications of Goods Act, certifying that your drape was authentically hand-loomed in Varanasi by generational master weavers on traditional pit looms.
+                100% money-back guarantee if the color or luster does not meet your expectations. Arrives ready-to-wear with complimentary hand-stitched cotton fall and rolled pico.
               </p>
               <div className="text-[11px] font-semibold text-[#7A1C28]">
-                GI Application: No. 69 (Banaras Brocades)
+                Complimentary Tailoring Included
               </div>
             </div>
           </div>
 
-          {/* Physical Flagship Showrooms */}
-          <div className="pt-4 border-t border-stone-200">
-            <h4 className="text-sm uppercase tracking-wider font-sans font-bold text-stone-900 mb-6 text-center">
-              Physical Showrooms & Consultation Suites
-            </h4>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs font-sans">
-              <div className="p-4 rounded-xl bg-[#FAF7F2] border border-stone-200 space-y-1">
-                <div className="flex items-center gap-1.5 font-bold text-stone-900 text-sm">
-                  <MapPin className="w-4 h-4 text-[#7A1C28]" />
-                  <span>Varanasi Flagship</span>
-                </div>
-                <p className="text-stone-600">
-                  Assi Ghat Heritage Lane, Shivala, Varanasi, UP 221005
-                </p>
-                <span className="text-[11px] text-stone-500 block pt-1">
-                  Open Daily: 10:00 - 20:00 IST
-                </span>
+          {/* Self-Serve Direct WhatsApp Concierge Banner */}
+          <div className="rounded-3xl bg-gradient-to-r from-[#1C040A] via-[#2A0610] to-[#1C040A] text-white p-6 sm:p-10 border border-[#D4AF37]/35 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+            <div className="space-y-1.5 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#D4AF37] font-sans font-bold">
+                <span className="w-4 h-[1.5px] bg-[#D4AF37]" />
+                INSTANT BRIDAL CONCIERGE
               </div>
-
-              <div className="p-4 rounded-xl bg-[#FAF7F2] border border-stone-200 space-y-1">
-                <div className="flex items-center gap-1.5 font-bold text-stone-900 text-sm">
-                  <MapPin className="w-4 h-4 text-[#7A1C28]" />
-                  <span>Hyderabad Salon</span>
-                </div>
-                <p className="text-stone-600">
-                  Road No. 36, Jubilee Hills, Hyderabad, Telangana 500033
-                </p>
-                <span className="text-[11px] text-stone-500 block pt-1">
-                  Consultations: By Appointment
-                </span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-[#FAF7F2] border border-stone-200 space-y-1">
-                <div className="flex items-center gap-1.5 font-bold text-stone-900 text-sm">
-                  <MapPin className="w-4 h-4 text-[#7A1C28]" />
-                  <span>Mumbai Atelier</span>
-                </div>
-                <p className="text-stone-600">
-                  Heritage Wing, Kala Ghoda, Fort, Mumbai, MH 400001
-                </p>
-                <span className="text-[11px] text-stone-500 block pt-1">
-                  Consultations: By Appointment
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 4. CONCIERGE: Clean Consultation & Appointment Booking Form */}
-      {/* ============================================================== */}
-      <section id="concierge-form" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-20">
-        <div className="bg-white rounded-3xl border border-stone-300 p-8 sm:p-12 shadow-lg space-y-8">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-[#7A1C28] font-sans font-bold">
-              <span className="w-5 h-[1.5px] bg-[#7A1C28]" />
-              ATELIER CONSULTATION
-              <span className="w-5 h-[1.5px] bg-[#7A1C28]" />
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl font-editorial font-normal text-stone-950 tracking-tight">
-              Book an Appointment
-            </h2>
-
-            <p className="text-xs sm:text-sm text-stone-600 font-sans max-w-md mx-auto">
-              Schedule a personalized bridal saree styling consultation at our physical ateliers or via private high-definition video call worldwide.
-            </p>
-          </div>
-
-          {appointmentSent ? (
-            <div className="text-center py-8 space-y-3 bg-[#FAF7F2] rounded-2xl border border-stone-200 p-6">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center text-xl font-bold">
-                ✓
-              </div>
-              <h3 className="text-xl font-editorial font-bold text-stone-900">
-                Appointment Request Received
+              <h3 className="text-2xl sm:text-3xl font-editorial font-normal text-white">
+                Need a live video preview or custom blouse stitching?
               </h3>
-              <p className="text-xs text-stone-600 max-w-md mx-auto font-sans">
-                Connecting you directly with our Senior Draper on WhatsApp to confirm your date and consultation slot...
+              <p className="text-xs sm:text-sm text-stone-300 font-sans max-w-xl">
+                Chat directly with our master drapers in Varanasi. We will hold the saree up to natural daylight on camera, check border draping, and confirm your custom measurements instantly.
               </p>
             </div>
-          ) : (
-            <form onSubmit={handleBookAppointment} className="space-y-4 text-xs font-sans">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Full Name */}
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-stone-700 font-bold mb-1.5">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={clientName}
-                    onChange={(e) => setClientName(e.target.value)}
-                    placeholder="e.g. Radhika Sen"
-                    className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#7A1C28] transition-colors"
-                  />
-                </div>
 
-                {/* WhatsApp Phone */}
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-stone-700 font-bold mb-1.5">
-                    WhatsApp Number *
-                  </label>
-                  <div className="flex gap-2">
-                    <select
-                      value={dialCode}
-                      onChange={(e) => setDialCode(e.target.value)}
-                      className="px-2.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-[#7A1C28] text-xs shrink-0 cursor-pointer"
-                    >
-                      {COUNTRY_DIAL_CODES.map((d) => (
-                        <option key={d.code} value={d.code}>
-                          {d.flag} {d.code}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="tel"
-                      required
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="9876543210"
-                      className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#7A1C28] transition-colors"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Consultation Type */}
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-stone-700 font-bold mb-1.5">
-                    Consultation Type
-                  </label>
-                  <select
-                    value={consultationType}
-                    onChange={(e) => setConsultationType(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-[#7A1C28] cursor-pointer"
-                  >
-                    <option value="In-Person Varanasi Atelier">In-Person: Varanasi Atelier (Assi Ghat)</option>
-                    <option value="In-Person Hyderabad Salon">In-Person: Hyderabad Salon (Jubilee Hills)</option>
-                    <option value="In-Person Mumbai Atelier">In-Person: Mumbai Atelier (Kala Ghoda)</option>
-                    <option value="Virtual HD Video Drape">Virtual 1-on-1 HD Video Drape (Zoom/WhatsApp)</option>
-                  </select>
-                </div>
-
-                {/* Wedding / Occasion Date */}
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider text-stone-700 font-bold mb-1.5">
-                    Wedding or Occasion Date (Optional)
-                  </label>
-                  <input
-                    type="date"
-                    value={weddingDate}
-                    onChange={(e) => setWeddingDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 focus:outline-none focus:border-[#7A1C28] cursor-pointer"
-                  />
-                </div>
-              </div>
-
-              {/* Saree Interest */}
-              <div>
-                <label className="block text-[11px] uppercase tracking-wider text-stone-700 font-bold mb-1.5">
-                  Saree Interest or Notes
-                </label>
-                <input
-                  type="text"
-                  value={sareeInterest}
-                  onChange={(e) => setSareeInterest(e.target.value)}
-                  placeholder="e.g. Bridal Kadwa Katan in Sindoor Crimson with pure silver zari"
-                  className="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-stone-300 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-[#7A1C28] transition-colors"
-                />
-              </div>
-
-              {/* Submit CTA */}
-              <button
-                type="submit"
-                disabled={appointmentLoading}
-                className="w-full py-3.5 rounded-full bg-[#7A1C28] hover:bg-[#8F1A2D] text-white font-sans text-xs uppercase tracking-[0.2em] font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                <MessageCircle className="w-4 h-4 text-[#D4AF37]" />
-                <span>Book an Appointment</span>
-              </button>
-            </form>
-          )}
+            <button
+              onClick={() => handleOpenWhatsAppConcierge()}
+              className="px-8 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-stone-950 text-xs font-sans font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all flex items-center gap-2.5 shrink-0 cursor-pointer"
+            >
+              <MessageCircle className="w-4 h-4 text-stone-950 fill-stone-950" />
+              <span>Chat on WhatsApp</span>
+            </button>
+          </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 5. PRODUCT DETAIL MODAL (HIGH-RES INSPECTION & SPECS) */}
+      {/* 4. PRODUCT DETAIL MODAL (HIGH-RES INSPECTION & SPECS) */}
       {/* ============================================================== */}
       <ProductDetailModal
         product={inspectModalProduct}

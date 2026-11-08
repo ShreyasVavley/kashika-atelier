@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
   Layers,
-  Feather,
-  Gift,
   Crown,
   ShoppingBag,
   Heart,
@@ -12,10 +9,8 @@ import {
   ChevronDown,
   Menu,
   X,
-  MessageCircle,
   ShieldCheck,
-  MapPin,
-  Video,
+  Search,
 } from 'lucide-react';
 import { CURRENCIES } from '../utils/currency';
 
@@ -28,7 +23,8 @@ export default function Navbar({
   onOpenCart,
   wishlistCount = 0,
   onOpenWishlist,
-  onOpenVerifier,
+  searchQuery = '',
+  onSearchChange,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
@@ -43,10 +39,10 @@ export default function Navbar({
   }, []);
 
   const navLinks = [
-    { id: 'collection', label: 'Collection', icon: Layers },
-    { id: 'craft', label: 'Pure Zari & Craft', icon: ShieldCheck },
-    { id: 'salon', label: 'Ateliers', icon: MapPin },
-    { id: 'appointment', label: 'Appointments', icon: Sparkles },
+    { id: 'collection', label: 'All Sarees', icon: Layers },
+    { id: 'bridal', label: 'Bridal Katan', icon: Crown },
+    { id: 'kadwa', label: 'Royal Kadwa', icon: Layers },
+    { id: 'trust', label: 'Silk Mark Guarantee', icon: ShieldCheck },
   ];
 
   const handleNavClick = (id) => {
@@ -55,11 +51,20 @@ export default function Navbar({
     setCurrencyDropdownOpen(false);
   };
 
+  const handleSearchInput = (val) => {
+    if (onSearchChange) {
+      onSearchChange(val);
+      if (currentPage !== 'atelier') {
+        onNavigate('atelier');
+      }
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 transition-all duration-300 pointer-events-none">
-      {/* Floating Glassmorphic Pill Capsule (Matching Instagram Reel) */}
+      {/* Floating Glassmorphic Pill Capsule */}
       <div
-        className={`pointer-events-auto max-w-7xl mx-auto rounded-full transition-all duration-300 backdrop-blur-2xl border flex items-center justify-between ${
+        className={`pointer-events-auto max-w-7xl mx-auto rounded-full transition-all duration-300 backdrop-blur-2xl border flex items-center justify-between gap-3 ${
           isScrolled
             ? 'py-2 px-4 sm:px-6 bg-[#26050D]/95 border-[#D4AF37]/55 shadow-[0_25px_60px_rgba(25,2,8,0.85)]'
             : 'py-2.5 sm:py-3 px-5 sm:px-7 bg-[#3A0713]/85 border-[#D4AF37]/45 shadow-[0_20px_50px_rgba(40,4,10,0.65)]'
@@ -72,7 +77,6 @@ export default function Navbar({
           onClick={() => handleNavClick('atelier')}
           className="flex items-center gap-3 cursor-pointer select-none group shrink-0"
         >
-          {/* Royal Crest Monogram Icon */}
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-[#7A1C28] to-[#25050D] border border-[#D4AF37]/60 flex items-center justify-center text-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.35)] group-hover:border-[#D4AF37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all">
             <span className="text-xs sm:text-sm font-serif">⚜</span>
           </div>
@@ -87,7 +91,7 @@ export default function Navbar({
           </div>
         </motion.div>
 
-        {/* Center: Desktop Navigation Bar with Golden Pill Active Indicator */}
+        {/* Center: Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full bg-black/25 border border-white/10 shadow-inner">
           {navLinks.map((link) => {
             const Icon = link.icon;
@@ -103,7 +107,6 @@ export default function Navbar({
                     : 'text-[#F5EDE1]/85 hover:text-white hover:bg-white/[0.06]'
                 }`}
               >
-                {/* Active Golden-Amber Illuminated Pill (Directly from Instagram Reel) */}
                 {isActive && (
                   <motion.div
                     layoutId="activeNavPill"
@@ -124,19 +127,34 @@ export default function Navbar({
                   }`}
                 />
                 <span className="relative z-10">{link.label}</span>
-
-                {link.badge && !isActive && (
-                  <span className="relative z-10 text-[8px] px-1.5 py-0.2 rounded-full font-sans tracking-normal bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/35">
-                    {link.badge}
-                  </span>
-                )}
               </button>
             );
           })}
         </nav>
 
-        {/* Right: Luxury Utility Suite */}
+        {/* Right: Direct Shopping Utility Suite (Search Bar, Currency, Wishlist, Cart) */}
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Integrated Search Bar */}
+          <div className="relative hidden md:flex items-center">
+            <Search className="w-3.5 h-3.5 text-[#D4AF37] absolute left-3 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => handleSearchInput(e.target.value)}
+              placeholder="Search Katan, Kadwa, Organza..."
+              className="w-36 lg:w-48 xl:w-56 pl-8 pr-7 py-1.5 rounded-full bg-white/[0.08] border border-white/20 text-xs text-white placeholder-stone-400 focus:outline-none focus:border-[#D4AF37] focus:bg-white/[0.14] transition-all font-sans"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => handleSearchInput('')}
+                className="absolute right-2.5 p-0.5 rounded-full text-stone-400 hover:text-white cursor-pointer"
+                aria-label="Clear search"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+
           {/* Currency Switcher */}
           <div className="relative">
             <button
@@ -188,6 +206,7 @@ export default function Navbar({
             onClick={onOpenWishlist}
             className="relative p-2 rounded-full bg-white/[0.06] border border-white/15 hover:border-[#D4AF37]/60 text-stone-200 hover:text-white transition-all shadow-xs cursor-pointer"
             aria-label="View Wishlist"
+            title="Wishlist"
           >
             <Heart
               className={`w-3.5 h-3.5 transition-colors ${
@@ -208,6 +227,7 @@ export default function Navbar({
             onClick={onOpenCart}
             className="relative p-2 rounded-full bg-white/[0.06] border border-white/15 hover:border-[#D4AF37]/60 text-stone-200 hover:text-white transition-all shadow-xs cursor-pointer"
             aria-label="View Silk Bag"
+            title="Shopping Bag"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-[#D4AF37]" />
             {cartCount > 0 && (
@@ -215,19 +235,6 @@ export default function Navbar({
                 {cartCount}
               </span>
             )}
-          </motion.button>
-
-          {/* Primary Action CTA: "Visit the Salon ->" (Directly from Reel) */}
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={() => handleNavClick('appointment')}
-            className="hidden sm:flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#7A1C28] via-[#8B1E2D] to-[#7A1C28] text-white text-[11px] font-sans font-bold tracking-wider uppercase hover:brightness-110 transition-all shadow-[0_4px_15px_rgba(122,28,40,0.4)] border border-[#D4AF37]/50 select-none cursor-pointer"
-          >
-            <span>Book an Appointment</span>
-            <span className="w-5 h-5 rounded-full bg-white text-[#7A1C28] flex items-center justify-center text-xs font-bold shadow-xs">
-              →
-            </span>
           </motion.button>
 
           {/* Mobile Menu Toggle */}
@@ -249,64 +256,58 @@ export default function Navbar({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="pointer-events-auto lg:hidden mt-3 max-w-7xl mx-auto bg-[#25050D]/95 backdrop-blur-2xl rounded-2xl p-6 overflow-hidden border border-[#D4AF37]/45 shadow-2xl"
+            className="pointer-events-auto lg:hidden mt-3 max-w-7xl mx-auto bg-[#25050D]/95 backdrop-blur-2xl rounded-2xl p-5 overflow-hidden border border-[#D4AF37]/45 shadow-2xl space-y-4"
           >
-            <div className="flex flex-col space-y-3">
-              <div className="pb-3 border-b border-white/10 flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] font-bold">
-                  ⚜ Navigation Index
-                </span>
-                <span className="text-xs text-stone-400 font-sans">
-                  Varanasi • Est. 1948
-                </span>
-              </div>
+            {/* Mobile Search */}
+            <div className="relative flex items-center">
+              <Search className="w-3.5 h-3.5 text-[#D4AF37] absolute left-3 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => handleSearchInput(e.target.value)}
+                placeholder="Search Katan, Kadwa, Organza..."
+                className="w-full pl-8 pr-7 py-2 rounded-xl bg-white/[0.08] border border-white/20 text-xs text-white placeholder-stone-400 focus:outline-none focus:border-[#D4AF37]"
+              />
+            </div>
 
+            <div className="flex flex-col space-y-1">
               {navLinks.map((link) => {
                 const Icon = link.icon;
-                const isActive = currentPage === link.id;
-
                 return (
                   <button
                     key={link.id}
                     onClick={() => handleNavClick(link.id)}
-                    className={`text-left text-sm font-editorial tracking-[0.15em] uppercase py-2.5 px-3.5 rounded-xl flex items-center justify-between transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-gradient-to-r from-[#D4AF37] to-[#F3CD68] text-stone-950 font-bold shadow-md'
-                        : 'text-stone-300 hover:text-white hover:bg-white/[0.06]'
-                    }`}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/10 text-left text-xs font-sans font-medium text-stone-200 hover:text-white"
                   >
-                    <div className="flex items-center gap-3">
-                      <Icon size={16} className={isActive ? 'text-stone-950' : 'text-[#D4AF37]'} />
-                      <span>{link.label}</span>
-                    </div>
-                    {link.badge && !isActive && (
-                      <span className="text-[9px] bg-[#D4AF37]/20 text-[#D4AF37] px-2 py-0.5 rounded-full font-sans tracking-normal border border-[#D4AF37]/35">
-                        {link.badge}
-                      </span>
-                    )}
+                    <Icon size={14} className="text-[#D4AF37]" />
+                    <span>{link.label}</span>
                   </button>
                 );
               })}
+            </div>
 
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onOpenVerifier) onOpenVerifier();
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-[#D4AF37] font-sans font-bold"
-                >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Verify Loom Hallmark</span>
-                </button>
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
+              <button
+                onClick={() => {
+                  onOpenWishlist();
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2 text-stone-300 hover:text-white"
+              >
+                <Heart size={14} className="text-[#D4AF37]" />
+                <span>Wishlist ({wishlistCount})</span>
+              </button>
 
-                <button
-                  onClick={() => handleNavClick('salon')}
-                  className="px-4 py-1.5 rounded-full bg-[#7A1C28] text-white text-xs font-bold font-sans uppercase tracking-wider"
-                >
-                  Visit Salon →
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  onOpenCart();
+                  setMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2 text-stone-300 hover:text-white"
+              >
+                <ShoppingBag size={14} className="text-[#D4AF37]" />
+                <span>Cart ({cartCount})</span>
+              </button>
             </div>
           </motion.div>
         )}

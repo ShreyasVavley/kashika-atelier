@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, MessageCircle } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -23,7 +23,7 @@ export default function App() {
     if (hash === 'craft') return 'craft';
     if (hash === 'trousseau') return 'trousseau';
     if (hash === 'salon') return 'salon';
-    if (['collection', 'catalog', 'craft', 'trust', 'appointment', 'consultation'].includes(hash)) return 'atelier';
+    if (['collection', 'catalog', 'sarees', 'bridal', 'kadwa', 'craft', 'trust', 'guarantee'].includes(hash)) return 'atelier';
     return 'atelier';
   };
 
@@ -63,6 +63,12 @@ export default function App() {
   const [verifierModalOpen, setVerifierModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleBuyNow = (saree, colorway) => {
+    handleAddToCart(saree, colorway);
+    setCheckoutModalOpen(true);
+  };
 
   // Sync Hash changes with Browser Navigation
   useEffect(() => {
@@ -70,15 +76,17 @@ export default function App() {
       const rawHash = window.location.hash.toLowerCase().replace('#/', '').replace('#', '');
       const targetPage = getPageFromHash();
       setCurrentPage(targetPage);
-      if (['collection', 'catalog', 'craft', 'trust', 'appointment', 'consultation'].includes(rawHash)) {
+      if (['collection', 'catalog', 'sarees', 'bridal', 'kadwa', 'craft', 'trust', 'guarantee'].includes(rawHash)) {
         setTimeout(() => {
           const targetId = {
             collection: 'collection-grid',
             catalog: 'collection-grid',
-            craft: 'craft-trust',
-            trust: 'craft-trust',
-            appointment: 'concierge-form',
-            consultation: 'concierge-form',
+            sarees: 'collection-grid',
+            bridal: 'collection-grid',
+            kadwa: 'collection-grid',
+            craft: 'trust-guarantee',
+            trust: 'trust-guarantee',
+            guarantee: 'trust-guarantee',
           }[rawHash];
           const el = document.getElementById(targetId);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -240,6 +248,8 @@ export default function App() {
         wishlistCount={wishlist.length}
         onOpenWishlist={() => setWishlistOpen(true)}
         onOpenVerifier={() => setVerifierModalOpen(true)}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
       />
 
       {/* Multipage Content with Silky Haute Couture Route Transitions */}
@@ -261,9 +271,12 @@ export default function App() {
                   handleNavigate('collection');
                 }}
                 onAddToCart={handleAddToCart}
+                onBuyNow={handleBuyNow}
                 currency={currency}
                 wishlist={wishlist}
                 onToggleWishlist={handleToggleWishlist}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
               />
             )}
 
@@ -367,6 +380,19 @@ export default function App() {
           </motion.button>
         )}
       </AnimatePresence>
+
+            {/* Floating Self-Serve WhatsApp Concierge */}
+      <a
+        href="https://wa.me/917676721111?text=Hello%20Kashika%20Atelier.%20I%20am%20interested%20in%20an%20authentic%20Banarasi%20saree%20and%20would%20like%20a%20live%20video%20preview%20or%20custom%20blouse%20details."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-40 px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-stone-950 font-sans font-bold text-xs uppercase tracking-wider shadow-2xl flex items-center gap-2 transition-all hover:scale-105 border border-emerald-400"
+        title="Need a live video preview or custom blouse? Chat on WhatsApp"
+      >
+        <MessageCircle className="w-4 h-4 fill-stone-950 text-stone-950" />
+        <span className="hidden sm:inline">WhatsApp Concierge</span>
+        <span className="sm:hidden">Chat</span>
+      </a>
 
       {/* Global Heritage 5-Column Haute Couture Footer */}
       <Footer
