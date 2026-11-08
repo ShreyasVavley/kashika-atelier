@@ -51,8 +51,10 @@ export default function Navbar({
 
   const navLinks = [
     { id: 'atelier', label: 'The Atelier', icon: Sparkles },
-    { id: 'collection', label: 'The 5 Shades', icon: Layers, badge: 'Collection' },
-    { id: 'craft', label: 'Karigar Craft', icon: Feather },
+    { id: 'looks', label: 'Try the Look', icon: Sparkles, badge: 'Looks' },
+    { id: 'rack', label: 'The Rack', icon: Layers, badge: 'Rail' },
+    { id: 'picks', label: 'Pick a Silk', icon: Feather },
+    { id: 'collection', label: '5 Master Shades', icon: Layers },
     { id: 'trousseau', label: 'Bridal Trunk', icon: Gift, badge: '15% Off' },
     { id: 'salon', label: 'VIP Concierge', icon: Crown },
   ];
@@ -249,6 +251,17 @@ export default function Navbar({
             <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
             <span className="hidden lg:inline">Verify Loom</span>
           </button>
+
+          {/* Visit Salon Primary Pill CTA (NOOLAM Style) */}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => handleNavClick('salon')}
+            className="hidden md:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#7A1C28] to-[#961F33] text-white text-[10px] uppercase tracking-wider font-sans font-bold hover:brightness-110 transition-all shadow-md border border-[#D4AF37]/40"
+          >
+            <span>Visit Salon</span>
+            <span className="text-[#D4AF37]">→</span>
+          </motion.button>
 
           {/* WhatsApp Concierge Quick Trigger (Desktop only) */}
           <a

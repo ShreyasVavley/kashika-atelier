@@ -23,6 +23,7 @@ export default function App() {
     if (hash === 'craft') return 'craft';
     if (hash === 'trousseau') return 'trousseau';
     if (hash === 'salon') return 'salon';
+    if (['rack', 'looks', 'picks', 'muse', 'moods'].includes(hash)) return 'atelier';
     return 'atelier';
   };
 
@@ -66,9 +67,24 @@ export default function App() {
   // Sync Hash changes with Browser Navigation
   useEffect(() => {
     const handleHashChange = () => {
+      const rawHash = window.location.hash.toLowerCase().replace('#/', '').replace('#', '');
       const targetPage = getPageFromHash();
       setCurrentPage(targetPage);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (['rack', 'looks', 'picks', 'muse', 'moods'].includes(rawHash)) {
+        setTimeout(() => {
+          const targetId = {
+            rack: 'the-rack',
+            looks: 'try-the-look',
+            picks: 'pick-a-silk',
+            muse: 'muse-film',
+            moods: 'six-moods',
+          }[rawHash];
+          const el = document.getElementById(targetId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -114,6 +130,22 @@ export default function App() {
   };
 
   const handleNavigate = (pageId) => {
+    if (['rack', 'looks', 'picks', 'muse', 'moods'].includes(pageId)) {
+      window.location.hash = `#/${pageId}`;
+      setCurrentPage('atelier');
+      setTimeout(() => {
+        const targetId = {
+          rack: 'the-rack',
+          looks: 'try-the-look',
+          picks: 'pick-a-silk',
+          muse: 'muse-film',
+          moods: 'six-moods',
+        }[pageId];
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 120);
+      return;
+    }
     setCurrentPage(pageId);
     window.location.hash = pageId === 'atelier' ? '#/' : `#/${pageId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });

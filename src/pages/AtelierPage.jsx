@@ -15,6 +15,12 @@ import { formatPrice } from '../utils/currency';
 import ProgressiveImage from '../components/ProgressiveImage';
 import ProductDetailModal from '../components/ProductDetailModal';
 import StorytellingLoom from '../components/StorytellingLoom';
+import TickerTape from '../components/TickerTape';
+import SixMoodsArchive from '../components/SixMoodsArchive';
+import TheRack from '../components/TheRack';
+import TryTheLook from '../components/TryTheLook';
+import PickASilk from '../components/PickASilk';
+import MuseMedia from '../components/MuseMedia';
 
 const COUNTRY_DIAL_CODES = [
   { code: '+91', country: 'India', flag: '🇮🇳' },
@@ -204,14 +210,22 @@ export default function AtelierPage({
               Heirloom Drapes for Modern Stories
             </p>
 
-            <div className="pt-2">
-              <a
-                href="#fresh-weaves"
-                className="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 rounded-full bg-[#FAF7F2] hover:bg-[#D4AF37] text-[#1A0308] hover:text-black font-sans text-xs uppercase tracking-[0.25em] font-bold transition-all duration-300 shadow-2xl hover:scale-105 btn-shimmer"
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => onNavigate('looks')}
+                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full bg-[#7A1C28] hover:bg-[#961F33] text-white font-sans text-xs uppercase tracking-[0.2em] font-semibold transition-all duration-300 shadow-xl hover:scale-105 border border-[#D4AF37]/40 cursor-pointer"
               >
-                <span>DISCOVER NEW ARRIVALS</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
+                <span>Try the Look</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#D4AF37]" />
+              </button>
+
+              <button
+                onClick={() => onNavigate('rack')}
+                className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full bg-[#FAF7F2] hover:bg-white text-[#1A0308] font-sans text-xs uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-xl hover:scale-105 cursor-pointer"
+              >
+                <span>Browse the Rack</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#7A1C28]" />
+              </button>
             </div>
 
             <div className="pt-6 border-t border-white/10 flex items-center gap-6 sm:gap-8 text-[10px] sm:text-[11px] font-sans tracking-[0.22em] uppercase text-stone-300">
@@ -276,6 +290,42 @@ export default function AtelierPage({
           </motion.div>
         </div>
       </section>
+
+      {/* ============================================================== */}
+      {/* NOOLAM SHOWCASE SUITE: MARQUEE TICKER & INTERACTIVE MODULES */}
+      {/* ============================================================== */}
+      <TickerTape onNavigate={onNavigate} />
+
+      {/* 1. Six Moods Archive (Gopuram Temple Arches with Kalasam Finials) */}
+      <SixMoodsArchive onNavigate={onNavigate} onSelectColorway={onSelectColorway} />
+
+      {/* 2. The Rack: Physical Clothes Rail on Chrome Rod with Wooden Hangers */}
+      <TheRack
+        currency={currency}
+        onAddToCart={onAddToCart}
+        wishlist={wishlist}
+        onToggleWishlist={onToggleWishlist}
+        onNavigate={onNavigate}
+      />
+
+      {/* 3. Try the Look: 8 Head-to-Toe Looks & 6-Piece Ensemble Panel */}
+      <TryTheLook
+        currency={currency}
+        onAddToCart={onAddToCart}
+        wishlist={wishlist}
+        onToggleWishlist={onToggleWishlist}
+      />
+
+      {/* 4. Pick a Silk: 3D Fanned Card Arc with Condensed Background Typography */}
+      <PickASilk
+        currency={currency}
+        onAddToCart={onAddToCart}
+        wishlist={wishlist}
+        onToggleWishlist={onToggleWishlist}
+      />
+
+      {/* 5. The Muse Film (Dual-Stream Parallax) & The Muse Reels (3D Arc Video) */}
+      <MuseMedia onNavigate={onNavigate} />
 
       {/* ============================================================== */}
       {/* 2. THE 5-COLUMN EXPANDING LOOKBOOK: sec_6.jpg from video */}
