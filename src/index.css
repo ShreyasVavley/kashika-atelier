@@ -26,19 +26,13 @@
   --font-sans: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 html {
   scroll-behavior: smooth;
   background-color: #FAF7F2;
   color: #1A1A1A;
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
