@@ -366,14 +366,23 @@ export default function AtelierPage({
                     />
                   </button>
 
-                  {/* Quick Inspect Button on Hover */}
-                  <button
-                    onClick={() => setInspectModalProduct(product)}
-                    className="absolute inset-x-4 bottom-3 py-2.5 rounded-xl bg-white/95 hover:bg-[#7A1C28] text-stone-900 hover:text-white text-xs font-sans font-bold uppercase tracking-wider shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 flex items-center justify-center gap-1.5 z-10 cursor-pointer"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Quick View</span>
-                  </button>
+                  {/* Quick 3D Drape & Inspect Buttons on Hover */}
+                  <div className="absolute inset-x-3 bottom-3 flex items-center gap-1.5 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 z-10">
+                    <button
+                      onClick={() => setInspectModalProduct(product)}
+                      className="flex-1 py-2.5 rounded-xl bg-[#1C040A]/92 hover:bg-[#7A1C28] backdrop-blur-sm text-[#E6CA65] hover:text-white text-[11px] font-sans font-bold uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer border border-[#D4AF37]/40"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <span>3D Drape 360°</span>
+                    </button>
+                    <button
+                      onClick={() => setInspectModalProduct(product)}
+                      className="px-3 py-2.5 rounded-xl bg-white/95 hover:bg-stone-100 text-stone-900 text-[11px] font-sans font-bold shadow-lg transition-all flex items-center justify-center cursor-pointer border border-stone-200"
+                      title="Quick Specs & Zoom"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Saree Information & Product Essentials */}
@@ -570,6 +579,7 @@ export default function AtelierPage({
         product={inspectModalProduct}
         onClose={() => setInspectModalProduct(null)}
         onAddToCart={onAddToCart}
+        onBuyNow={onBuyNow}
         currency={currency}
         onNavigate={onNavigate}
       />
